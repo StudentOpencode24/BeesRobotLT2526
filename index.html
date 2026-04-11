@@ -28,8 +28,44 @@
             margin: 0;
             line-height: 1.6;
             overflow-x: hidden;
-            background-image: radial-gradient(rgba(255, 215, 0, 0.05) 1px, transparent 1px);
+            background-image: radial-gradient(rgba(255, 215, 0, 0.03) 1px, transparent 1px);
             background-size: 40px 40px;
+        }
+
+        /* --- СТАТИЧНЫЕ СОТЫ ПО КРАЯМ --- */
+        .honeycomb-decor {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 300px;
+            height: 100vh;
+            z-index: -1; /* Позади всего контента */
+            pointer-events: none; /* Чтобы не мешали кликать */
+            opacity: 0.15; /* Полупрозрачные */
+            display: none; /* Скрыты на мобильных по умолчанию */
+        }
+
+        .honeycomb-left {
+            left: -100px;
+            background-image: url('data:image/svg+xml;utf8,<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M50 0 L93.3 25 L93.3 75 L50 100 L6.7 75 L6.7 25 Z" fill="none" stroke="%23FFD700" stroke-width="2"/></svg>');
+            background-size: 100px 100px;
+            mask-image: linear-gradient(to right, black, transparent);
+            -webkit-mask-image: linear-gradient(to right, black, transparent);
+        }
+
+        .honeycomb-right {
+            right: -100px;
+            background-image: url('data:image/svg+xml;utf8,<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M50 0 L93.3 25 L93.3 75 L50 100 L6.7 75 L6.7 25 Z" fill="none" stroke="%23FFD700" stroke-width="2"/></svg>');
+            background-size: 100px 100px;
+            mask-image: linear-gradient(to left, black, transparent);
+            -webkit-mask-image: linear-gradient(to left, black, transparent);
+        }
+
+        /* Показываем соты только на широких экранах */
+        @media (min-width: 1200px) {
+            .honeycomb-decor {
+                display: block;
+            }
         }
 
         /* --- ПЧЕЛИНЫЙ PROGRESS BAR --- */
@@ -78,7 +114,11 @@
             font-weight: bold;
             color: var(--primary-color);
             text-decoration: none;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
+        }
+        .nav-logo img {
+            height: 35px;
+            width: auto;
         }
         nav ul {
             list-style: none;
@@ -140,6 +180,8 @@
             padding: 80px 20px;
             max-width: 1200px;
             margin: 0 auto;
+            position: relative;
+            z-index: 1; /* Контент выше декораций */
         }
         .section-title {
             font-size: 2.5rem;
@@ -329,11 +371,12 @@
             background: #050505;
             border-top: 1px solid #111;
             color: #666;
+            position: relative;
+            z-index: 1;
         }
 
         @media (max-width: 768px) {
             nav { flex-direction: column; padding: 10px; top: 0; }
-            .progress-container { top: 0; } /* Adjust if nav height changes significantly */
             nav ul { gap: 10px; margin-top: 10px; flex-wrap: wrap; justify-content: center; }
             section { padding: 40px 15px; }
             .content-split { grid-template-columns: 1fr; }
@@ -342,6 +385,10 @@
     </style>
 </head>
 <body>
+
+<!-- Декоративные соты по краям -->
+<div class="honeycomb-decor honeycomb-left"></div>
+<div class="honeycomb-decor honeycomb-right"></div>
 
 <!-- Прогресс бар с пчелой -->
 <div class="progress-container">
@@ -358,8 +405,10 @@
 <button onclick="topFunction()" id="scrollTopBtn" title="Наверх">↑</button>
 
 <nav>
-    <img src="img/favicon.png" height="40" width="40">
-    <a href="#home" class="nav-logo">Учёные Пчёлы ЛТ-043</a>
+    <a href="#home" class="nav-logo">
+        <img src="img/favicon.png" alt="Logo">
+        Учёные Пчёлы ЛТ-043
+    </a>
     <ul>
         <li><a href="#chassis">Шасси</a></li>
         <li><a href="#lift">Подъемник</a></li>
