@@ -13,14 +13,12 @@
             --card-bg: #161616;
             --text-color: #E0E0E0;
             --accent-blue: #4FC3F7;
-            /* Роли */
             --role-eng: #FFD700;
             --role-prog: #4FC3F7;
             --role-men: #BA68C8;
             --role-med: #FF7043;
         }
 
-        /* --- ГЛОБАЛЬНЫЕ СТИЛИ --- */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--bg-color);
@@ -32,40 +30,52 @@
             background-size: 40px 40px;
         }
 
-        /* --- СТАТИЧНЫЕ СОТЫ ПО КРАЯМ --- */
+        /* === СОТЫ ПО КРАЯМ ЭКРАНА (ПК) === */
         .honeycomb-decor {
             position: fixed;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 300px;
+            top: 0;
+            width: 280px;
             height: 100vh;
-            z-index: -1; /* Позади всего контента */
-            pointer-events: none; /* Чтобы не мешали кликать */
-            opacity: 0.15; /* Полупрозрачные */
-            display: none; /* Скрыты на мобильных по умолчанию */
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 1s ease;
+            display: none;
         }
 
         .honeycomb-left {
-            left: -100px;
-            background-image: url('data:image/svg+xml;utf8,<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M50 0 L93.3 25 L93.3 75 L50 100 L6.7 75 L6.7 25 Z" fill="none" stroke="%23FFD700" stroke-width="2"/></svg>');
-            background-size: 100px 100px;
-            mask-image: linear-gradient(to right, black, transparent);
-            -webkit-mask-image: linear-gradient(to right, black, transparent);
+            left: 0;
+            background-image: 
+                radial-gradient(transparent 60%, rgba(255, 215, 0, 0.12) 61%),
+                repeating-linear-gradient(60deg, transparent, transparent 40px, rgba(255, 215, 0, 0.08) 41px, rgba(255, 215, 0, 0.08) 80px);
+            background-size: 60px 104px, 120px 208px;
+            background-repeat: repeat;
+            mask-image: linear-gradient(to right, rgba(0,0,0,0.5), transparent 85%);
+            -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,0.5), transparent 85%);
         }
 
         .honeycomb-right {
-            right: -100px;
-            background-image: url('data:image/svg+xml;utf8,<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M50 0 L93.3 25 L93.3 75 L50 100 L6.7 75 L6.7 25 Z" fill="none" stroke="%23FFD700" stroke-width="2"/></svg>');
-            background-size: 100px 100px;
-            mask-image: linear-gradient(to left, black, transparent);
-            -webkit-mask-image: linear-gradient(to left, black, transparent);
+            right: 0;
+            background-image: 
+                radial-gradient(transparent 60%, rgba(255, 215, 0, 0.12) 61%),
+                repeating-linear-gradient(60deg, transparent, transparent 40px, rgba(255, 215, 0, 0.08) 41px, rgba(255, 215, 0, 0.08) 80px);
+            background-size: 60px 104px, 120px 208px;
+            background-repeat: repeat;
+            mask-image: linear-gradient(to left, rgba(0,0,0,0.5), transparent 85%);
+            -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,0.5), transparent 85%);
         }
 
-        /* Показываем соты только на широких экранах */
         @media (min-width: 1200px) {
             .honeycomb-decor {
                 display: block;
+                opacity: 0.4;
+                animation: honeycomb-pulse 10s ease-in-out infinite;
             }
+        }
+
+        @keyframes honeycomb-pulse {
+            0%, 100% { opacity: 0.35; }
+            50% { opacity: 0.5; }
         }
 
         /* --- ПЧЕЛИНЫЙ PROGRESS BAR --- */
@@ -83,6 +93,7 @@
             width: 0%;
             position: relative;
             box-shadow: 0 0 10px var(--primary-color);
+            transition: width 0.1s;
         }
         .bee-cursor {
             position: absolute;
@@ -181,7 +192,7 @@
             max-width: 1200px;
             margin: 0 auto;
             position: relative;
-            z-index: 1; /* Контент выше декораций */
+            z-index: 1;
         }
         .section-title {
             font-size: 2.5rem;
@@ -192,7 +203,7 @@
             padding-bottom: 10px;
         }
 
-        /* --- КОНТЕНТНЫЕ БЛОКИ (ТЕХНИЧКА) --- */
+        /* --- КОНТЕНТНЫЕ БЛОКИ --- */
         .tech-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -268,7 +279,7 @@
             margin: 0 auto 15px;
             clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
             background: var(--primary-color);
-            padding: 3px; /* Рамка */
+            padding: 3px;
             transition: 0.3s;
         }
         .member-card:hover .hexagon-wrap {
@@ -300,7 +311,6 @@
         }
         .member-desc { font-size: 0.9rem; color: #aaa; padding: 0 10px; }
 
-        /* Цвета ролей */
         .role-eng { color: var(--role-eng); border: 1px solid var(--role-eng); }
         .role-prog { color: var(--role-prog); border: 1px solid var(--role-prog); }
         .role-men { color: var(--role-men); border: 1px solid var(--role-men); }
@@ -315,6 +325,7 @@
             color: #0f0;
             overflow-x: auto;
             border-radius: 5px;
+            white-space: pre;
         }
 
         /* --- АНИМАЦИЯ REVEAL --- */
@@ -386,7 +397,7 @@
 </head>
 <body>
 
-<!-- Декоративные соты по краям -->
+<!-- Декоративные соты по краям (ПК-версия) -->
 <div class="honeycomb-decor honeycomb-left"></div>
 <div class="honeycomb-decor honeycomb-right"></div>
 
@@ -679,14 +690,12 @@ if (!btnUp && !btnDown) {
             }
         }
     }
-    reveal(); // Запуск при загрузке
+    reveal();
 
-    // --- МОДАЛЬНОЕ ОКНО (ФОТО) ---
+    // --- МОДАЛЬНОЕ ОКНО ---
     const modal = document.getElementById("modal");
     const modalImg = document.getElementById("modal-img");
     const closeBtn = document.getElementById("modal-close");
-    
-    // Находим все картинки в галереях и команде
     const allImages = document.querySelectorAll(".gallery-grid img, .hexagon-inner img");
 
     allImages.forEach(img => {
@@ -701,7 +710,7 @@ if (!btnUp && !btnDown) {
         if (event.target === modal) modal.style.display = "none";
     }
 
-    // --- ПЛАВНАЯ ПРОКРУТКА МЕНЮ ---
+    // --- ПЛАВНАЯ ПРОКРУТКА ---
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
