@@ -78,8 +78,8 @@
             font-weight: bold;
             color: var(--primary-color);
             text-decoration: none;
+            font-size: 1.2rem;
         }
-        .nav-logo img { height: 40px; }
         nav ul {
             list-style: none;
             display: flex;
@@ -116,12 +116,28 @@
             color: var(--primary-color);
             text-transform: uppercase;
             letter-spacing: 4px;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
         }
         .subtitle { font-size: 1.5rem; color: #ccc; margin-top: 10px; }
+        
+        .specs-summary {
+            margin-top: 30px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .spec-badge {
+            background: rgba(255, 215, 0, 0.1);
+            border: 1px solid var(--primary-color);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
 
         /* --- СЕКЦИИ --- */
         section {
-            padding: 100px 20px;
+            padding: 80px 20px;
             max-width: 1200px;
             margin: 0 auto;
         }
@@ -130,6 +146,8 @@
             margin-bottom: 50px;
             text-align: center;
             color: var(--primary-color);
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
         }
 
         /* --- КОНТЕНТНЫЕ БЛОКИ (ТЕХНИЧКА) --- */
@@ -137,6 +155,7 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 30px;
+            margin-bottom: 40px;
         }
         .tech-card {
             background: var(--card-bg);
@@ -149,30 +168,75 @@
         }
         .tech-card:hover {
             border-color: var(--primary-color);
-            transform: translateY(-10px);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
         .tech-card h3 { color: var(--primary-color); margin-top: 0; }
         .tech-card ul { padding-left: 20px; }
+        
+        .content-split {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: start;
+            margin-bottom: 40px;
+        }
+
+        /* --- ВИДЕО И ГАЛЕРЕЯ --- */
+        .video-container {
+            width: 100%;
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid #333;
+            margin-bottom: 20px;
+            background: #000;
+        }
+        video { width: 100%; display: block; }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        .gallery-grid img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+            border: 1px solid #333;
+        }
+        .gallery-grid img:hover { transform: scale(1.05); border-color: var(--primary-color); }
 
         /* --- СОТЫ (КОМАНДА) --- */
         .team-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
             gap: 40px;
+            justify-items: center;
         }
-        .member-card { text-align: center; }
+        .member-card { 
+            text-align: center; 
+            width: 100%;
+        }
         .hexagon-wrap {
-            width: 180px;
-            height: 200px;
+            width: 160px;
+            height: 180px;
             margin: 0 auto 15px;
-            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
             background: var(--primary-color);
-            padding: 4px; /* Рамка */
+            padding: 3px; /* Рамка */
+            transition: 0.3s;
+        }
+        .member-card:hover .hexagon-wrap {
+            transform: scale(1.05);
+            background: #fff;
         }
         .hexagon-inner {
             width: 100%;
             height: 100%;
-            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
             background: #222;
             overflow: hidden;
         }
@@ -181,6 +245,7 @@
             height: 100%;
             object-fit: cover;
         }
+        .member-name { font-size: 1.2rem; font-weight: bold; color: white; margin: 5px 0; }
         .role-badge {
             display: inline-block;
             padding: 4px 12px;
@@ -189,23 +254,26 @@
             font-weight: bold;
             text-transform: uppercase;
             margin-bottom: 10px;
+            background: rgba(255,255,255,0.1);
         }
+        .member-desc { font-size: 0.9rem; color: #aaa; padding: 0 10px; }
 
-        /* --- ГАЛЕРЕЯ --- */
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 15px;
+        /* Цвета ролей */
+        .role-eng { color: var(--role-eng); border: 1px solid var(--role-eng); }
+        .role-prog { color: var(--role-prog); border: 1px solid var(--role-prog); }
+        .role-men { color: var(--role-men); border: 1px solid var(--role-men); }
+        .role-med { color: var(--role-med); border: 1px solid var(--role-med); }
+
+        /* --- КОД --- */
+        .code-block {
+            background: #000;
+            border-left: 3px solid var(--primary-color);
+            padding: 15px;
+            font-family: monospace;
+            color: #0f0;
+            overflow-x: auto;
+            border-radius: 5px;
         }
-        .gallery-grid img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 15px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        .gallery-grid img:hover { transform: scale(1.03); }
 
         /* --- АНИМАЦИЯ REVEAL --- */
         .reveal {
@@ -232,7 +300,11 @@
             display: none;
             z-index: 1000;
             font-size: 24px;
+            color: #000;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+            transition: 0.3s;
         }
+        #scrollTopBtn:hover { transform: scale(1.1); }
 
         /* --- МОДАЛЬНОЕ ОКНО --- */
         #modal {
@@ -240,51 +312,64 @@
             position: fixed;
             z-index: 4000;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9);
+            background: rgba(0,0,0,0.95);
             justify-content: center;
             align-items: center;
+            flex-direction: column;
         }
-        #modal img { max-width: 90%; max-height: 80%; border-radius: 10px; }
+        #modal img { max-width: 90%; max-height: 80%; border-radius: 10px; box-shadow: 0 0 30px rgba(255,215,0,0.2); }
+        #modal-close {
+            position: absolute; top: 20px; right: 30px;
+            color: #fff; font-size: 40px; cursor: pointer;
+        }
 
         footer {
             padding: 50px;
             text-align: center;
             background: #050505;
             border-top: 1px solid #111;
+            color: #666;
         }
 
         @media (max-width: 768px) {
-            nav { flex-direction: column; padding: 10px; }
+            nav { flex-direction: column; padding: 10px; top: 0; }
+            .progress-container { top: 0; } /* Adjust if nav height changes significantly */
             nav ul { gap: 10px; margin-top: 10px; flex-wrap: wrap; justify-content: center; }
-            section { padding: 60px 15px; }
+            section { padding: 40px 15px; }
+            .content-split { grid-template-columns: 1fr; }
+            h1 { font-size: 2.5rem; }
         }
     </style>
 </head>
 <body>
 
-<!-- Кнопка Наверх -->
-<button onclick="topFunction()" id="scrollTopBtn" title="Наверх">↑</button>
-
-<!-- Модальное окно для просмотра фото -->
-<div id="imageModal" class="modal">
-    <span class="close">&times;</span>
-    <img class="modal-content" id="img01">
+<!-- Прогресс бар с пчелой -->
+<div class="progress-container">
+    <div class="progress-bar" id="myBar"><div class="bee-cursor">🐝</div></div>
 </div>
 
+<!-- Модальное окно -->
+<div id="modal">
+    <span id="modal-close">&times;</span>
+    <img id="modal-img" src="">
+</div>
+
+<!-- Кнопка наверх -->
+<button onclick="topFunction()" id="scrollTopBtn" title="Наверх">↑</button>
+
 <nav>
+    <a href="#home" class="nav-logo">🐝 ЛТ-043</a>
     <ul>
-        <li><a href="#home">Главная</a></li>
         <li><a href="#chassis">Шасси</a></li>
         <li><a href="#lift">Подъемник</a></li>
         <li><a href="#grabber">Захват</a></li>
-        <li><a href="#rollers">Ролики</a></li>
         <li><a href="#software">ПО</a></li>
         <li><a href="#team">Команда</a></li>
     </ul>
 </nav>
 
 <header id="home">
-    <h1>Команда ЛТ-043<br>Ученые пчелы</h1>
+    <h1>Ученые пчелы</h1>
     <div class="subtitle">Сезон "Безопасный маршрут" | 2026</div>
     
     <div class="specs-summary">
@@ -295,389 +380,284 @@
     </div>
 </header>
 
-<section id="chassis">
-    <h2>1. Шасси и База</h2>
+<section id="chassis" class="reveal">
+    <h2 class="section-title">1. Шасси и База</h2>
     
-    <div class="video-container">
-        <video controls onerror="this.parentElement.innerHTML='<div class=\'video-error\'>Видео не найдено! Проверь файл WheelBase.mp4</div>'">
-            <source src="WheelBase.mp4" type="video/mp4">
-            <source src="WheelBase.avi" type="video/avi">
-        </video>
-        <p style="text-align: center; font-size: 0.8em; color: #888; padding: 8px;">Демонстрация работы механумной базы</p>
-    </div>
-
-    <div class="content-grid">
+    <div class="content-split">
         <div>
-            <p>База для максимальной проходимости. Гибрид профилей <strong>GoBilda</strong> и <strong>Tetrix</strong>.</p>
-            
+            <div class="video-container">
+                <video controls onerror="this.parentElement.innerHTML='<div style=\'padding:20px;color:red\'>Видео не найдено (WheelBase.mp4)</div>'">
+                    <source src="WheelBase.mp4" type="video/mp4">
+                    <source src="WheelBase.avi" type="video/avi">
+                </video>
+            </div>
+            <p>База создана для проходимости. Гибрид профилей <strong>GoBilda</strong> и <strong>Tetrix</strong>.</p>
             <div class="tech-card">
                 <h3>Особенности:</h3>
                 <ul>
-                    <li><strong>Колеса:</strong> Печатные механумы Ø14 см.</li>
-                    <li><strong>Привод:</strong> Моторы GoBilda с энкодерами.</li>
-                    <li><strong>Навигация:</strong> 2 одометра + энкодеры моторов.</li>
+                    <li>Печатные механумы Ø14 см.</li>
+                    <li>Моторы GoBilda с энкодерами.</li>
+                    <li>2 одометра для точной навигации.</li>
                 </ul>
             </div>
-
-            <div class="tech-card">
-                <h3>Программы</h3>
-                <p><strong>RoadRunner</strong> для точных траекторий и компенсации пробуксовки.</p>
-            </div>
         </div>
-        
-        <div class="gallery">
-            <img src="img/chassis_side.png" alt="Вид сбоку">
-            <img src="img/chassis_bottom.png" alt="Вид снизу">
-            <img src="img/wheels.png" alt="Механум колеса">
-            <img src="img/control_hub.png" alt="Блок управления">
+        <div class="gallery-grid">
+            <img src="img/chassis_side.png" alt="Side">
+            <img src="img/chassis_bottom.png" alt="Bottom">
+            <img src="img/wheels.png" alt="Wheels">
+            <img src="img/control_hub.png" alt="Hub">
         </div>
     </div>
 </section>
 
-<section id="lift">
-    <h2>2. Подъемник (Башня)</h2>
+<section id="lift" class="reveal">
+    <h2 class="section-title">2. Подъемник (Башня)</h2>
     
-    <div class="video-container">
-        <video controls onerror="this.parentElement.innerHTML='<div class=\'video-error\'>Видео не найдено! Проверь файл Lift.mp4</div>'">
-            <source src="Lift.mp4" type="video/mp4">
-            <source src="Lift.avi" type="video/avi">
-        </video>
-        <p style="text-align: center; font-size: 0.8em; color: #888; padding: 8px;">Работа цепной передачи и крюка</p>
-    </div>
-
-    <div class="content-grid">
-        <div class="gallery">
-            <img src="img/lift_mech.png" alt="Механизм лифта">
-            <img src="img/chain_drive.png" alt="Цепная передача">
-            <img src="img/hook_3d.png" alt="Крюк 3D модель">
-            <img src="img/lift_action.png" alt="Лифт в действии">
+    <div class="content-split">
+        <div class="gallery-grid">
+            <img src="img/lift_mech.png" alt="Mech">
+            <img src="img/chain_drive.png" alt="Chain">
+            <img src="img/hook_3d.png" alt="Hook">
+            <img src="img/lift_action.png" alt="Action">
         </div>
-
         <div>
-            <p>Центральная башня. Крюк цепляется за пандус и приподнимает робота.</p>
-            
+            <div class="video-container">
+                <video controls onerror="this.parentElement.innerHTML='<div style=\'padding:20px;color:red\'>Видео не найдено (Lift.mp4)</div>'">
+                    <source src="Lift.mp4" type="video/mp4">
+                </video>
+            </div>
             <div class="tech-card">
                 <h3>Техника:</h3>
+                <p>Центральная башня с цепным приводом. Крюк с уплотнителем цепляется за пандус.</p>
                 <ul>
-                    <li><strong>Привод:</strong> Мотор Tetrix + шестерня Ø3.8 см.</li>
-                    <li><strong>Передача:</strong> Металлическая цепь.</li>
-                    <li><strong>Крюк:</strong> 3D-печать + оконный уплотнитель.</li>
+                    <li>Мотор Tetrix + шестерня Ø3.8 см.</li>
+                    <li>Программное удержание (Hold Mode).</li>
                 </ul>
-            </div>
-
-            <div class="warning-box">
-                <h3>💡 Инженерный урок</h3>
-                <p><strong>Проблема:</strong> Сгорание мотора из-за ошибки порта.</p>
-                <p><strong>Решение:</strong> Программное удержание (Hold Mode) для фиксации позиции без перегрева.</p>
             </div>
         </div>
     </div>
 </section>
 
-<section id="grabber">
-    <h2>3. Захват и Манипулятор</h2>
+<section id="grabber" class="reveal">
+    <h2 class="section-title">3. Захват и Зрение</h2>
     
-    <div class="video-container">
-        <video controls onerror="this.parentElement.innerHTML='<div class=\'video-error\'>Видео не найдено! Проверь файл Grabber.mp4</div>'">
-            <source src="Grabber.mp4" type="video/mp4">
-            <source src="Grabber.avi" type="video/avi">
-        </video>
-        <p style="text-align: center; font-size: 0.8em; color: #888; padding: 8px;">Захват плиток и AprilTag</p>
-    </div>
-
-    <div class="content-grid">
+    <div class="content-split">
         <div>
-            <h3>3.1 Слайдер и Захват</h3>
-            <div class="tech-card">
-                <p><strong>Слайдер:</strong> Телескопический механизм с моторным приводом.</p>
-                <p><strong>Захват:</strong> Активная клешня на сервоприводах с накладками для надежного хвата.</p>
+            <div class="video-container">
+                <video controls onerror="this.parentElement.innerHTML='<div style=\'padding:20px;color:red\'>Видео не найдено (Grabber.mp4)</div>'">
+                    <source src="Grabber.mp4" type="video/mp4">
+                </video>
             </div>
-
-            <h3>3.2 Зрение (AprilTags)</h3>
             <div class="tech-card">
-                <p>Камера распознает метки, вычисляет смещение и автоматически корректирует угол робота перед сбросом элемента.</p>
+                <h3>AprilTags & Слайдер:</h3>
+                <p>Камера распознает метки, алгоритм корректирует угол робота перед сбросом элемента. Телескопический слайдер выносит захват за пределы робота.</p>
             </div>
         </div>
-        <div class="gallery">
-            <img src="img/grabber_close.png" alt="Захват крупно">
-            <img src="img/slider_mech.png" alt="Слайдер">
-            <img src="img/camera_mount.png" alt="Крепление камеры">
-            <img src="img/apriltag_view.png" alt="Вид с камеры">
+        <div class="gallery-grid">
+            <img src="img/grabber_close.png" alt="Grabber">
+            <img src="img/slider_mech.png" alt="Slider">
+            <img src="img/camera_mount.png" alt="Cam">
+            <img src="img/apriltag_view.png" alt="Tag">
         </div>
     </div>
 </section>
 
-<section id="rollers">
-    <h2>4. Вспомогательные ролики</h2>
-    
-    <div class="video-container">
-        <video controls onerror="this.parentElement.innerHTML='<div class=\'video-error\'>Видео не найдено! Проверь файл Rollers.mp4</div>'">
-            <source src="Rollers.mp4" type="video/mp4">
-            <source src="Rollers.avi" type="video/avi">
-        </video>
-        <p style="text-align: center; font-size: 0.8em; color: #888; padding: 8px;">Преодоление пандуса (24°)</p>
-    </div>
-
-    <div class="content-grid">
-        <div>
-            <div class="tech-card">
-                <h3>Как это работает:</h3>
-                <ul>
-                    <li><strong>Рычаги:</strong> Опускают доп. ось, приподнимая основные колеса.</li>
-                    <li><strong>Сервоприводы:</strong> 30 кг/см для сильного прижима.</li>
-                    <li><strong>Колеса:</strong> Ø75 мм PETG + уплотнитель для сцепления.</li>
-                </ul>
-            </div>
-            
-            <div class="tech-card">
-                <h3>Код:</h3>
-                <p>Функции <code>rampMove()</code> синхронизируют сервоприводы и моторы шасси.</p>
-            </div>
+<section id="rollers" class="reveal">
+    <h2 class="section-title">4. Вспомогательные ролики</h2>
+    <div class="tech-grid">
+        <div class="tech-card">
+            <h3>Механизм</h3>
+            <p>Рычаги опускают ось с колесами Ø75 мм (PETG + уплотнитель), приподнимая основные колеса. Сервоприводы 30кг обеспечивают сильный прижим.</p>
         </div>
-        
-        <div class="gallery">
-            <img src="img/rollers_mech.png" alt="Механизм">
-            <img src="img/rollers_wheel.png" alt="Колесо PETG">
-            <img src="img/rollers_servo.png" alt="Сервопривод">
-            <img src="img/rollers_action.png" alt="Пандус">
+        <div class="video-container">
+            <video controls onerror="this.parentElement.innerHTML='<div style=\'padding:20px;color:red\'>Видео не найдено (Rollers.mp4)</div>'">
+                <source src="Rollers.mp4" type="video/mp4">
+            </video>
+        </div>
+        <div class="gallery-grid" style="grid-column: 1 / -1;">
+            <img src="img/rollers_mech.png" alt="Mech">
+            <img src="img/rollers_wheel.png" alt="Wheel">
+            <img src="img/rollers_servo.png" alt="Servo">
+            <img src="img/rollers_action.png" alt="Action">
         </div>
     </div>
 </section>
 
-<section id="software">
-    <h2>5. Программное обеспечение</h2>
-    
-    <div class="content-grid">
-        <div>
-            <h3>Структура классов</h3>
-            <div class="tech-card">
-                <p>Класс <strong>RobotHardware</strong> управляет устройствами:</p>
-                <ul>
-                    <li><code>aprilTagCorrection()</code></li>
-                    <li><code>rampMove()</code></li>
-                    <li><code>getAngle()</code></li>
-                    <li><code>upTheRamp()</code></li>
-                </ul>
-            </div>
-
-            <h3>Режимы</h3>
+<section id="software" class="reveal">
+    <h2 class="section-title">5. Программное обеспечение</h2>
+    <div class="content-split">
+        <div class="tech-card">
+            <h3>Архитектура</h3>
             <ul>
-                <li><strong>Autonomous:</strong> RoadRunner Trajectories.</li>
-                <li><strong>TeleOp:</strong> Полуавтоматические циклы.</li>
-                <li><strong>Dashboard:</strong> Отладка через браузер.</li>
+                <li><strong>RoadRunner:</strong> Траектории и автономка.</li>
+                <li><strong>Dashboard:</strong> Отладка переменных.</li>
+                <li><strong>Classes:</strong> <code>aprilTagCorrection()</code>, <code>rampMove()</code>, <code>upTheRamp()</code>.</li>
             </ul>
         </div>
-        
         <div>
             <div class="code-block">
-// Пример кода
-if (gamepad1.y) {
-    robot.upTheRamp();
-}
-
-// Коррекция по камере
-double offset = robot.getAprilTagOffset();
-robot.strafe(offset * Kp);
+// Автономный заезд
+if (gamepad1.y) robot.upTheRamp();
 
 // Защита лифта
-if (!gamepad1.a && !gamepad1.b) {
-    robot.holdLiftPosition(); 
+if (!btnUp && !btnDown) {
+    lift.holdPosition();
 }
             </div>
         </div>
     </div>
 </section>
 
-<!-- РАЗДЕЛ КОМАНДА -->
-<section id="team">
-    <h2>Наша Команда</h2>
-    <p>Мы — «Ученые пчелы». Каждый участник вносит свой уникальный вклад в создание робота.</p>
-    
+<section id="team" class="reveal">
+    <h2 class="section-title">Наша Команда</h2>
     <div class="team-grid">
-        <!-- Катя -->
-        <div class="team-card">
-            <img src="img/team/katya.png" alt="Катя" class="team-photo">
-            <div class="team-info">
-                <div class="team-name">Катя</div>
-                <span class="team-role role-eng">Конструктор</span>
-                <p class="team-desc">Ответственная за создание колёсной базы и захвата.</p>
-                <div class="team-skills">Навыки: Tetrix, GoBilda</div>
-            </div>
+        
+        <div class="member-card">
+            <div class="hexagon-wrap"><div class="hexagon-inner"><img src="img/team/katya.png" alt="Катя"></div></div>
+            <div class="member-name">Катя</div>
+            <span class="role-badge role-eng">Конструктор</span>
+            <p class="member-desc">Колёсная база и захват. Tetrix & GoBilda.</p>
         </div>
 
-        <!-- Артем -->
-        <div class="team-card">
-            <img src="img/team/artem.png" alt="Артём" class="team-photo">
-            <div class="team-info">
-                <div class="team-name">Артём</div>
-                <span class="team-role role-prog">Программист</span>
-                <p class="team-desc">Ответственный за описание логики управления роботом.</p>
-                <div class="team-skills">Навыки: Android Studio, FTC Dashboard</div>
-            </div>
+        <div class="member-card">
+            <div class="hexagon-wrap"><div class="hexagon-inner"><img src="img/team/artem.png" alt="Артём"></div></div>
+            <div class="member-name">Артём</div>
+            <span class="role-badge role-prog">Программист</span>
+            <p class="member-desc">Логика управления. Android Studio.</p>
         </div>
 
-        <!-- Максим -->
-        <div class="team-card">
-            <img src="img/team/maxim.png" alt="Максим" class="team-photo">
-            <div class="team-info">
-                <div class="team-name">Максим</div>
-                <span class="team-role role-prog">Программист</span>
-                <p class="team-desc">Ответственный за описание логики управления роботом.</p>
-                <div class="team-skills">Навыки: Android Studio, FTC Dashboard</div>
-            </div>
+        <div class="member-card">
+            <div class="hexagon-wrap"><div class="hexagon-inner"><img src="img/team/maxim.png" alt="Максим"></div></div>
+            <div class="member-name">Максим</div>
+            <span class="role-badge role-prog">Программист</span>
+            <p class="member-desc">Логика управления. FTC Dashboard.</p>
         </div>
 
-        <!-- Никита -->
-        <div class="team-card">
-            <img src="img/team/nikita.png" alt="Никита" class="team-photo">
-            <div class="team-info">
-                <div class="team-name">Никита</div>
-                <span class="team-role role-eng">3D-моделист</span>
-                <p class="team-desc">Ответственный за создание механизмов робота.</p>
-                <div class="team-skills">Навыки: Fusion 360, 3D печать</div>
-            </div>
+        <div class="member-card">
+            <div class="hexagon-wrap"><div class="hexagon-inner"><img src="img/team/nikita.png" alt="Никита"></div></div>
+            <div class="member-name">Никита</div>
+            <span class="role-badge role-eng">3D-моделист</span>
+            <p class="member-desc">Механизмы робота. Fusion 360.</p>
         </div>
 
-        <!-- Филипп -->
-        <div class="team-card">
-            <img src="img/team/filipp.png" alt="Филипп" class="team-photo">
-            <div class="team-info">
-                <div class="team-name">Филипп</div>
-                <span class="team-role role-eng">Конструктор</span>
-                <p class="team-desc">Ответственный за создание цепного подъёмника.</p>
-                <div class="team-skills">Навыки: Tetrix, GoBilda</div>
-            </div>
+        <div class="member-card">
+            <div class="hexagon-wrap"><div class="hexagon-inner"><img src="img/team/filipp.png" alt="Филипп"></div></div>
+            <div class="member-name">Филипп</div>
+            <span class="role-badge role-eng">Конструктор</span>
+            <p class="member-desc">Цепной подъёмник. Tetrix & GoBilda.</p>
         </div>
 
-        <!-- Софа -->
-        <div class="team-card">
-            <img src="img/team/sofa.png" alt="Софа" class="team-photo">
-            <div class="team-info">
-                <div class="team-name">Софа</div>
-                <span class="team-role role-med">Медиа</span>
-                <p class="team-desc">Ответственная за написание портфолио и ведение соцсетей.</p>
-                <div class="team-skills">Навыки: Canva, SMM</div>
-            </div>
+        <div class="member-card">
+            <div class="hexagon-wrap"><div class="hexagon-inner"><img src="img/team/sofa.png" alt="Софа"></div></div>
+            <div class="member-name">Софа</div>
+            <span class="role-badge role-med">Медиа</span>
+            <p class="member-desc">Портфолио и соцсети. Canva.</p>
         </div>
 
-        <!-- Станислав -->
-        <div class="team-card">
-            <img src="img/team/stanislav.png" alt="Станислав" class="team-photo">
-            <div class="team-info">
-                <div class="team-name">Станислав</div>
-                <span class="team-role role-men">Тренер</span>
-                <p class="team-desc">Обучает нас программированию, консультирует по вопросам механики и кода.</p>
-            </div>
+        <div class="member-card">
+            <div class="hexagon-wrap"><div class="hexagon-inner"><img src="img/team/stanislav.png" alt="Станислав"></div></div>
+            <div class="member-name">Станислав</div>
+            <span class="role-badge role-men">Тренер</span>
+            <p class="member-desc">Программирование и механика.</p>
         </div>
 
-        <!-- Илья -->
-        <div class="team-card">
-            <img src="img/team/ilya.png" alt="Илья" class="team-photo">
-            <div class="team-info">
-                <div class="team-name">Илья</div>
-                <span class="team-role role-men">Тренер</span>
-                <p class="team-desc">Обучает нас 3D-моделированию, конструированию и 3D печати.</p>
-            </div>
+        <div class="member-card">
+            <div class="hexagon-wrap"><div class="hexagon-inner"><img src="img/team/ilya.png" alt="Илья"></div></div>
+            <div class="member-name">Илья</div>
+            <span class="role-badge role-men">Тренер</span>
+            <p class="member-desc">3D-моделирование и печать.</p>
         </div>
 
-        <!-- Олеся -->
-        <div class="team-card">
-            <img src="img/team/olesya.png" alt="Олеся" class="team-photo">
-            <div class="team-info">
-                <div class="team-name">Олеся</div>
-                <span class="team-role role-men">Ментор</span>
-                <p class="team-desc">Помогает с тимбилдингом, стратегией и анализом результатов.</p>
-            </div>
+        <div class="member-card">
+            <div class="hexagon-wrap"><div class="hexagon-inner"><img src="img/team/olesya.png" alt="Олеся"></div></div>
+            <div class="member-name">Олеся</div>
+            <span class="role-badge role-men">Ментор</span>
+            <p class="member-desc">Тимбилдинг и стратегия.</p>
         </div>
 
-        <!-- Николай -->
-        <div class="team-card">
-            <img src="img/team/nikolay.png" alt="Николай" class="team-photo">
-            <div class="team-info">
-                <div class="team-name">Николай</div>
-                <span class="team-role role-men">Ментор</span>
-                <p class="team-desc">Обучает работе с видеоматериалом, монтажу и аудио технике.</p>
-            </div>
+        <div class="member-card">
+            <div class="hexagon-wrap"><div class="hexagon-inner"><img src="img/team/nikolay.png" alt="Николай"></div></div>
+            <div class="member-name">Николай</div>
+            <span class="role-badge role-men">Ментор</span>
+            <p class="member-desc">Видеомонтаж и медиа.</p>
         </div>
+
     </div>
 </section>
 
 <footer>
     <p>© 2026 Команда ЛТ-043 "Ученые пчелы"</p>
-    <p>Лига Технологий: Безопасный Маршрут</p>
+    <p>FTC Season: Safe Route</p>
 </footer>
 
 <script>
-    // --- СКРИПТ КНОПКИ НАВЕРХ ---
-    const mybutton = document.getElementById("scrollTopBtn");
+    // --- ПРОГРЕСС БАР ---
+    window.onscroll = function() {
+        myFunction();
+        scrollFunction();
+        reveal();
+    };
 
-    window.onscroll = function() {scrollFunction()};
-
-    function scrollFunction() {
-        if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
-            mybutton.style.display = "block";
-        } else {
-            mybutton.style.display = "none";
-        }
+    function myFunction() {
+        var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        var scrolled = (winScroll / height) * 100;
+        document.getElementById("myBar").style.width = scrolled + "%";
     }
 
+    // --- КНОПКА НАВЕРХ ---
+    function scrollFunction() {
+        if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+            document.getElementById("scrollTopBtn").style.display = "block";
+        } else {
+            document.getElementById("scrollTopBtn").style.display = "none";
+        }
+    }
     function topFunction() {
         window.scrollTo({top: 0, behavior: 'smooth'});
     }
 
-    // --- СКРИПТ ДЛЯ ПРОСМОТРА ФОТО (LIGHTBOX) ---
-    document.addEventListener("DOMContentLoaded", function() {
-        const modal = document.getElementById("imageModal");
-        const modalImg = document.getElementById("img01");
-        const closeBtn = document.querySelector(".close");
-        
-        const galleryImages = document.querySelectorAll(".gallery img");
-
-        galleryImages.forEach(img => {
-            img.addEventListener('click', function() {
-                modal.style.display = "block";
-                modalImg.src = this.src;
-            });
-        });
-
-        function closeModal() {
-            modal.style.display = "none";
-        }
-
-        if (closeBtn) {
-            closeBtn.addEventListener('click', closeModal);
-        }
-
-        modal.addEventListener('click', function(event) {
-            if (event.target === modal) {
-                closeModal();
+    // --- АНИМАЦИЯ ПОЯВЛЕНИЯ ---
+    function reveal() {
+        var reveals = document.querySelectorAll(".reveal");
+        for (var i = 0; i < reveals.length; i++) {
+            var windowHeight = window.innerHeight;
+            var elementTop = reveals[i].getBoundingClientRect().top;
+            var elementVisible = 150;
+            if (elementTop < windowHeight - elementVisible) {
+                reveals[i].classList.add("active");
             }
-        });
-        
-        document.addEventListener('keydown', function(event) {
-            if (event.key === "Escape") {
-                closeModal();
-            }
+        }
+    }
+    reveal(); // Запуск при загрузке
+
+    // --- МОДАЛЬНОЕ ОКНО (ФОТО) ---
+    const modal = document.getElementById("modal");
+    const modalImg = document.getElementById("modal-img");
+    const closeBtn = document.getElementById("modal-close");
+    
+    // Находим все картинки в галереях и команде
+    const allImages = document.querySelectorAll(".gallery-grid img, .hexagon-inner img");
+
+    allImages.forEach(img => {
+        img.addEventListener('click', function() {
+            modal.style.display = "flex";
+            modalImg.src = this.src;
         });
     });
+
+    closeBtn.onclick = function() { modal.style.display = "none"; }
+    modal.onclick = function(event) {
+        if (event.target === modal) modal.style.display = "none";
+    }
 
     // --- ПЛАВНАЯ ПРОКРУТКА МЕНЮ ---
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
-            const targetId = this.getAttribute('href');
-            const targetElement = document.querySelector(targetId);
-            
-            if (targetElement) {
-                const headerOffset = 60;
-                const elementPosition = targetElement.getBoundingClientRect().top;
-                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-      
-                window.scrollTo({
-                    top: offsetPosition,
-                    behavior: "smooth"
-                });
-            }
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
         });
     });
 </script>
