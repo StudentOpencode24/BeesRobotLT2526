@@ -27,50 +27,51 @@
             margin: 0;
             line-height: 1.5;
             overflow-x: hidden;
+            /* Фоновая сетка */
             background-image: radial-gradient(rgba(255, 215, 0, 0.03) 1px, transparent 1px);
             background-size: 40px 40px;
         }
 
-        /* === СТАТИЧНЫЕ СОТЫ ПО КРАЯМ (ПК) === */
+        /* ========================================= */
+        /* === ИСПРАВЛЕННЫЕ СОТЫ ПО КРАЯМ (ФОН) === */
+        /* ========================================= */
         .honeycomb-decor {
             position: fixed;
             top: 0;
-            width: 280px;
+            width: 300px;
             height: 100vh;
             z-index: -1;
             pointer-events: none;
             opacity: 0;
+            display: none; /* Скрыто на мобильных */
             transition: opacity 1s ease;
-            display: none;
         }
+
+        /* Используем надежный SVG паттерн вместо градиентов */
+        .honeycomb-left, .honeycomb-right {
+            background-color: transparent;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100' viewBox='0 0 56 100'%3E%3Cpath d='M28 66L0 50L0 16L28 0L56 16L56 50L28 66L28 100Z' fill='none' stroke='%23FFD700' stroke-width='1' opacity='0.3'/%3E%3C/svg%3E");
+            background-repeat: repeat;
+            background-size: 56px 100px; /* Размер одной соты */
+        }
+
         .honeycomb-left {
             left: 0;
-            background-image: 
-                radial-gradient(transparent 60%, rgba(255, 215, 0, 0.12) 61%),
-                repeating-linear-gradient(60deg, transparent, transparent 40px, rgba(255, 215, 0, 0.08) 41px, rgba(255, 215, 0, 0.08) 80px);
-            background-size: 60px 104px, 120px 208px;
-            mask-image: linear-gradient(to right, rgba(0,0,0,0.5), transparent 85%);
-            -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,0.5), transparent 85%);
+            mask-image: linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 90%);
+            -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 90%);
         }
+
         .honeycomb-right {
             right: 0;
-            background-image: 
-                radial-gradient(transparent 60%, rgba(255, 215, 0, 0.12) 61%),
-                repeating-linear-gradient(60deg, transparent, transparent 40px, rgba(255, 215, 0, 0.08) 41px, rgba(255, 215, 0, 0.08) 80px);
-            background-size: 60px 104px, 120px 208px;
-            mask-image: linear-gradient(to left, rgba(0,0,0,0.5), transparent 85%);
-            -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,0.5), transparent 85%);
+            mask-image: linear-gradient(to left, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 90%);
+            -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 90%);
         }
+
         @media (min-width: 1200px) {
             .honeycomb-decor {
                 display: block;
-                opacity: 0.4;
-                animation: honeycomb-pulse 10s ease-in-out infinite;
+                opacity: 0.5; /* Видимость фона */
             }
-        }
-        @keyframes honeycomb-pulse {
-            0%, 100% { opacity: 0.35; }
-            50% { opacity: 0.5; }
         }
 
         /* --- ПЧЕЛИНЫЙ PROGRESS BAR --- */
@@ -258,93 +259,87 @@
         .gallery-grid img:hover { transform: scale(1.05); border-color: var(--primary-color); }
 
         /* ========================================= */
-        /* === НОВЫЙ ДИЗАЙН КОМАНДЫ (БОЛЬШИЕ СОТЫ) === */
+        /* === НОВЫЙ ДИЗАЙН КОМАНДЫ (ОБВОДКА) === */
         /* ========================================= */
         .team-grid {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 15px; /* Минимальный отступ для эффекта "вплотную" */
+            gap: 10px; /* Маленький отступ для эффекта "вплотную" */
             padding: 20px 0;
         }
 
         .member-card {
             position: relative;
-            width: 300px;  /* Фиксированная большая ширина */
-            height: 340px; /* Высота под контент */
-            margin: 5px;   /* Компенсация для clip-path */
+            width: 280px;
+            height: 340px;
+            margin: 5px;
             transition: transform 0.3s ease, z-index 0.3s;
             cursor: default;
         }
 
         .member-card:hover {
             transform: scale(1.05);
-            z-index: 10; /* При наведении карточка поверх остальных */
+            z-index: 10;
         }
 
-        /* Основной шестиугольник */
+        /* Основная форма соты */
         .hexagon-shape {
             width: 100%;
             height: 100%;
-            background-color: #1a1a1a;
-            /* Создаем форму соты */
+            /* Форма шестиугольника */
             clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             text-align: center;
-            padding: 20px;
-            box-sizing: border-box;
-            border: 4px solid transparent; /* Для визуальной границы (реализуется через background) */
             position: relative;
             overflow: hidden;
         }
 
-        /* Цветная рамка через псевдо-элемент (т.к. border не работает с clip-path) */
-        .hexagon-shape::before {
-            content: '';
+        /* СЛОЙ 1: Золотая обводка (фон) */
+        .hex-border {
             position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: var(--primary-color);
-            z-index: 0;
-            /* Маска, чтобы оставить только рамку толщиной 3px */
-            -webkit-mask: 
-                linear-gradient(#fff 0 0) content-box, 
-                linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            padding: 3px; /* Толщина рамки */
-            box-sizing: border-box;
-            opacity: 0.5;
-            transition: opacity 0.3s;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--primary-color); /* Цвет рамки */
+            z-index: 1;
         }
 
-        .member-card:hover .hexagon-shape::before {
-            opacity: 1;
-            box-shadow: 0 0 20px var(--primary-color); /* Не работает внутри clip-path, но рамка станет ярче */
+        /* СЛОЙ 2: Темный фон контента (чуть меньше, чтобы создать рамку) */
+        .hex-content {
+            position: absolute;
+            top: 3px; left: 3px; right: 3px; bottom: 3px; /* Отступ 3px создает толщину рамки */
+            background: #1a1a1a;
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
         }
 
         /* Фото участника */
         .member-photo {
-            width: 110px;
-            height: 110px;
+            width: 100px;
+            height: 100px;
             border-radius: 50%;
             object-fit: cover;
-            border: 3px solid var(--primary-color);
+            border: 2px solid var(--primary-color);
             margin-bottom: 10px;
-            z-index: 1;
+            z-index: 3;
             background: #000;
         }
 
-        /* Текстовый блок внутри соты */
         .member-info {
-            z-index: 1;
+            z-index: 3;
             width: 100%;
         }
 
         .member-name {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             font-weight: 800;
             color: #fff;
             margin: 0 0 5px 0;
@@ -365,11 +360,11 @@
         }
 
         .member-desc {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: #ccc;
             line-height: 1.3;
             margin: 0;
-            padding: 0 15px;
+            padding: 0 10px;
         }
 
         /* Цвета ролей */
@@ -455,23 +450,24 @@
             .content-split { grid-template-columns: 1fr; }
             h1 { font-size: 2.5rem; }
             
-            /* На мобильных соты становятся вертикальными прямоугольниками или просто стакаются */
+            /* На мобильных убираем шестиугольники для удобства чтения */
             .member-card {
                 width: 90%;
                 height: auto;
-                clip-path: none; /* Убираем сложную форму на очень узких экранах для удобства */
+                clip-path: none;
                 background: #1a1a1a;
                 border: 1px solid #333;
                 border-radius: 15px;
                 margin: 10px 0;
             }
-            .hexagon-shape {
+            .hex-border { display: none; }
+            .hex-content {
+                position: static;
                 clip-path: none;
                 background: transparent;
                 height: auto;
                 padding: 20px;
             }
-            .hexagon-shape::before { display: none; }
         }
     </style>
 </head>
@@ -651,115 +647,154 @@ if (!btnUp && !btnDown) {
 
 <section id="team" class="reveal">
     <h2 class="section-title">Наша Команда</h2>
-    <!-- Сетка заменена на Flex для плотных сот -->
     <div class="team-grid">
         
+        <!-- Карточка 1 -->
         <div class="member-card">
             <div class="hexagon-shape">
-                <img src="img/team/katya.png" alt="Катя" class="member-photo" onerror="this.src='https://placehold.co/150x150/111/gold?text=Photo'">
-                <div class="member-info">
-                    <div class="member-name">Катя</div>
-                    <span class="role-badge role-eng">Конструктор</span>
-                    <p class="member-desc">Колёсная база и захват. Tetrix & GoBilda.</p>
+                <div class="hex-border"></div> <!-- Золотая рамка -->
+                <div class="hex-content">      <!-- Контент внутри -->
+                    <img src="img/team/katya.png" alt="Катя" class="member-photo" onerror="this.src='https://placehold.co/150x150/111/gold?text=Photo'">
+                    <div class="member-info">
+                        <div class="member-name">Катя</div>
+                        <span class="role-badge role-eng">Конструктор</span>
+                        <p class="member-desc">Колёсная база и захват. Tetrix & GoBilda.</p>
+                    </div>
                 </div>
             </div>
         </div>
 
+        <!-- Карточка 2 -->
         <div class="member-card">
             <div class="hexagon-shape">
-                <img src="img/team/artem.png" alt="Артём" class="member-photo" onerror="this.src='https://placehold.co/150x150/111/gold?text=Photo'">
-                <div class="member-info">
-                    <div class="member-name">Артём</div>
-                    <span class="role-badge role-prog">Программист</span>
-                    <p class="member-desc">Логика управления. Android Studio.</p>
+                <div class="hex-border"></div>
+                <div class="hex-content">
+                    <img src="img/team/artem.png" alt="Артём" class="member-photo" onerror="this.src='https://placehold.co/150x150/111/gold?text=Photo'">
+                    <div class="member-info">
+                        <div class="member-name">Артём</div>
+                        <span class="role-badge role-prog">Программист</span>
+                        <p class="member-desc">Логика управления. Android Studio.</p>
+                    </div>
                 </div>
             </div>
         </div>
 
+        <!-- Карточка 3 -->
         <div class="member-card">
             <div class="hexagon-shape">
-                <img src="img/team/maxim.png" alt="Максим" class="member-photo" onerror="this.src='https://placehold.co/150x150/111/gold?text=Photo'">
-                <div class="member-info">
-                    <div class="member-name">Максим</div>
-                    <span class="role-badge role-prog">Программист</span>
-                    <p class="member-desc">Логика управления. FTC Dashboard.</p>
+                <div class="hex-border"></div>
+                <div class="hex-content">
+                    <img src="img/team/maxim.png" alt="Максим" class="member-photo" onerror="this.src='https://placehold.co/150x150/111/gold?text=Photo'">
+                    <div class="member-info">
+                        <div class="member-name">Максим</div>
+                        <span class="role-badge role-prog">Программист</span>
+                        <p class="member-desc">Логика управления. FTC Dashboard.</p>
+                    </div>
                 </div>
             </div>
         </div>
 
+        <!-- Карточка 4 -->
         <div class="member-card">
             <div class="hexagon-shape">
-                <img src="img/team/nikita.png" alt="Никита" class="member-photo" onerror="this.src='https://placehold.co/150x150/111/gold?text=Photo'">
-                <div class="member-info">
-                    <div class="member-name">Никита</div>
-                    <span class="role-badge role-eng">3D-моделист</span>
-                    <p class="member-desc">Механизмы робота. Fusion 360.</p>
+                <div class="hex-border"></div>
+                <div class="hex-content">
+                    <img src="img/team/nikita.png" alt="Никита" class="member-photo" onerror="this.src='https://placehold.co/150x150/111/gold?text=Photo'">
+                    <div class="member-info">
+                        <div class="member-name">Никита</div>
+                        <span class="role-badge role-eng">3D-моделист</span>
+                        <p class="member-desc">Механизмы робота. Fusion 360.</p>
+                    </div>
                 </div>
             </div>
         </div>
 
+        <!-- Карточка 5 -->
         <div class="member-card">
             <div class="hexagon-shape">
-                <img src="img/team/filipp.png" alt="Филипп" class="member-photo" onerror="this.src='https://placehold.co/150x150/111/gold?text=Photo'">
-                <div class="member-info">
-                    <div class="member-name">Филипп</div>
-                    <span class="role-badge role-eng">Конструктор</span>
-                    <p class="member-desc">Цепной подъёмник. Tetrix & GoBilda.</p>
+                <div class="hex-border"></div>
+                <div class="hex-content">
+                    <img src="img/team/filipp.png" alt="Филипп" class="member-photo" onerror="this.src='https://placehold.co/150x150/111/gold?text=Photo'">
+                    <div class="member-info">
+                        <div class="member-name">Филипп</div>
+                        <span class="role-badge role-eng">Конструктор</span>
+                        <p class="member-desc">Цепной подъёмник. Tetrix & GoBilda.</p>
+                    </div>
                 </div>
             </div>
         </div>
 
+        <!-- Карточка 6 -->
         <div class="member-card">
             <div class="hexagon-shape">
-                <img src="img/team/sofa.png" alt="Софа" class="member-photo" onerror="this.src='https://placehold.co/150x150/111/gold?text=Photo'">
-                <div class="member-info">
-                    <div class="member-name">Софа</div>
-                    <span class="role-badge role-med">Медиа</span>
-                    <p class="member-desc">Портфолио и соцсети. Canva.</p>
+                <div class="hex-border"></div>
+                <div class="hex-content">
+                    <img src="img/team/sofa.png" alt="Софа" class="member-photo" onerror="this.src='https://placehold.co/150x150/111/gold?text=Photo'">
+                    <div class="member-info">
+                        <div class="member-name">Софа</div>
+                        <span class="role-badge role-med">Медиа</span>
+                        <p class="member-desc">Портфолио и соцсети. Canva.</p>
+                    </div>
                 </div>
             </div>
         </div>
 
+        <!-- Карточка 7 -->
         <div class="member-card">
             <div class="hexagon-shape">
-                <img src="img/team/stanislav.png" alt="Станислав" class="member-photo" onerror="this.src='https://placehold.co/150x150/111/gold?text=Photo'">
-                <div class="member-info">
-                    <div class="member-name">Станислав</div>
-                    <span class="role-badge role-men">Тренер</span>
-                    <p class="member-desc">Программирование и механика.</p>
+                <div class="hex-border"></div>
+                <div class="hex-content">
+                    <img src="img/team/stanislav.png" alt="Станислав" class="member-photo" onerror="this.src='https://placehold.co/150x150/111/gold?text=Photo'">
+                    <div class="member-info">
+                        <div class="member-name">Станислав</div>
+                        <span class="role-badge role-men">Тренер</span>
+                        <p class="member-desc">Программирование и механика.</p>
+                    </div>
                 </div>
             </div>
         </div>
 
+        <!-- Карточка 8 -->
         <div class="member-card">
             <div class="hexagon-shape">
-                <img src="img/team/ilya.png" alt="Илья" class="member-photo" onerror="this.src='https://placehold.co/150x150/111/gold?text=Photo'">
-                <div class="member-info">
-                    <div class="member-name">Илья</div>
-                    <span class="role-badge role-men">Тренер</span>
-                    <p class="member-desc">3D-моделирование и печать.</p>
+                <div class="hex-border"></div>
+                <div class="hex-content">
+                    <img src="img/team/ilya.png" alt="Илья" class="member-photo" onerror="this.src='https://placehold.co/150x150/111/gold?text=Photo'">
+                    <div class="member-info">
+                        <div class="member-name">Илья</div>
+                        <span class="role-badge role-men">Тренер</span>
+                        <p class="member-desc">3D-моделирование и печать.</p>
+                    </div>
                 </div>
             </div>
         </div>
 
+        <!-- Карточка 9 -->
         <div class="member-card">
             <div class="hexagon-shape">
-                <img src="img/team/olesya.png" alt="Олеся" class="member-photo" onerror="this.src='https://placehold.co/150x150/111/gold?text=Photo'">
-                <div class="member-info">
-                    <div class="member-name">Олеся</div>
-                    <span class="role-badge role-men">Ментор</span>
-                    <p class="member-desc">Тимбилдинг и стратегия.</p>
+                <div class="hex-border"></div>
+                <div class="hex-content">
+                    <img src="img/team/olesya.png" alt="Олеся" class="member-photo" onerror="this.src='https://placehold.co/150x150/111/gold?text=Photo'">
+                    <div class="member-info">
+                        <div class="member-name">Олеся</div>
+                        <span class="role-badge role-men">Ментор</span>
+                        <p class="member-desc">Тимбилдинг и стратегия.</p>
+                    </div>
                 </div>
             </div>
         </div>
 
+        <!-- Карточка 10 -->
         <div class="member-card">
             <div class="hexagon-shape">
-                <img src="img/team/nikolay.png" alt="Николай" class="member-photo" onerror="this.src='https://placehold.co/150x150/111/gold?text=Photo'">
-                <div class="member-info">
-                    <div class="member-name">Николай</div>
-                    <span class="role-badge role-men">Ментор</span>
-                    <p class="member-desc">Видеомонтаж и медиа.</p>
+                <div class="hex-border"></div>
+                <div class="hex-content">
+                    <img src="img/team/nikolay.png" alt="Николай" class="member-photo" onerror="this.src='https://placehold.co/150x150/111/gold?text=Photo'">
+                    <div class="member-info">
+                        <div class="member-name">Николай</div>
+                        <span class="role-badge role-men">Ментор</span>
+                        <p class="member-desc">Видеомонтаж и медиа.</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -817,7 +852,6 @@ if (!btnUp && !btnDown) {
     const modal = document.getElementById("modal");
     const modalImg = document.getElementById("modal-img");
     const closeBtn = document.getElementById("modal-close");
-    // Теперь модальное окно открывается и по клику на фото в команде
     const allImages = document.querySelectorAll(".gallery-grid img, .member-photo");
 
     allImages.forEach(img => {
