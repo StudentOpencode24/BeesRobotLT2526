@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ЛТ-043 Ученые пчелы | Безопасный маршрут 2026</title>
+    <style>
+        :root {
+            --primary-color: #FFD700;
+            --bg-color: #121212;
+            --card-bg: #1E1E1E;
+            --text-color: #E0E0E0;
+            --accent-blue: #4FC3F7;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        nav {
+            background-color: rgba(0, 0, 0, 0.9);
+            padding: 1rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            padding: 0;
+            margin: 0;
+            flex-wrap: wrap;
+        }
+
+        nav ul li { margin: 0 15px; }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        nav a:hover { color: var(--primary-color); }
+
+        header {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('img/robot_bg.png'); 
+            background-size: cover;
+            background-position: center;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px #000;
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            color: var(--accent-blue);
+            text-shadow: 1px 1px 2px #000;
+        }
+
+        .specs-summary {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .spec-badge {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: 1px solid var(--primary-color);
+            backdrop-filter: blur(5px);
+        }
+
+        section {
+            padding: 60px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            border-left: 5px solid var(--primary-color);
+            padding-left: 15px;
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            color: white;
+        }
+
+        h3 { color: var(--accent-blue); margin-top: 30px; }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+
+        @media (max-width: 768px) {
+            .content-grid { grid-template-columns: 1fr; }
+            h1 { font-size: 2.5rem; }
+        }
+
+        .tech-card {
+            background-color: var(--card-bg);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            margin-bottom: 20px;
+        }
+
+        .code-block {
+            background-color: #000;
+            border: 1px solid #333;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', Courier, monospace;
+            color: #0f0;
+            overflow-x: auto;
+            font-size: 0.9rem;
+        }
+
+        .warning-box {
+            background-color: rgba(255, 87, 34, 0.2);
+            border-left: 4px solid #ff5722;
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .gallery img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+            transition: transform 0.3s;
+            cursor: pointer;
+            border: 1px solid #333;
+        }
+
+        .gallery img:hover { transform: scale(1.05); }
+
+        .video-container {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid #333;
+            background: #000;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+
+        video {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            background-color: #000;
+            margin-top: 50px;
+            border-top: 1px solid #333;
+            color: #888;
+        }
+        
+        /* Сообщение об ошибке видео */
+        .video-error {
+            color: red;
+            text-align: center;
+            padding: 20px;
+            background: #220000;
+            border: 1px dashed red;
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <ul>
+        <li><a href="#home">Главная</a></li>
+        <li><a href="#chassis">Шасси</a></li>
+        <li><a href="#lift">Подъемник</a></li>
+        <li><a href="#grabber">Захват</a></li>
+        <li><a href="#rollers">Ролики</a></li>
+        <li><a href="#software">ПО</a></li>
+    </ul>
+</nav>
+
+<header id="home">
+    <h1>Команда ЛТ-043<br>Ученые пчелы</h1>
+    <div class="subtitle">Сезон "Безопасный маршрут" | 2026</div>
+    
+    <div class="specs-summary">
+        <div class="spec-badge">⚙️ 7 Моторов</div>
+        <div class="spec-badge">🔄 6 Сервоприводов</div>
+        <div class="spec-badge">📡 2 Датчика</div>
+        <div class="spec-badge">🧠 RoadRunner + AprilTags</div>
+    </div>
+</header>
+
+<section id="chassis">
+    <h2>1. Шасси и База</h2>
+    
+    <!-- Блок с видео Шасси -->
+    <div class="video-container">
+        <!-- ВАЖНО: Убедись, что файл называется WheelBase.mp4 и лежит рядом с index.html -->
+        <video controls onerror="this.parentElement.innerHTML='<div class=\'video-error\'>Видео не найдено! Проверь имя файла WheelBase.mp4</div>'">
+            <source src="WheelBase.mp4" type="video/mp4">
+            <source src="WheelBase.avi" type="video/avi">
+            Ваш браузер не поддерживает видео тег.
+        </video>
+        <p style="text-align: center; font-size: 0.9em; color: #888; padding: 10px;">Демонстрация работы механумной базы и заезда на пандус</p>
+    </div>
+
+    <div class="content-grid">
+        <div>
+            <p>Наша база создана для максимальной проходимости и стабильности. Мы используем гибридную конструкцию из профилей <strong>GoBilda</strong> и <strong>Tetrix</strong>.</p>
+            
+            <div class="tech-card">
+                <h3>Ключевые особенности:</h3>
+                <ul>
+                    <li><strong>Колеса:</strong> Самостоятельно напечатанные механум-колеса большого диаметра (14 см).</li>
+                    <li><strong>Привод:</strong> Мощные моторы GoBilda с встроенными энкодерами.</li>
+                    <li><strong>Навигация:</strong> 2 одометра GoBilda + энкодеры в моторах.</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="gallery">
+            <img src="img/chassis_side.png" alt="Вид сбоку">
+            <img src="img/chassis_bottom.png" alt="Вид снизу">
+            <img src="img/wheels.png" alt="Механум колеса">
+            <img src="img/control_hub.png" alt="Блок управления">
+        </div>
+    </div>
+</section>
+
+<section id="lift">
+    <h2>2. Подъемник (Башня)</h2>
+    
+    <div class="video-container">
+        <video controls onerror="this.parentElement.innerHTML='<div class=\'video-error\'>Видео не найдено! Проверь имя файла Lift.mp4</div>'">
+            <source src="Lift.mp4" type="video/mp4">
+            <source src="Lift.avi" type="video/avi">
+        </video>
+        <p style="text-align: center; font-size: 0.9em; color: #888; padding: 10px;">Работа цепной передачи и фиксация крюка</p>
+    </div>
+
+    <div class="content-grid">
+        <div class="gallery">
+            <img src="img/lift_mech.png" alt="Механизм лифта">
+            <img src="img/chain_drive.png" alt="Цепная передача">
+            <img src="img/hook_3d.png" alt="Крюк 3D модель">
+            <img src="img/lift_action.png" alt="Лифт в действии">
+        </div>
+        <div>
+            <p>Подъемник выполнен в виде центральной башни. Компактное и надежное решение.</p>
+            <div class="tech-card">
+                <h3>Техническая часть</h3>
+                <ul>
+                    <li><strong>Тип:</strong> Цепная передача с зубчатым колесом.</li>
+                    <li><strong>Мотор:</strong> Tetrix.</li>
+                    <li><strong>Крюк:</strong> 3D-printed деталь с оконным уплотнителем.</li>
+                </ul>
+            </div>
+            <div class="warning-box">
+                <h3>💡 Инженерный урок</h3>
+                <p>Реализован режим удержания (Hold Mode) для предотвращения падения лифта и перегрева мотора.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="grabber">
+    <h2>3. Захват и Манипулятор</h2>
+    
+    <div class="video-container">
+        <video controls onerror="this.parentElement.innerHTML='<div class=\'video-error\'>Видео не найдено! Проверь имя файла Grabber.mp4</div>'">
+            <source src="Grabber.mp4" type="video/mp4">
+            <source src="Grabber.avi" type="video/avi">
+        </video>
+        <p style="text-align: center; font-size: 0.9em; color: #888; padding: 10px;">Тестирование захвата и AprilTag</p>
+    </div>
+
+    <div class="content-grid">
+        <div>
+            <h3>3.1 Модуль захвата и Слайдер</h3>
+            <p>Система состоит из захвата и слайдера. 6 сервомашин обеспечивают точность.</p>
+            <h3>3.2 Компьютерное зрение (AprilTags)</h3>
+            <div class="tech-card">
+                <p>Робот сканирует поле, находит метки и автоматически корректирует положение.</p>
+            </div>
+        </div>
+        <div class="gallery">
+            <img src="img/grabber_close.png" alt="Захват крупно">
+            <img src="img/slider_mech.png" alt="Слайдер">
+            <img src="img/camera_mount.png" alt="Крепление камеры">
+            <img src="img/apriltag_view.png" alt="Вид с камеры">
+        </div>
+    </div>
+</section>
+
+<section id="rollers">
+    <h2>4. Вспомогательные системы</h2>
+    
+    <div class="video-container">
+        <video controls onerror="this.parentElement.innerHTML='<div class=\'video-error\'>Видео не найдено! Проверь имя файла Rollers.mp4</div>'">
+            <source src="Rollers.mp4" type="video/mp4">
+            <source src="Rollers.avi" type="video/avi">
+        </video>
+        <p style="text-align: center; font-size: 0.9em; color: #888; padding: 10px;">Работа вспомогательных роликов</p>
+    </div>
+
+    <div class="content-grid">
+        <div>
+            <div class="tech-card">
+                <h3>Ролики для пандуса</h3>
+                <p>Пассивные ролики помогают роботу заезжать на препятствия.</p>
+            </div>
+        </div>
+        <div class="gallery">
+            <img src="img/rollers_1.png" alt="Общий вид">
+            <img src="img/rollers_2.png" alt="Крепление">
+            <img src="img/rollers_3.png" alt="3D модель">
+            <img src="img/rollers_4.png" alt="Крупно">
+        </div>
+    </div>
+</section>
+
+<section id="software">
+    <h2>5. Программное обеспечение</h2>
+    <div class="content-grid">
+        <div>
+            <h3>Архитектура кода</h3>
+            <ul>
+                <li><strong>Autonomous:</strong> RoadRunner Trajectories.</li>
+                <li><strong>TeleOp:</strong> Защита от случайных нажатий.</li>
+            </ul>
+        </div>
+        <div>
+            <div class="code-block">
+if (gamepad1.a) {
+    liftMotor.setPower(1.0); 
+} else {
+    liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+}
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <p>© 2026 Команда ЛТ-043 "Ученые пчелы"</p>
+</footer>
+
+<script>
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+</script>
+
+</body>
+</html>
