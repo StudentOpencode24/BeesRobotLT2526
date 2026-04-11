@@ -221,19 +221,20 @@
             width: 100%; 
             height: 100%; 
             overflow: auto; 
-            background-color: rgba(0,0,0,0.9); 
+            background-color: rgba(0,0,0,0.95); 
             backdrop-filter: blur(5px);
         }
 
         .modal-content {
             margin: auto;
             display: block;
-            max-width: 90%;
+            max-width: 95%;
             max-height: 90vh;
             border-radius: 5px;
             box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
             animation-name: zoom;
             animation-duration: 0.3s;
+            object-fit: contain;
         }
 
         @keyframes zoom {
@@ -250,6 +251,7 @@
             font-weight: bold;
             transition: 0.3s;
             cursor: pointer;
+            z-index: 2001;
         }
 
         .close:hover,
@@ -272,8 +274,6 @@
                 .gallery { grid-template-columns: 1fr; }
             }
             .spec-badge { padding: 6px 12px; font-size: 0.8rem; }
-            
-            /* На мобильном крестик чуть ниже */
             .close { top: 10px; right: 20px; font-size: 30px; }
         }
     </style>
@@ -340,10 +340,10 @@
         </div>
         
         <div class="gallery">
-            <img src="img/chassis_side.png" alt="Вид сбоку" class="zoomable">
-            <img src="img/chassis_bottom.png" alt="Вид снизу" class="zoomable">
-            <img src="img/wheels.png" alt="Механум колеса" class="zoomable">
-            <img src="img/control_hub.png" alt="Блок управления" class="zoomable">
+            <img src="img/chassis_side.png" alt="Вид сбоку">
+            <img src="img/chassis_bottom.png" alt="Вид снизу">
+            <img src="img/wheels.png" alt="Механум колеса">
+            <img src="img/control_hub.png" alt="Блок управления">
         </div>
     </div>
 </section>
@@ -361,10 +361,10 @@
 
     <div class="content-grid">
         <div class="gallery">
-            <img src="img/lift_mech.png" alt="Механизм лифта" class="zoomable">
-            <img src="img/chain_drive.png" alt="Цепная передача" class="zoomable">
-            <img src="img/hook_3d.png" alt="Крюк 3D модель" class="zoomable">
-            <img src="img/lift_action.png" alt="Лифт в действии" class="zoomable">
+            <img src="img/lift_mech.png" alt="Механизм лифта">
+            <img src="img/chain_drive.png" alt="Цепная передача">
+            <img src="img/hook_3d.png" alt="Крюк 3D модель">
+            <img src="img/lift_action.png" alt="Лифт в действии">
         </div>
 
         <div>
@@ -413,10 +413,10 @@
             </div>
         </div>
         <div class="gallery">
-            <img src="img/grabber_close.png" alt="Захват крупно" class="zoomable">
-            <img src="img/slider_mech.png" alt="Слайдер" class="zoomable">
-            <img src="img/camera_mount.png" alt="Крепление камеры" class="zoomable">
-            <img src="img/apriltag_view.png" alt="Вид с камеры" class="zoomable">
+            <img src="img/grabber_close.png" alt="Захват крупно">
+            <img src="img/slider_mech.png" alt="Слайдер">
+            <img src="img/camera_mount.png" alt="Крепление камеры">
+            <img src="img/apriltag_view.png" alt="Вид с камеры">
         </div>
     </div>
 </section>
@@ -450,10 +450,10 @@
         </div>
         
         <div class="gallery">
-            <img src="img/rollers_mech.png" alt="Механизм" class="zoomable">
-            <img src="img/rollers_wheel.png" alt="Колесо PETG" class="zoomable">
-            <img src="img/rollers_servo.png" alt="Сервопривод" class="zoomable">
-            <img src="img/rollers_action.png" alt="Пандус" class="zoomable">
+            <img src="img/rollers_mech.png" alt="Механизм">
+            <img src="img/rollers_wheel.png" alt="Колесо PETG">
+            <img src="img/rollers_servo.png" alt="Сервопривод">
+            <img src="img/rollers_action.png" alt="Пандус">
         </div>
     </div>
 </section>
@@ -509,31 +509,45 @@ if (!gamepad1.a && !gamepad1.b) {
 
 <script>
     // --- СКРИПТ ДЛЯ ПРОСМОТРА ФОТО (LIGHTBOX) ---
-    const modal = document.getElementById("imageModal");
-    const modalImg = document.getElementById("img01");
-    const closeBtn = document.getElementsByClassName("close")[0];
-    
-    // Находим все картинки с классом zoomable
-    const images = document.querySelectorAll(".zoomable");
+    document.addEventListener("DOMContentLoaded", function() {
+        const modal = document.getElementById("imageModal");
+        const modalImg = document.getElementById("img01");
+        const closeBtn = document.querySelector(".close");
+        
+        // Находим ВСЕ картинки внутри блоков с классом .gallery
+        const galleryImages = document.querySelectorAll(".gallery img");
 
-    images.forEach(img => {
-        img.onclick = function(){
-            modal.style.display = "block";
-            modalImg.src = this.src;
-        }
-    });
+        galleryImages.forEach(img => {
+            img.addEventListener('click', function() {
+                modal.style.display = "block";
+                modalImg.src = this.src;
+            });
+        });
 
-    // Закрытие по крестику
-    closeBtn.onclick = function() { 
-        modal.style.display = "none";
-    }
-
-    // Закрытие по клику вне картинки (по темному фону)
-    modal.onclick = function(event) {
-        if (event.target === modal) {
+        // Функция закрытия
+        function closeModal() {
             modal.style.display = "none";
         }
-    }
+
+        // Закрытие по крестику
+        if (closeBtn) {
+            closeBtn.addEventListener('click', closeModal);
+        }
+
+        // Закрытие по клику на темный фон
+        modal.addEventListener('click', function(event) {
+            if (event.target === modal) {
+                closeModal();
+            }
+        });
+        
+        // Закрытие по клавише Esc
+        document.addEventListener('keydown', function(event) {
+            if (event.key === "Escape") {
+                closeModal();
+            }
+        });
+    });
 
     // --- ПЛАВНАЯ ПРОКРУТКА МЕНЮ ---
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
