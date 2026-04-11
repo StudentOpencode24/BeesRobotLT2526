@@ -170,7 +170,7 @@
             object-fit: cover;
             border-radius: 8px;
             transition: transform 0.3s, filter 0.3s;
-            cursor: zoom-in; /* Курсор лупы */
+            cursor: zoom-in;
             border: 1px solid #333;
         }
 
@@ -261,6 +261,35 @@
             cursor: pointer;
         }
 
+        /* --- КНОПКА НАВЕРХ --- */
+        #scrollTopBtn {
+            display: none; /* Скрыта по умолчанию */
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 999;
+            font-size: 18px;
+            border: none;
+            outline: none;
+            background-color: var(--primary-color);
+            color: black;
+            cursor: pointer;
+            padding: 15px;
+            border-radius: 50%;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            transition: background-color 0.3s, transform 0.3s;
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            line-height: 20px; /* Центрирование стрелки */
+            font-weight: bold;
+        }
+
+        #scrollTopBtn:hover {
+            background-color: #fff;
+            transform: translateY(-3px);
+        }
+
         /* --- МОБИЛЬНАЯ ВЕРСТКА --- */
         @media (max-width: 768px) {
             nav ul { gap: 10px; font-size: 0.8rem; }
@@ -275,10 +304,22 @@
             }
             .spec-badge { padding: 6px 12px; font-size: 0.8rem; }
             .close { top: 10px; right: 20px; font-size: 30px; }
+            
+            /* Кнопка наверх чуть меньше на телефоне */
+            #scrollTopBtn {
+                bottom: 15px;
+                right: 15px;
+                width: 45px;
+                height: 45px;
+                font-size: 16px;
+            }
         }
     </style>
 </head>
 <body>
+
+<!-- Кнопка Наверх -->
+<button onclick="topFunction()" id="scrollTopBtn" title="Наверх">↑</button>
 
 <!-- Модальное окно для просмотра фото -->
 <div id="imageModal" class="modal">
@@ -315,7 +356,9 @@
     <div class="video-container">
         <video controls onerror="this.parentElement.innerHTML='<div class=\'video-error\'>Видео не найдено! Проверь файл WheelBase.mp4</div>'">
             <source src="WheelBase.mp4" type="video/mp4">
+            <source src="WheelBase.avi" type="video/avi">
         </video>
+        <p style="text-align: center; font-size: 0.8em; color: #888; padding: 8px;">Демонстрация работы механумной базы</p>
     </div>
 
     <div class="content-grid">
@@ -352,7 +395,9 @@
     <div class="video-container">
         <video controls onerror="this.parentElement.innerHTML='<div class=\'video-error\'>Видео не найдено! Проверь файл Lift.mp4</div>'">
             <source src="Lift.mp4" type="video/mp4">
+            <source src="Lift.avi" type="video/avi">
         </video>
+        <p style="text-align: center; font-size: 0.8em; color: #888; padding: 8px;">Работа цепной передачи и крюка</p>
     </div>
 
     <div class="content-grid">
@@ -390,7 +435,9 @@
     <div class="video-container">
         <video controls onerror="this.parentElement.innerHTML='<div class=\'video-error\'>Видео не найдено! Проверь файл Grabber.mp4</div>'">
             <source src="Grabber.mp4" type="video/mp4">
+            <source src="Grabber.avi" type="video/avi">
         </video>
+        <p style="text-align: center; font-size: 0.8em; color: #888; padding: 8px;">Захват плиток и AprilTag</p>
     </div>
 
     <div class="content-grid">
@@ -421,7 +468,9 @@
     <div class="video-container">
         <video controls onerror="this.parentElement.innerHTML='<div class=\'video-error\'>Видео не найдено! Проверь файл Rollers.mp4</div>'">
             <source src="Rollers.mp4" type="video/mp4">
+            <source src="Rollers.avi" type="video/avi">
         </video>
+        <p style="text-align: center; font-size: 0.8em; color: #888; padding: 8px;">Преодоление пандуса (24°)</p>
     </div>
 
     <div class="content-grid">
@@ -496,17 +545,34 @@ if (!gamepad1.a && !gamepad1.b) {
 
 <footer>
     <p>© 2026 Команда ЛТ-043 "Ученые пчелы"</p>
-    <p> Лига Технологий: Безопасный Маршрут</p>
+    <p>FTC Season: Safe Route</p>
 </footer>
 
 <script>
+    // --- СКРИПТ КНОПКИ НАВЕРХ ---
+    const mybutton = document.getElementById("scrollTopBtn");
+
+    window.onscroll = function() {scrollFunction()};
+
+    function scrollFunction() {
+        // Показываем кнопку, если пролистали больше 300px
+        if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+            mybutton.style.display = "block";
+        } else {
+            mybutton.style.display = "none";
+        }
+    }
+
+    function topFunction() {
+        window.scrollTo({top: 0, behavior: 'smooth'});
+    }
+
     // --- СКРИПТ ДЛЯ ПРОСМОТРА ФОТО (LIGHTBOX) ---
     document.addEventListener("DOMContentLoaded", function() {
         const modal = document.getElementById("imageModal");
         const modalImg = document.getElementById("img01");
         const closeBtn = document.querySelector(".close");
         
-        // Находим ВСЕ картинки внутри блоков с классом .gallery
         const galleryImages = document.querySelectorAll(".gallery img");
 
         galleryImages.forEach(img => {
@@ -516,24 +582,20 @@ if (!gamepad1.a && !gamepad1.b) {
             });
         });
 
-        // Функция закрытия
         function closeModal() {
             modal.style.display = "none";
         }
 
-        // Закрытие по крестику
         if (closeBtn) {
             closeBtn.addEventListener('click', closeModal);
         }
 
-        // Закрытие по клику на темный фон
         modal.addEventListener('click', function(event) {
             if (event.target === modal) {
                 closeModal();
             }
         });
         
-        // Закрытие по клавише Esc
         document.addEventListener('keydown', function(event) {
             if (event.key === "Escape") {
                 closeModal();
