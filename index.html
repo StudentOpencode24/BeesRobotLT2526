@@ -27,14 +27,11 @@
             margin: 0;
             line-height: 1.5;
             overflow-x: hidden;
-            /* Фоновая сетка */
             background-image: radial-gradient(rgba(255, 215, 0, 0.03) 1px, transparent 1px);
             background-size: 40px 40px;
         }
 
-        /* ========================================= */
-        /* === ИСПРАВЛЕННЫЕ СОТЫ ПО КРАЯМ (ФОН) === */
-        /* ========================================= */
+        /* === СТАТИЧНЫЕ СОТЫ ПО КРАЯМ (ФОН) === */
         .honeycomb-decor {
             position: fixed;
             top: 0;
@@ -43,34 +40,29 @@
             z-index: -1;
             pointer-events: none;
             opacity: 0;
-            display: none; /* Скрыто на мобильных */
+            display: none;
             transition: opacity 1s ease;
         }
-
-        /* Используем надежный SVG паттерн вместо градиентов */
         .honeycomb-left, .honeycomb-right {
             background-color: transparent;
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100' viewBox='0 0 56 100'%3E%3Cpath d='M28 66L0 50L0 16L28 0L56 16L56 50L28 66L28 100Z' fill='none' stroke='%23FFD700' stroke-width='1' opacity='0.3'/%3E%3C/svg%3E");
             background-repeat: repeat;
-            background-size: 56px 100px; /* Размер одной соты */
+            background-size: 56px 100px;
         }
-
         .honeycomb-left {
             left: 0;
             mask-image: linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 90%);
             -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 90%);
         }
-
         .honeycomb-right {
             right: 0;
             mask-image: linear-gradient(to left, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 90%);
             -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 90%);
         }
-
         @media (min-width: 1200px) {
             .honeycomb-decor {
                 display: block;
-                opacity: 0.5; /* Видимость фона */
+                opacity: 0.5;
             }
         }
 
@@ -259,20 +251,21 @@
         .gallery-grid img:hover { transform: scale(1.05); border-color: var(--primary-color); }
 
         /* ========================================= */
-        /* === НОВЫЙ ДИЗАЙН КОМАНДЫ (ОБВОДКА) === */
+        /* === КОМАНДА (АДАПТИВНЫЕ СОТЫ) === */
         /* ========================================= */
         .team-grid {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 10px; /* Маленький отступ для эффекта "вплотную" */
+            gap: 15px;
             padding: 20px 0;
         }
 
         .member-card {
             position: relative;
             width: 280px;
-            height: 340px;
+            /* Высота авто, чтобы текст влезал полностью */
+            height: 360px; 
             margin: 5px;
             transition: transform 0.3s ease, z-index 0.3s;
             cursor: default;
@@ -283,11 +276,10 @@
             z-index: 10;
         }
 
-        /* Основная форма соты */
+        /* Форма соты */
         .hexagon-shape {
             width: 100%;
             height: 100%;
-            /* Форма шестиугольника */
             clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
             display: flex;
             flex-direction: column;
@@ -295,21 +287,21 @@
             justify-content: center;
             text-align: center;
             position: relative;
-            overflow: hidden;
+            overflow: hidden; /* Важно: скрывает лишнее, но мы увеличили высоту */
         }
 
-        /* СЛОЙ 1: Золотая обводка (фон) */
+        /* СЛОЙ 1: Золотая обводка */
         .hex-border {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--primary-color); /* Цвет рамки */
+            background: var(--primary-color);
             z-index: 1;
         }
 
-        /* СЛОЙ 2: Темный фон контента (чуть меньше, чтобы создать рамку) */
+        /* СЛОЙ 2: Темный фон (чуть меньше для рамки) */
         .hex-content {
             position: absolute;
-            top: 3px; left: 3px; right: 3px; bottom: 3px; /* Отступ 3px создает толщину рамки */
+            top: 3px; left: 3px; right: 3px; bottom: 3px;
             background: #1a1a1a;
             clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
             z-index: 2;
@@ -317,20 +309,20 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 30px 15px; /* Увеличены отступы сверху/снизу */
             box-sizing: border-box;
         }
 
-        /* Фото участника */
         .member-photo {
-            width: 100px;
-            height: 100px;
+            width: 90px;
+            height: 90px;
             border-radius: 50%;
             object-fit: cover;
             border: 2px solid var(--primary-color);
             margin-bottom: 10px;
             z-index: 3;
             background: #000;
+            flex-shrink: 0; /* Чтобы фото не сплющивалось */
         }
 
         .member-info {
@@ -339,7 +331,7 @@
         }
 
         .member-name {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             font-weight: 800;
             color: #fff;
             margin: 0 0 5px 0;
@@ -364,7 +356,7 @@
             color: #ccc;
             line-height: 1.3;
             margin: 0;
-            padding: 0 10px;
+            padding: 0 5px;
         }
 
         /* Цвета ролей */
@@ -443,6 +435,9 @@
             z-index: 1;
         }
 
+        /* ========================================= */
+        /* === МОБИЛЬНАЯ ВЕРСИЯ (ИСПРАВЛЕНИЯ) === */
+        /* ========================================= */
         @media (max-width: 768px) {
             nav { flex-direction: column; padding: 10px; top: 0; }
             nav ul { gap: 10px; margin-top: 10px; flex-wrap: wrap; justify-content: center; }
@@ -450,23 +445,54 @@
             .content-split { grid-template-columns: 1fr; }
             h1 { font-size: 2.5rem; }
             
-            /* На мобильных убираем шестиугольники для удобства чтения */
+            /* Исправление карточек команды для мобильных */
             .member-card {
-                width: 90%;
-                height: auto;
-                clip-path: none;
+                width: 100%; /* На всю ширину */
+                max-width: 350px;
+                height: auto; /* Автоматическая высота! Текст не обрежется */
+                min-height: 200px;
+                margin: 15px 0;
+                clip-path: none; /* Убираем шестиугольник */
                 background: #1a1a1a;
                 border: 1px solid #333;
-                border-radius: 15px;
-                margin: 10px 0;
+                border-radius: 15px; /* Делаем скругленные углы */
             }
+            
+            /* Убираем сложные слои сот */
             .hex-border { display: none; }
+            
+            .hexagon-shape {
+                clip-path: none; /* Убираем вырезание */
+                background: transparent;
+                height: auto;
+            }
+            
             .hex-content {
-                position: static;
+                position: static; /* Статичное позиционирование */
                 clip-path: none;
                 background: transparent;
                 height: auto;
                 padding: 20px;
+                display: flex;
+                flex-direction: row; /* Фото слева, текст справа на мобильных - удобнее */
+                align-items: center;
+                text-align: left;
+                gap: 15px;
+            }
+
+            .member-photo {
+                width: 80px;
+                height: 80px;
+                margin-bottom: 0;
+                flex-shrink: 0;
+            }
+            
+            .member-info {
+                text-align: left;
+            }
+            
+            .member-desc {
+                padding: 0;
             }
         }
     </style>
@@ -652,8 +678,8 @@ if (!btnUp && !btnDown) {
         <!-- Карточка 1 -->
         <div class="member-card">
             <div class="hexagon-shape">
-                <div class="hex-border"></div> <!-- Золотая рамка -->
-                <div class="hex-content">      <!-- Контент внутри -->
+                <div class="hex-border"></div>
+                <div class="hex-content">
                     <img src="img/team/katya.png" alt="Катя" class="member-photo" onerror="this.src='https://placehold.co/150x150/111/gold?text=Photo'">
                     <div class="member-info">
                         <div class="member-name">Катя</div>
