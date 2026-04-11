@@ -6,7 +6,7 @@
     <title>ЛТ-043 Ученые пчелы | Безопасный маршрут 2026</title>
     <style>
         :root {
-            --primary-color: #FFD700; /* Золотой/Пчелиный */
+            --primary-color: #FFD700;
             --bg-color: #121212;
             --card-bg: #1E1E1E;
             --text-color: #E0E0E0;
@@ -19,17 +19,19 @@
             color: var(--text-color);
             margin: 0;
             line-height: 1.6;
+            overflow-x: hidden; /* Предотвращает горизонтальную прокрутку */
         }
 
         /* Навигация */
         nav {
-            background-color: rgba(0, 0, 0, 0.9);
+            background-color: rgba(0, 0, 0, 0.95);
             padding: 1rem;
             position: fixed;
             width: 100%;
             top: 0;
             z-index: 1000;
             border-bottom: 2px solid var(--primary-color);
+            box-sizing: border-box;
         }
 
         nav ul {
@@ -39,22 +41,23 @@
             padding: 0;
             margin: 0;
             flex-wrap: wrap;
+            gap: 15px;
         }
-
-        nav ul li { margin: 0 15px; }
 
         nav a {
             color: white;
             text-decoration: none;
             font-weight: bold;
+            font-size: 0.9rem;
             transition: color 0.3s;
+            white-space: nowrap;
         }
 
         nav a:hover { color: var(--primary-color); }
 
         /* Главный экран */
         header {
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -63,20 +66,22 @@
             background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('img/robot_bg.png'); 
             background-size: cover;
             background-position: center;
-            padding: 20px;
+            padding: 80px 20px 20px 20px; /* Отступ сверху для меню */
+            box-sizing: border-box;
         }
 
         h1 {
-            font-size: 3.5rem;
+            font-size: 3rem;
             margin-bottom: 0.5rem;
             color: var(--primary-color);
             text-transform: uppercase;
             letter-spacing: 2px;
             text-shadow: 2px 2px 4px #000;
+            line-height: 1.2;
         }
 
         .subtitle {
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             margin-bottom: 2rem;
             color: var(--accent-blue);
             text-shadow: 1px 1px 2px #000;
@@ -84,22 +89,23 @@
 
         .specs-summary {
             display: flex;
-            gap: 20px;
+            gap: 10px;
             flex-wrap: wrap;
             justify-content: center;
         }
 
         .spec-badge {
             background: rgba(255, 255, 255, 0.1);
-            padding: 10px 20px;
+            padding: 8px 15px;
             border-radius: 20px;
             border: 1px solid var(--primary-color);
             backdrop-filter: blur(5px);
+            font-size: 0.9rem;
         }
 
         /* Секции */
         section {
-            padding: 60px 20px;
+            padding: 40px 15px;
             max-width: 1200px;
             margin: 0 auto;
         }
@@ -107,42 +113,40 @@
         h2 {
             border-left: 5px solid var(--primary-color);
             padding-left: 15px;
-            font-size: 2.5rem;
-            margin-bottom: 30px;
+            font-size: 2rem;
+            margin-bottom: 20px;
             color: white;
+            margin-top: 20px;
         }
 
-        h3 { color: var(--accent-blue); margin-top: 30px; }
+        h3 { color: var(--accent-blue); margin-top: 25px; }
 
+        /* Сетка для контента */
         .content-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 40px;
+            gap: 30px;
             align-items: start;
-        }
-
-        @media (max-width: 768px) {
-            .content-grid { grid-template-columns: 1fr; }
-            h1 { font-size: 2.5rem; }
         }
 
         .tech-card {
             background-color: var(--card-bg);
-            padding: 20px;
+            padding: 15px;
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         .code-block {
             background-color: #000;
             border: 1px solid #333;
-            padding: 15px;
+            padding: 10px;
             border-radius: 5px;
             font-family: 'Courier New', Courier, monospace;
             color: #0f0;
-            overflow-x: auto;
-            font-size: 0.9rem;
+            overflow-x: auto; /* Прокрутка для кода на телефоне */
+            font-size: 0.85rem;
+            white-space: pre;
         }
 
         .warning-box {
@@ -150,18 +154,20 @@
             border-left: 4px solid #ff5722;
             padding: 15px;
             margin: 15px 0;
+            border-radius: 0 5px 5px 0;
         }
 
+        /* Галерея */
         .gallery {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
             margin-top: 20px;
         }
 
         .gallery img {
             width: 100%;
-            height: 150px;
+            height: 120px;
             object-fit: cover;
             border-radius: 8px;
             transition: transform 0.3s;
@@ -169,8 +175,9 @@
             border: 1px solid #333;
         }
 
-        .gallery img:hover { transform: scale(1.05); }
+        .gallery img:hover { transform: scale(1.03); }
 
+        /* Видео */
         .video-container {
             margin-top: 20px;
             margin-bottom: 20px;
@@ -178,30 +185,70 @@
             overflow: hidden;
             border: 1px solid #333;
             background: #000;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
 
-        video {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
+        video { width: 100%; height: auto; display: block; }
 
         footer {
             text-align: center;
-            padding: 40px;
+            padding: 30px 15px;
             background-color: #000;
-            margin-top: 50px;
+            margin-top: 30px;
             border-top: 1px solid #333;
             color: #888;
+            font-size: 0.9rem;
         }
-        
+
         .video-error {
-            color: red;
+            color: #ff5555;
             text-align: center;
             padding: 20px;
             background: #220000;
-            border: 1px dashed red;
+            border: 1px dashed #ff5555;
+            font-size: 0.9rem;
+        }
+
+        /* --- МОБИЛЬНАЯ ВЕРСТКА (MEDIA QUERIES) --- */
+        @media (max-width: 768px) {
+            /* Меню становится компактнее */
+            nav ul {
+                gap: 10px;
+                font-size: 0.8rem;
+            }
+            
+            /* Заголовки меньше */
+            h1 { font-size: 2rem; }
+            h2 { font-size: 1.6rem; }
+            .subtitle { font-size: 1rem; }
+
+            /* Сетка превращается в одну колонку */
+            .content-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            /* Отступы секций меньше */
+            section {
+                padding: 30px 10px;
+            }
+
+            /* Галерея по 2 картинки в ряд на очень узких экранах, или по 1 */
+            .gallery {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            /* Если экран совсем узкий (старый телефон), картинки в 1 колонку */
+            @media (max-width: 400px) {
+                .gallery {
+                    grid-template-columns: 1fr;
+                }
+            }
+
+            /* Бейджи характеристик чуть мельче */
+            .spec-badge {
+                padding: 6px 12px;
+                font-size: 0.8rem;
+            }
         }
     </style>
 </head>
@@ -226,7 +273,7 @@
         <div class="spec-badge">⚙️ 7 Моторов</div>
         <div class="spec-badge">🔄 6 Сервоприводов</div>
         <div class="spec-badge">📡 2 Датчика</div>
-        <div class="spec-badge">🧠 RoadRunner + AprilTags</div>
+        <div class="spec-badge">🧠 RoadRunner</div>
     </div>
 </header>
 
@@ -238,26 +285,25 @@
             <source src="WheelBase.mp4" type="video/mp4">
             <source src="WheelBase.avi" type="video/avi">
         </video>
-        <p style="text-align: center; font-size: 0.9em; color: #888; padding: 10px;">Демонстрация работы механумной базы</p>
+        <p style="text-align: center; font-size: 0.8em; color: #888; padding: 8px;">Демонстрация работы механумной базы</p>
     </div>
 
     <div class="content-grid">
         <div>
-            <p>Наша база создана для максимальной проходимости. Гибридная конструкция из профилей <strong>GoBilda</strong> и <strong>Tetrix</strong>.</p>
+            <p>База для максимальной проходимости. Гибрид профилей <strong>GoBilda</strong> и <strong>Tetrix</strong>.</p>
             
             <div class="tech-card">
-                <h3>Ключевые особенности:</h3>
+                <h3>Особенности:</h3>
                 <ul>
-                    <li><strong>Колеса:</strong> Самостоятельно напечатанные механум-колеса (Ø14 см) для легкого заезда на пандус.</li>
+                    <li><strong>Колеса:</strong> Печатные механумы Ø14 см.</li>
                     <li><strong>Привод:</strong> Моторы GoBilda с энкодерами.</li>
-                    <li><strong>Навигация:</strong> 2 внешних одометра GoBilda + внутренние энкодеры моторов.</li>
-                    <li><strong>Стенки:</strong> Фанера лазерной резки для жесткости.</li>
+                    <li><strong>Навигация:</strong> 2 одометра + энкодеры моторов.</li>
                 </ul>
             </div>
 
             <div class="tech-card">
-                <h3>Программное обеспечение</h3>
-                <p>Библиотека <strong>RoadRunner</strong> позволяет строить точные сплайновые траектории и перемещаться по координатам поля, компенсируя пробуксовку колес.</p>
+                <h3>Программы</h3>
+                <p><strong>RoadRunner</strong> для точных траекторий и компенсации пробуксовки.</p>
             </div>
         </div>
         
@@ -278,7 +324,7 @@
             <source src="Lift.mp4" type="video/mp4">
             <source src="Lift.avi" type="video/avi">
         </video>
-        <p style="text-align: center; font-size: 0.9em; color: #888; padding: 10px;">Работа цепной передачи и фиксация крюка</p>
+        <p style="text-align: center; font-size: 0.8em; color: #888; padding: 8px;">Работа цепной передачи и крюка</p>
     </div>
 
     <div class="content-grid">
@@ -290,22 +336,21 @@
         </div>
 
         <div>
-            <p>Центральная башня с цепным приводом. Крюк цепляется за пандус и приподнимает робота.</p>
+            <p>Центральная башня. Крюк цепляется за пандус и приподнимает робота.</p>
             
             <div class="tech-card">
-                <h3>Техническая часть</h3>
+                <h3>Техника:</h3>
                 <ul>
-                    <li><strong>Привод:</strong> Мотор Tetrix + понижающая передача (шестерня Ø3.8 см).</li>
+                    <li><strong>Привод:</strong> Мотор Tetrix + шестерня Ø3.8 см.</li>
                     <li><strong>Передача:</strong> Металлическая цепь.</li>
-                    <li><strong>Крюк:</strong> 3D-печатный уголок с оконным уплотнителем для сцепления.</li>
-                    <li><strong>Направление:</strong> Линейная направляющая.</li>
+                    <li><strong>Крюк:</strong> 3D-печать + оконный уплотнитель.</li>
                 </ul>
             </div>
 
             <div class="warning-box">
                 <h3>💡 Инженерный урок</h3>
-                <p><strong>Проблема:</strong> Сгорание мотора на Робосибе из-за отсутствия ограничителей и ошибки порта.</p>
-                <p><strong>Решение:</strong> Программное удержание (Hold Mode). Если кнопки не нажаты, подается малое напряжение для фиксации позиции, предотвращая падение под весом робота.</p>
+                <p><strong>Проблема:</strong> Сгорание мотора из-за ошибки порта.</p>
+                <p><strong>Решение:</strong> Программное удержание (Hold Mode) для фиксации позиции без перегрева.</p>
             </div>
         </div>
     </div>
@@ -319,20 +364,20 @@
             <source src="Grabber.mp4" type="video/mp4">
             <source src="Grabber.avi" type="video/avi">
         </video>
-        <p style="text-align: center; font-size: 0.9em; color: #888; padding: 10px;">Работа захвата плиток и наведение по камере</p>
+        <p style="text-align: center; font-size: 0.8em; color: #888; padding: 8px;">Захват плиток и AprilTag</p>
     </div>
 
     <div class="content-grid">
         <div>
             <h3>3.1 Слайдер и Захват</h3>
             <div class="tech-card">
-                <p><strong>Слайдер:</strong> Телескопический механизм на базе профилей, приводимый в движение отдельным мотором через ременную/зубчатую передачу (уточнить тип, если важно, иначе оставить общим). Обеспечивает выдвижение захвата за пределы робота.</p>
-                <p><strong>Захват:</strong> Активная клешня, управляемая сервоприводами. Специальные накладки обеспечивают надежный захват игровых элементов (плиток).</p>
+                <p><strong>Слайдер:</strong> Телескопический механизм с моторным приводом.</p>
+                <p><strong>Захват:</strong> Активная клешня на сервоприводах с накладками для надежного хвата.</p>
             </div>
 
-            <h3>3.2 Компьютерное зрение (AprilTags)</h3>
+            <h3>3.2 Зрение (AprilTags)</h3>
             <div class="tech-card">
-                <p>Камера распознает метки AprilTag на поле. Алгоритм вычисляет смещение робота относительно цели и автоматически корректирует угол поворота шасси и положение слайдера для идеального позиционирования перед сбросом элемента.</p>
+                <p>Камера распознает метки, вычисляет смещение и автоматически корректирует угол робота перед сбросом элемента.</p>
             </div>
         </div>
         <div class="gallery">
@@ -345,91 +390,82 @@
 </section>
 
 <section id="rollers">
-    <h2>4. Вспомогательные ролики (Panda-Lift)</h2>
+    <h2>4. Вспомогательные ролики</h2>
     
     <div class="video-container">
         <video controls onerror="this.parentElement.innerHTML='<div class=\'video-error\'>Видео не найдено! Проверь файл Rollers.mp4</div>'">
             <source src="Rollers.mp4" type="video/mp4">
             <source src="Rollers.avi" type="video/avi">
         </video>
-        <p style="text-align: center; font-size: 0.9em; color: #888; padding: 10px;">Механизм преодоления пандуса (24°)</p>
+        <p style="text-align: center; font-size: 0.8em; color: #888; padding: 8px;">Преодоление пандуса (24°)</p>
     </div>
 
     <div class="content-grid">
         <div>
             <div class="tech-card">
-                <h3>Техническое описание</h3>
-                <p>Уникальный механизм для заезда на крутой (24°) и скользкий пандус.</p>
+                <h3>Как это работает:</h3>
                 <ul>
-                    <li><strong>Принцип действия:</strong> Рычажная система опускает заднюю ось с двумя дополнительными колесами, приподнимая основные колеса над полом.</li>
-                    <li><strong>Привод:</strong> Мощные сервоприводы (30 кг/см) максимально прижимают колеса к поверхности для увеличения трения.</li>
-                    <li><strong>Колеса:</strong> Ø75 мм, пластик PETG, оклеены оконным уплотнителем для лучшего сцепления.</li>
-                    <li><strong>Ось:</strong> Стальная, Ø6 мм, закреплена в хабах Tetrix.</li>
+                    <li><strong>Рычаги:</strong> Опускают доп. ось, приподнимая основные колеса.</li>
+                    <li><strong>Сервоприводы:</strong> 30 кг/см для сильного прижима.</li>
+                    <li><strong>Колеса:</strong> Ø75 мм PETG + уплотнитель для сцепления.</li>
                 </ul>
             </div>
             
             <div class="tech-card">
-                <h3>Программное обеспечение</h3>
-                <p>Реализованы функции <code>rampMove()</code> и <code>stopRampMove()</code>, которые синхронизируют работу сервоприводов опускания с подачей мощности на основные моторы шасси.</p>
+                <h3>Код:</h3>
+                <p>Функции <code>rampMove()</code> синхронизируют сервоприводы и моторы шасси.</p>
             </div>
         </div>
         
         <div class="gallery">
-            <img src="img/rollers_mech.png" alt="Общий вид механизма">
+            <img src="img/rollers_mech.png" alt="Механизм">
             <img src="img/rollers_wheel.png" alt="Колесо PETG">
-            <img src="img/rollers_servo.png" alt="Сервопривод 30кг">
-            <img src="img/rollers_action.png" alt="Преодоление пандуса">
+            <img src="img/rollers_servo.png" alt="Сервопривод">
+            <img src="img/rollers_action.png" alt="Пандус">
         </div>
     </div>
 </section>
 
 <section id="software">
     <h2>5. Программное обеспечение</h2>
-    <p>Архитектура кода построена на принципах ООП для модульности и удобства отладки.</p>
-
+    
     <div class="content-grid">
         <div>
             <h3>Структура классов</h3>
             <div class="tech-card">
-                <p>Выделен отдельный класс <strong>RobotHardware</strong> для инициализации устройств и базовых действий:</p>
+                <p>Класс <strong>RobotHardware</strong> управляет устройствами:</p>
                 <ul>
-                    <li><code>aprilTagCorrection()</code> - коррекция курса по камере.</li>
-                    <li><code>rampMove() / stopRampMove()</code> - управление механизмом пандуса.</li>
-                    <li><code>getAngle() / resetAngle()</code> - работа с IMU (гироскопом).</li>
-                    <li><code>setPlateStateToFull/Partial()</code> - управление состоянием захвата.</li>
-                    <li><code>upTheRamp()</code> - автоматизированный алгоритм заезда.</li>
+                    <li><code>aprilTagCorrection()</code></li>
+                    <li><code>rampMove()</code></li>
+                    <li><code>getAngle()</code></li>
+                    <li><code>upTheRamp()</code></li>
                 </ul>
             </div>
 
-            <h3>Режимы работы</h3>
+            <h3>Режимы</h3>
             <ul>
-                <li><strong>Autonomous:</strong> Перемещение по координатам (RoadRunner). Полная автоматика сбора и выгрузки.</li>
-                <li><strong>TeleOp:</strong> Полуавтоматические режимы. Одно нажатие запускает цикл: "Наведение -> Захват -> Возврат".</li>
-                <li><strong>Dashboard:</strong> Визуализация состояния робота и переменных в реальном времени через браузер.</li>
+                <li><strong>Autonomous:</strong> RoadRunner Trajectories.</li>
+                <li><strong>TeleOp:</strong> Полуавтоматические циклы.</li>
+                <li><strong>Dashboard:</strong> Отладка через браузер.</li>
             </ul>
         </div>
         
         <div>
             <div class="code-block">
-// Пример использования класса RobotHardware
-
-// Автоматический заезд на пандус
+// Пример кода
 if (gamepad1.y) {
     robot.upTheRamp();
 }
 
-// Коррекция по Apriltag
+// Коррекция по камере
 double offset = robot.getAprilTagOffset();
 robot.strafe(offset * Kp);
 
-// Управление лифтом с защитой
-if (gamepad1.a) {
-    robot.liftUp();
-} else {
-    robot.holdLiftPosition(); // Защита от падения
+// Защита лифта
+if (!gamepad1.a && !gamepad1.b) {
+    robot.holdLiftPosition(); 
 }
             </div>
-            <p style="font-size: 0.9em; color: #888; margin-top: 10px;">*Использование отдельных классов позволяет легко переносить код между автономным режимом и телеопом.</p>
         </div>
     </div>
 </section>
@@ -440,12 +476,24 @@ if (gamepad1.a) {
 </footer>
 
 <script>
+    // Плавная прокрутка
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
-            document.querySelector(this.getAttribute('href')).scrollIntoView({
-                behavior: 'smooth'
-            });
+            const targetId = this.getAttribute('href');
+            const targetElement = document.querySelector(targetId);
+            
+            if (targetElement) {
+                // Учитываем высоту фиксированного меню при прокрутке
+                const headerOffset = 60;
+                const elementPosition = targetElement.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+      
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: "smooth"
+                });
+            }
         });
     });
 </script>
