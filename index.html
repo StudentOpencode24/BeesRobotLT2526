@@ -19,7 +19,7 @@
             color: var(--text-color);
             margin: 0;
             line-height: 1.6;
-            overflow-x: hidden; /* Предотвращает горизонтальную прокрутку */
+            overflow-x: hidden;
         }
 
         /* Навигация */
@@ -66,7 +66,7 @@
             background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('img/robot_bg.png'); 
             background-size: cover;
             background-position: center;
-            padding: 80px 20px 20px 20px; /* Отступ сверху для меню */
+            padding: 80px 20px 20px 20px;
             box-sizing: border-box;
         }
 
@@ -121,7 +121,6 @@
 
         h3 { color: var(--accent-blue); margin-top: 25px; }
 
-        /* Сетка для контента */
         .content-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -144,7 +143,7 @@
             border-radius: 5px;
             font-family: 'Courier New', Courier, monospace;
             color: #0f0;
-            overflow-x: auto; /* Прокрутка для кода на телефоне */
+            overflow-x: auto;
             font-size: 0.85rem;
             white-space: pre;
         }
@@ -170,12 +169,15 @@
             height: 120px;
             object-fit: cover;
             border-radius: 8px;
-            transition: transform 0.3s;
-            cursor: pointer;
+            transition: transform 0.3s, filter 0.3s;
+            cursor: zoom-in; /* Курсор лупы */
             border: 1px solid #333;
         }
 
-        .gallery img:hover { transform: scale(1.03); }
+        .gallery img:hover { 
+            transform: scale(1.03); 
+            filter: brightness(1.2);
+        }
 
         /* Видео */
         .video-container {
@@ -208,51 +210,81 @@
             font-size: 0.9rem;
         }
 
-        /* --- МОБИЛЬНАЯ ВЕРСТКА (MEDIA QUERIES) --- */
+        /* --- МОДАЛЬНОЕ ОКНО (LIGHTBOX) --- */
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 2000; 
+            padding-top: 50px; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            overflow: auto; 
+            background-color: rgba(0,0,0,0.9); 
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            margin: auto;
+            display: block;
+            max-width: 90%;
+            max-height: 90vh;
+            border-radius: 5px;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+            animation-name: zoom;
+            animation-duration: 0.3s;
+        }
+
+        @keyframes zoom {
+            from {transform:scale(0)} 
+            to {transform:scale(1)}
+        }
+
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: var(--primary-color);
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* --- МОБИЛЬНАЯ ВЕРСТКА --- */
         @media (max-width: 768px) {
-            /* Меню становится компактнее */
-            nav ul {
-                gap: 10px;
-                font-size: 0.8rem;
-            }
-            
-            /* Заголовки меньше */
+            nav ul { gap: 10px; font-size: 0.8rem; }
             h1 { font-size: 2rem; }
             h2 { font-size: 1.6rem; }
             .subtitle { font-size: 1rem; }
-
-            /* Сетка превращается в одну колонку */
-            .content-grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-
-            /* Отступы секций меньше */
-            section {
-                padding: 30px 10px;
-            }
-
-            /* Галерея по 2 картинки в ряд на очень узких экранах, или по 1 */
-            .gallery {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            /* Если экран совсем узкий (старый телефон), картинки в 1 колонку */
+            .content-grid { grid-template-columns: 1fr; gap: 20px; }
+            section { padding: 30px 10px; }
+            .gallery { grid-template-columns: repeat(2, 1fr); }
             @media (max-width: 400px) {
-                .gallery {
-                    grid-template-columns: 1fr;
-                }
+                .gallery { grid-template-columns: 1fr; }
             }
-
-            /* Бейджи характеристик чуть мельче */
-            .spec-badge {
-                padding: 6px 12px;
-                font-size: 0.8rem;
-            }
+            .spec-badge { padding: 6px 12px; font-size: 0.8rem; }
+            
+            /* На мобильном крестик чуть ниже */
+            .close { top: 10px; right: 20px; font-size: 30px; }
         }
     </style>
 </head>
 <body>
+
+<!-- Модальное окно для просмотра фото -->
+<div id="imageModal" class="modal">
+    <span class="close">&times;</span>
+    <img class="modal-content" id="img01">
+</div>
 
 <nav>
     <ul>
@@ -308,10 +340,10 @@
         </div>
         
         <div class="gallery">
-            <img src="img/chassis_side.png" alt="Вид сбоку">
-            <img src="img/chassis_bottom.png" alt="Вид снизу">
-            <img src="img/wheels.png" alt="Механум колеса">
-            <img src="img/control_hub.png" alt="Блок управления">
+            <img src="img/chassis_side.png" alt="Вид сбоку" class="zoomable">
+            <img src="img/chassis_bottom.png" alt="Вид снизу" class="zoomable">
+            <img src="img/wheels.png" alt="Механум колеса" class="zoomable">
+            <img src="img/control_hub.png" alt="Блок управления" class="zoomable">
         </div>
     </div>
 </section>
@@ -329,10 +361,10 @@
 
     <div class="content-grid">
         <div class="gallery">
-            <img src="img/lift_mech.png" alt="Механизм лифта">
-            <img src="img/chain_drive.png" alt="Цепная передача">
-            <img src="img/hook_3d.png" alt="Крюк 3D модель">
-            <img src="img/lift_action.png" alt="Лифт в действии">
+            <img src="img/lift_mech.png" alt="Механизм лифта" class="zoomable">
+            <img src="img/chain_drive.png" alt="Цепная передача" class="zoomable">
+            <img src="img/hook_3d.png" alt="Крюк 3D модель" class="zoomable">
+            <img src="img/lift_action.png" alt="Лифт в действии" class="zoomable">
         </div>
 
         <div>
@@ -381,10 +413,10 @@
             </div>
         </div>
         <div class="gallery">
-            <img src="img/grabber_close.png" alt="Захват крупно">
-            <img src="img/slider_mech.png" alt="Слайдер">
-            <img src="img/camera_mount.png" alt="Крепление камеры">
-            <img src="img/apriltag_view.png" alt="Вид с камеры">
+            <img src="img/grabber_close.png" alt="Захват крупно" class="zoomable">
+            <img src="img/slider_mech.png" alt="Слайдер" class="zoomable">
+            <img src="img/camera_mount.png" alt="Крепление камеры" class="zoomable">
+            <img src="img/apriltag_view.png" alt="Вид с камеры" class="zoomable">
         </div>
     </div>
 </section>
@@ -418,10 +450,10 @@
         </div>
         
         <div class="gallery">
-            <img src="img/rollers_mech.png" alt="Механизм">
-            <img src="img/rollers_wheel.png" alt="Колесо PETG">
-            <img src="img/rollers_servo.png" alt="Сервопривод">
-            <img src="img/rollers_action.png" alt="Пандус">
+            <img src="img/rollers_mech.png" alt="Механизм" class="zoomable">
+            <img src="img/rollers_wheel.png" alt="Колесо PETG" class="zoomable">
+            <img src="img/rollers_servo.png" alt="Сервопривод" class="zoomable">
+            <img src="img/rollers_action.png" alt="Пандус" class="zoomable">
         </div>
     </div>
 </section>
@@ -476,7 +508,34 @@ if (!gamepad1.a && !gamepad1.b) {
 </footer>
 
 <script>
-    // Плавная прокрутка
+    // --- СКРИПТ ДЛЯ ПРОСМОТРА ФОТО (LIGHTBOX) ---
+    const modal = document.getElementById("imageModal");
+    const modalImg = document.getElementById("img01");
+    const closeBtn = document.getElementsByClassName("close")[0];
+    
+    // Находим все картинки с классом zoomable
+    const images = document.querySelectorAll(".zoomable");
+
+    images.forEach(img => {
+        img.onclick = function(){
+            modal.style.display = "block";
+            modalImg.src = this.src;
+        }
+    });
+
+    // Закрытие по крестику
+    closeBtn.onclick = function() { 
+        modal.style.display = "none";
+    }
+
+    // Закрытие по клику вне картинки (по темному фону)
+    modal.onclick = function(event) {
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    }
+
+    // --- ПЛАВНАЯ ПРОКРУТКА МЕНЮ ---
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
@@ -484,7 +543,6 @@ if (!gamepad1.a && !gamepad1.b) {
             const targetElement = document.querySelector(targetId);
             
             if (targetElement) {
-                // Учитываем высоту фиксированного меню при прокрутке
                 const headerOffset = 60;
                 const elementPosition = targetElement.getBoundingClientRect().top;
                 const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
