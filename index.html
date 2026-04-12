@@ -27,10 +27,9 @@
             margin: 0;
             line-height: 1.5;
             overflow-x: hidden;
-            /* Убрал фоновую точку, чтобы не мешала ярким сотам */
         }
 
-        /* === СТАТИЧНЫЕ СОТЫ ПО КРАЯМ (ФОН) - СДЕЛАНЫ ЯРЧЕ === */
+        /* === СТАТИЧНЫЕ СОТЫ ПО КРАЯМ (ФОН) - ЯРКИЕ === */
         .honeycomb-decor {
             position: fixed;
             top: 0;
@@ -38,14 +37,13 @@
             height: 100vh;
             z-index: -1;
             pointer-events: none;
-            opacity: 0; /* Скрыто на мобильных по умолчанию */
+            opacity: 0; 
             display: none;
-            transition: opacity 1s ease;
         }
         .honeycomb-left, .honeycomb-right {
             background-color: transparent;
-            /* Увеличил opacity в SVG с 0.3 до 0.7 для яркости */
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100' viewBox='0 0 56 100'%3E%3Cpath d='M28 66L0 50L0 16L28 0L56 16L56 50L28 66L28 100Z' fill='none' stroke='%23FFD700' stroke-width='1.5' opacity='0.7'/%3E%3C/svg%3E");
+            /* Яркие линии (opacity 0.6) и толщина 1.5px */
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100' viewBox='0 0 56 100'%3E%3Cpath d='M28 66L0 50L0 16L28 0L56 16L56 50L28 66L28 100Z' fill='none' stroke='%23FFD700' stroke-width='1.5' opacity='0.6'/%3E%3C/svg%3E");
             background-repeat: repeat;
             background-size: 56px 100px;
         }
@@ -62,7 +60,7 @@
         @media (min-width: 1200px) {
             .honeycomb-decor {
                 display: block;
-                opacity: 0.8; /* Сделал базовую прозрачность выше (было 0.5) */
+                opacity: 1; /* Полная видимость контейнера */
             }
         }
 
@@ -251,54 +249,50 @@
         .gallery-grid img:hover { transform: scale(1.05); border-color: var(--primary-color); }
 
         /* ========================================= */
-        /* === КОМАНДА (РЕАЛЬНЫЕ СОТЫ) === */
+        /* === КОМАНДА (ИДЕАЛЬНЫЙ УЛЕЙ) === */
         /* ========================================= */
         .team-grid {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            /* Отрицательные отступы компенсируют clip-path, чтобы соты смыкались */
-            margin: 0 -30px -40px -30px; 
-            padding: 50px 30px 80px 30px;
-            max-width: 1000px;
+            /* Отрицательные поля компенсируют наложение сот */
+            margin: 0 -20px -50px -20px; 
+            padding: 50px 20px 80px 20px;
+            max-width: 1100px;
             margin-left: auto;
             margin-right: auto;
         }
 
         .member-card {
             position: relative;
-            width: 200px; /* Фиксированная ширина для идеальной сетки */
-            height: 230px; /* Пропорциональная высота */
-            margin: 0 15px 30px 15px; /* Отступы для создания зазоров между сотами */
+            width: 220px;
+            height: 254px; /* Пропорция для правильного шестиугольника */
+            margin: 0 10px 40px 10px; /* Базовые отступы */
             transition: transform 0.3s ease, z-index 0.3s;
             cursor: default;
-            /* Важно: каждый второй элемент сдвигаем вниз для эффекта пчелиных сот */
         }
 
-        /* Магия шестиугольной сетки */
-        .team-grid .member-card:nth-child(odd) {
-            margin-top: 0;
-        }
-        .team-grid .member-card:nth-child(even) {
-            margin-top: 115px; /* Половина высоты + половина вертикального отступа */
+        /* Сдвиг каждого четного элемента для эффекта сот */
+        .member-card:nth-child(even) {
+            margin-top: 127px; /* Половина высоты (254/2) */
         }
         
-        /* Разрыв строки для адаптивности сетки */
-        /* На больших экранах 4 в ряд, потом перенос со сдвигом */
-        @media (min-width: 992px) {
-             /* Здесь можно настроить сложную сетку, но flex с margin-top делает это автоматически */
+        /* Разрыв строки: после каждого 5-го элемента (для ПК) сбрасываем отступ, 
+           чтобы следующий ряд начинался правильно */
+        .member-card:nth-child(10n + 6) {
+             clear: left;
         }
 
         .member-card:hover {
             transform: scale(1.1);
-            z-index: 10;
+            z-index: 100; /* Поверх всех при наведении */
         }
 
         /* Форма соты */
         .hexagon-shape {
             width: 100%;
             height: 100%;
-            /* Форма правильного шестиугольника (pointy top) */
+            /* Pointy-top hexagon */
             clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
             display: flex;
             flex-direction: column;
@@ -312,17 +306,15 @@
         /* Внутренняя часть (контент) */
         .hex-content {
             position: absolute;
-            /* Создаем рамку за счет отступа внутрь */
             top: 3px; left: 3px; right: 3px; bottom: 3px;
             background: #1a1a1a;
-            /* Повторяем форму, но чуть меньше */
             clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
             z-index: 2;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 15px 10px;
+            padding: 20px 10px;
             box-sizing: border-box;
         }
 
@@ -344,10 +336,10 @@
         }
 
         .member-name {
-            font-size: 1rem;
+            font-size: 1.1rem;
             font-weight: 800;
             color: #fff;
-            margin: 0 0 3px 0;
+            margin: 0 0 4px 0;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             white-space: nowrap;
@@ -359,16 +351,16 @@
             display: inline-block;
             padding: 2px 8px;
             border-radius: 10px;
-            font-size: 0.6rem;
+            font-size: 0.65rem;
             font-weight: bold;
             text-transform: uppercase;
-            margin-bottom: 5px;
+            margin-bottom: 6px;
             background: rgba(0,0,0,0.6);
             border: 1px solid currentColor;
         }
 
         .member-desc {
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             color: #ccc;
             line-height: 1.2;
             margin: 0;
@@ -465,7 +457,7 @@
             .content-split { grid-template-columns: 1fr; }
             h1 { font-size: 2.5rem; }
             
-            /* Возвращаем карточки в обычный список на планшетах/мобильных */
+            /* На мобильных убираем сложный улей, делаем аккуратную сетку */
             .team-grid {
                 display: grid;
                 grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -478,7 +470,7 @@
                 width: 100%;
                 height: auto;
                 min-height: 120px;
-                margin: 0 !important; /* Сброс сдвига сот */
+                margin: 0 !important; /* Сброс сдвига */
                 clip-path: none;
                 background: #1a1a1a;
                 border: 1px solid #333;
