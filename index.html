@@ -14,13 +14,18 @@
             --text-color: #E0E0E0;
             
             /* --- НАСТРОЙКИ РАЗМЕРОВ СОТ --- */
-            --hex-width: 260px;       /* Ширина одной соты */
-            --hex-height: 300px;      /* Высота одной соты */
-            --hex-border: 6px;        /* Толщина золотой рамки */
+            --hex-width: 260px;       
+            --hex-height: 300px;      
+            --hex-border-width: 4px;  /* Толщина обводки */
+            --hex-border-color: #FFD700;
             
-            /* Зазоры между сотами */
+            /* Зазоры */
             --gap-h: 10px;            
-            --gap-v: 480px;            
+            --gap-v: 40px;            
+        }
+
+        html {
+            scroll-behavior: smooth; /* Плавный скролл для всей страницы */
         }
 
         body {
@@ -45,7 +50,8 @@
         }
         .honeycomb-left, .honeycomb-right {
             background-color: transparent;
-            background-image: url("image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100' viewBox='0 0 56 100'%3E%3Cpath d='M28 66L0 50L0 16L28 0L56 16L56 50L28 66L28 100Z' fill='none' stroke='%23FFD700' stroke-width='1.5' opacity='0.6'/%3E%3C/svg%3E");
+            /* Исправлен URL для SVG фона */
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100' viewBox='0 0 56 100'%3E%3Cpath d='M28 66L0 50L0 16L28 0L56 16L56 50L28 66L28 100Z' fill='none' stroke='%23FFD700' stroke-width='1.5' opacity='0.6'/%3E%3C/svg%3E");
             background-repeat: repeat;
             background-size: 56px 100px;
         }
@@ -251,19 +257,19 @@
         .gallery-grid img:hover { transform: scale(1.05); border-color: var(--primary-color); }
 
         /* ========================================= */
-        /* === КОМАНДА (ЖЕСТКАЯ ГЕОМЕТРИЯ 3-4-3) === */
+        /* === КОМАНДА (ФОТО НА ВЕСЬ ФОН + ОБВОДКА) === */
         /* ========================================= */
         .team-grid {
             position: relative;
             width: 100%;
-            max-width: 1100px; /* Фиксируем ширину контейнера */
-            height: 1000px;    /* Фиксируем высоту, чтобы карты не схлопывались */
+            max-width: 1100px;
+            height: 1100px; 
             margin: 0 auto;
-            padding: 50px 0;
+            padding: 20px 0 50px 0;
         }
 
         .member-card {
-            position: absolute; /* Абсолютное позиционирование для идеальной точности */
+            position: absolute;
             width: var(--hex-width);
             height: var(--hex-height);
             transition: transform 0.3s ease, z-index 0.3s;
@@ -271,130 +277,128 @@
         }
 
         /* === РАСЧЕТ КООРДИНАТ === */
-        /* 
-           Ширина соты: 260px
-           Шаг по X: 260 + 10 = 270px
-           Шаг по Y: (300 / 2) + 10 = 160px
-           
-           Центр контейнера: 550px (половина от 1100)
-        */
+        .member-card:nth-child(1) { left: 150px; top: 0; }   
+        .member-card:nth-child(2) { left: 420px; top: 0; }   
+        .member-card:nth-child(3) { left: 690px; top: 0; }   
 
-        /* --- РЯД 1 (3 соты) --- */
-        /* Центрируем ряд из 3 штук. Ширина ряда: 3*260 + 2*10 = 800px. 
-           Начало ряда: (1100 - 800) / 2 = 150px */
-        
-        .member-card:nth-child(1) { left: 150px; top: 0; }   /* Катя */
-        .member-card:nth-child(2) { left: 420px; top: 0; }   /* Артём (150 + 270) */
-        .member-card:nth-child(3) { left: 690px; top: 0; }   /* Максим (420 + 270) */
+        .member-card:nth-child(4) { left: 15px; top: 220px; }    
+        .member-card:nth-child(5) { left: 285px; top: 220px; }   
+        .member-card:nth-child(6) { left: 555px; top: 220px; }   
+        .member-card:nth-child(7) { left: 825px; top: 220px; }   
 
-        /* --- РЯД 2 (4 соты) --- */
-        /* Сдвиг вниз на 160px. 
-           Ширина ряда: 4*260 + 3*10 = 1070px.
-           Начало ряда: (1100 - 1070) / 2 = 15px.
-           Но чтобы они встали в пазы, нужно сдвинуть на половину ширины соты влево относительно первого ряда.
-           Первый ряд начался с 150. Половина соты (130) + половина зазора (5) = 135.
-           150 - 135 = 15px. Всё сходится.
-        */
-        
-        .member-card:nth-child(4) { left: 15px; top: 240px; }    /* Никита */
-        .member-card:nth-child(5) { left: 285px; top: 240px; }   /* Филипп (15 + 270) */
-        .member-card:nth-child(6) { left: 555px; top: 240px; }   /* Софа (285 + 270) */
-        .member-card:nth-child(7) { left: 825px; top: 240px; }   /* Станислав (555 + 270) */
+        .member-card:nth-child(8) { left: 150px; top: 440px; }   
+        .member-card:nth-child(9) { left: 420px; top: 440px; }   
+        .member-card:nth-child(10) { left: 690px; top: 440px; }  
 
-        /* --- РЯД 3 (3 соты) --- */
-        /* Сдвиг вниз еще на 160px (итого 320px).
-           Такой же, как первый ряд. Начало с 150px.
-        */
-        
-        .member-card:nth-child(8) { left: 150px; top: 480px; }   /* Илья */
-        .member-card:nth-child(9) { left: 420px; top: 480px; }   /* Олеся */
-        .member-card:nth-child(10) { left: 690px; top: 480px; }  /* Николай */
-
-        /* При наведении увеличиваем и поднимаем Z-index */
         .member-card:hover {
             transform: scale(1.1);
             z-index: 100;
         }
 
-        /* Форма соты */
+        /* Контейнер формы соты с ОБВОДКОЙ */
         .hexagon-shape {
             width: 100%;
             height: 100%;
+            /* Фон золотой = цвет рамки */
+            background: var(--hex-border-color); 
+            /* Отступ создает толщину рамки */
+            padding: var(--hex-border-width); 
+            box-sizing: border-box;
+            /* Форма соты */
             clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
             position: relative;
-            background: var(--primary-color);
         }
 
-        /* Внутренняя часть (контент) */
+        /* Внутренний контейнер для фото (черный фон, если фото не загрузится) */
+        .hex-inner {
+            width: 100%;
+            height: 100%;
+            background: #000;
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* ФОТО НА ВЕСЬ ФОН */
+        .member-photo-bg {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* ЗАТЕМНЕНИЕ И РАЗМЫТИЕ СНИЗУ (ИСПРАВЛЕНО ДЛЯ ТЕКСТА) */
+        .hex-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 2;
+            /* Градиент начинается раньше, чтобы текст читался */
+            background: linear-gradient(to bottom, 
+                rgba(0,0,0,0) 20%, 
+                rgba(0,0,0,0.4) 50%, 
+                rgba(0,0,0,0.95) 100%);
+        }
+        
+        /* Эффект размытия только внизу */
+        .hex-overlay::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; width: 100%; height: 70%;
+            backdrop-filter: blur(2px);
+            mask-image: linear-gradient(to bottom, transparent, black);
+            -webkit-mask-image: linear-gradient(to bottom, transparent, black);
+        }
+
+        /* Контейнер текста */
         .hex-content {
             position: absolute;
-            top: var(--hex-border); 
-            left: var(--hex-border); 
-            right: var(--hex-border); 
-            bottom: var(--hex-border);
-            background: #1a1a1a;
-            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-            z-index: 2;
+            bottom: 25px; /* Подняли текст чуть выше от края */
+            left: 0; 
+            right: 0;
+            z-index: 3;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            padding: 30px 15px;
-            box-sizing: border-box;
-        }
-
-        .member-photo {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid var(--primary-color);
-            margin-bottom: 10px;
-            z-index: 3;
-            background: #000;
-            flex-shrink: 0;
+            justify-content: flex-end;
+            padding: 0 25px; /* Увеличили боковые отступы */
+            text-align: center;
         }
 
         .member-info {
-            z-index: 3;
             width: 100%;
         }
 
         .member-name {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             font-weight: 800;
             color: #fff;
             margin: 0 0 5px 0;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 5px rgba(0,0,0,1);
+            line-height: 1.1;
         }
 
         .role-badge {
             display: inline-block;
-            padding: 3px 10px;
+            padding: 4px 12px;
             border-radius: 12px;
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             font-weight: bold;
             text-transform: uppercase;
-            margin-bottom: 8px;
-            background: rgba(0,0,0,0.6);
+            margin-bottom: 6px;
+            background: rgba(0, 0, 0, 0.6);
             border: 1px solid currentColor;
+            backdrop-filter: blur(4px);
+            color: #fff;
         }
 
         .member-desc {
-            font-size: 0.8rem;
-            color: #ccc;
+            font-size: 0.85rem;
+            color: #f0f0f0;
             line-height: 1.3;
             margin: 0;
-            padding: 0 5px;
+            text-shadow: 0 1px 3px rgba(0,0,0,1);
             display: -webkit-box;
             -webkit-line-clamp: 3;
             -webkit-box-orient: vertical;
@@ -402,21 +406,71 @@
         }
 
         /* Цвета ролей */
-        .role-eng { color: #FFD700; }
-        .role-prog { color: #4FC3F7; }
-        .role-men { color: #BA68C8; }
-        .role-med { color: #FF7043; }
+        .role-eng { color: #FFD700; border-color: #FFD700; }
+        .role-prog { color: #4FC3F7; border-color: #4FC3F7; }
+        .role-men { color: #BA68C8; border-color: #BA68C8; }
+        .role-med { color: #FF7043; border-color: #FF7043; }
 
-        /* --- КОД --- */
-        .code-block {
-            background: #000;
-            border-left: 3px solid var(--primary-color);
-            padding: 15px;
-            font-family: monospace;
-            color: #0f0;
-            overflow-x: auto;
-            border-radius: 5px;
-            white-space: pre;
+        /* --- FOOTER --- */
+        footer {
+            padding: 40px 20px;
+            background: #050505;
+            border-top: 1px solid #111;
+            color: #666;
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .footer-socials {
+            display: flex;
+            gap: 20px;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 30px;
+            transition: 0.3s;
+            border: 1px solid #333;
+        }
+
+        .social-link:hover {
+            background: var(--primary-color);
+            color: #000;
+            border-color: var(--primary-color);
+        }
+
+        .footer-bottom {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin-top: 20px;
+            border-top: 1px solid #222;
+            padding-top: 20px;
+        }
+
+        .open-code-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #888;
+            font-weight: bold;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        .open-code-logo img {
+            height: 30px;
         }
 
         /* --- АНИМАЦИЯ REVEAL --- */
@@ -467,16 +521,6 @@
             color: #fff; font-size: 40px; cursor: pointer;
         }
 
-        footer {
-            padding: 50px;
-            text-align: center;
-            background: #050505;
-            border-top: 1px solid #111;
-            color: #666;
-            position: relative;
-            z-index: 1;
-        }
-
         /* ========================================= */
         /* === МОБИЛЬНАЯ ВЕРСИЯ === */
         /* ========================================= */
@@ -494,64 +538,54 @@
                 margin: 0;
                 padding: 20px 0;
                 max-width: 100%;
-                height: auto; /* Сброс высоты для мобильных */
-                position: static; /* Сброс позиционирования */
+                height: auto;
+                position: static;
             }
 
             .member-card {
-                position: static; /* Возвращаем в поток */
+                position: static;
                 width: 100%;
-                height: auto;
-                min-height: 120px;
+                height: 300px;
                 margin: 0 !important;
                 clip-path: none;
-                background: #1a1a1a;
-                border: 1px solid #333;
                 border-radius: 15px;
+                overflow: hidden;
+                border: 1px solid #333;
             }
             
             .hexagon-shape {
                 clip-path: none;
+                padding: 0;
                 background: transparent;
-                height: auto;
             }
             
-            .hex-content {
-                position: static;
+            .hex-inner {
                 clip-path: none;
-                background: transparent;
-                height: auto;
-                padding: 15px;
-                flex-direction: row;
-                align-items: center;
-                text-align: left;
-                gap: 15px;
+                border-radius: 15px;
             }
 
-            .member-photo {
-                width: 70px;
-                height: 70px;
-                margin-bottom: 0;
+            .hex-content {
+                position: absolute;
+                bottom: 0;
+                background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+                padding: 20px;
             }
             
-            .member-info {
-                text-align: left;
+            .footer-bottom {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
             }
-            
-            .member-desc {
-                padding: 0;
-                -webkit-line-clamp: unset;
-            }
-        }
+         }
     </style>
 </head>
 <body>
 
-<!-- Декоративные соты по краям (ПК-версия) -->
+<!-- Декоративные соты по краям -->
 <div class="honeycomb-decor honeycomb-left"></div>
 <div class="honeycomb-decor honeycomb-right"></div>
 
-<!-- Прогресс бар с пчелой -->
+<!-- Прогресс бар -->
 <div class="progress-container">
     <div class="progress-bar" id="myBar"><div class="bee-cursor">🐝</div></div>
 </div>
@@ -593,13 +627,11 @@
 
 <section id="chassis" class="reveal">
     <h2 class="section-title">1. Шасси и База</h2>
-    
     <div class="content-split">
         <div>
             <div class="video-container">
-                <video controls onerror="this.parentElement.innerHTML='<div style=\'padding:20px;color:red\'>Видео не найдено (WheelBase.mp4)</div>'">
+                <video controls onerror="this.parentElement.innerHTML='<div style=\'padding:20px;color:red\'>Видео не найдено</div>'">
                     <source src="WheelBase.mp4" type="video/mp4">
-                    <source src="WheelBase.avi" type="video/avi">
                 </video>
             </div>
             <p>База создана для проходимости. Гибрид профилей <strong>GoBilda</strong> и <strong>Tetrix</strong>.</p>
@@ -615,35 +647,26 @@
         <div class="gallery-grid">
             <img src="img/chassis_side.png" alt="Side">
             <img src="img/chassis_bottom.png" alt="Bottom">
-            <img src="img/wheels.png" alt="Wheels">
-            <img src="img/control_hub.png" alt="Hub">
         </div>
     </div>
 </section>
 
 <section id="lift" class="reveal">
     <h2 class="section-title">2. Подъемник (Башня)</h2>
-    
     <div class="content-split">
         <div class="gallery-grid">
             <img src="img/lift_mech.png" alt="Mech">
             <img src="img/chain_drive.png" alt="Chain">
-            <img src="img/hook_3d.png" alt="Hook">
-            <img src="img/lift_action.png" alt="Action">
         </div>
         <div>
             <div class="video-container">
-                <video controls onerror="this.parentElement.innerHTML='<div style=\'padding:20px;color:red\'>Видео не найдено (Lift.mp4)</div>'">
+                <video controls onerror="this.parentElement.innerHTML='<div style=\'padding:20px;color:red\'>Видео не найдено</div>'">
                     <source src="Lift.mp4" type="video/mp4">
                 </video>
             </div>
             <div class="tech-card">
                 <h3>Техника:</h3>
                 <p>Центральная башня с цепным приводом. Крюк с уплотнителем цепляется за пандус.</p>
-                <ul>
-                    <li>Мотор Tetrix + шестерня Ø3.8 см.</li>
-                    <li>Программное удержание (Hold Mode).</li>
-                </ul>
             </div>
         </div>
     </div>
@@ -651,69 +674,39 @@
 
 <section id="grabber" class="reveal">
     <h2 class="section-title">3. Захват и Зрение</h2>
-    
     <div class="content-split">
         <div>
             <div class="video-container">
-                <video controls onerror="this.parentElement.innerHTML='<div style=\'padding:20px;color:red\'>Видео не найдено (Grabber.mp4)</div>'">
+                <video controls onerror="this.parentElement.innerHTML='<div style=\'padding:20px;color:red\'>Видео не найдено</div>'">
                     <source src="Grabber.mp4" type="video/mp4">
                 </video>
             </div>
             <div class="tech-card">
                 <h3>AprilTags & Слайдер:</h3>
-                <p>Камера распознает метки, алгоритм корректирует угол робота перед сбросом элемента. Телескопический слайдер выносит захват за пределы робота.</p>
+                <p>Камера распознает метки, алгоритм корректирует угол робота перед сбросом элемента.</p>
             </div>
         </div>
         <div class="gallery-grid">
             <img src="img/grabber_close.png" alt="Grabber">
             <img src="img/slider_mech.png" alt="Slider">
-            <img src="img/camera_mount.png" alt="Cam">
-            <img src="img/apriltag_view.png" alt="Tag">
-        </div>
-    </div>
-</section>
-
-<section id="rollers" class="reveal">
-    <h2 class="section-title">4. Вспомогательные ролики</h2>
-    <div class="tech-grid">
-        <div class="tech-card">
-            <h3>Механизм</h3>
-            <p>Рычаги опускают ось с колесами Ø75 мм (PETG + уплотнитель), приподнимая основные колеса. Сервоприводы 30кг обеспечивают сильный прижим.</p>
-        </div>
-        <div class="video-container">
-            <video controls onerror="this.parentElement.innerHTML='<div style=\'padding:20px;color:red\'>Видео не найдено (Rollers.mp4)</div>'">
-                <source src="Rollers.mp4" type="video/mp4">
-            </video>
-        </div>
-        <div class="gallery-grid" style="grid-column: 1 / -1;">
-            <img src="img/rollers_mech.png" alt="Mech">
-            <img src="img/rollers_wheel.png" alt="Wheel">
-            <img src="img/rollers_servo.png" alt="Servo">
-            <img src="img/rollers_action.png" alt="Action">
         </div>
     </div>
 </section>
 
 <section id="software" class="reveal">
-    <h2 class="section-title">5. Программное обеспечение</h2>
+    <h2 class="section-title">4. Программное обеспечение</h2>
     <div class="content-split">
         <div class="tech-card">
             <h3>Архитектура</h3>
             <ul>
                 <li><strong>RoadRunner:</strong> Траектории и автономка.</li>
                 <li><strong>Dashboard:</strong> Отладка переменных.</li>
-                <li><strong>Classes:</strong> <code>aprilTagCorrection()</code>, <code>rampMove()</code>, <code>upTheRamp()</code>.</li>
             </ul>
         </div>
         <div>
             <div class="code-block">
 // Автономный заезд
 if (gamepad1.y) robot.upTheRamp();
-
-// Защита лифта
-if (!btnUp && !btnDown) {
-    lift.holdPosition();
-}
             </div>
         </div>
     </div>
@@ -721,14 +714,16 @@ if (!btnUp && !btnDown) {
 
 <section id="team" class="reveal">
     <h2 class="section-title">Наша Команда</h2>
-    <!-- Сетка 3 - 4 - 3 -->
     <div class="team-grid">
         
-        <!-- РЯД 1 (3 соты) -->
+        <!-- РЯД 1 -->
         <div class="member-card">
             <div class="hexagon-shape">
+                <div class="hex-inner">
+                    <img src="img/team/katya.png" alt="Катя" class="member-photo-bg" onerror="this.src='https://placehold.co/300x300/111/gold?text=Photo'">
+                </div>
+                <div class="hex-overlay"></div>
                 <div class="hex-content">
-                    <img src="img/team/katya.png" alt="Катя" class="member-photo" onerror="this.src='https://placehold.co/150x150/111/gold?text=Photo'">
                     <div class="member-info">
                         <div class="member-name">Катя</div>
                         <span class="role-badge role-eng">Конструктор</span>
@@ -740,8 +735,11 @@ if (!btnUp && !btnDown) {
 
         <div class="member-card">
             <div class="hexagon-shape">
+                <div class="hex-inner">
+                    <img src="img/team/artem.png" alt="Артём" class="member-photo-bg" onerror="this.src='https://placehold.co/300x300/111/gold?text=Photo'">
+                </div>
+                <div class="hex-overlay"></div>
                 <div class="hex-content">
-                    <img src="img/team/artem.png" alt="Артём" class="member-photo" onerror="this.src='https://placehold.co/150x150/111/gold?text=Photo'">
                     <div class="member-info">
                         <div class="member-name">Артём</div>
                         <span class="role-badge role-prog">Программист</span>
@@ -753,8 +751,11 @@ if (!btnUp && !btnDown) {
 
         <div class="member-card">
             <div class="hexagon-shape">
+                <div class="hex-inner">
+                    <img src="img/team/maxim.png" alt="Максим" class="member-photo-bg" onerror="this.src='https://placehold.co/300x300/111/gold?text=Photo'">
+                </div>
+                <div class="hex-overlay"></div>
                 <div class="hex-content">
-                    <img src="img/team/maxim.png" alt="Максим" class="member-photo" onerror="this.src='https://placehold.co/150x150/111/gold?text=Photo'">
                     <div class="member-info">
                         <div class="member-name">Максим</div>
                         <span class="role-badge role-prog">Программист</span>
@@ -764,11 +765,14 @@ if (!btnUp && !btnDown) {
             </div>
         </div>
 
-        <!-- РЯД 2 (4 соты) -->
+        <!-- РЯД 2 -->
         <div class="member-card">
             <div class="hexagon-shape">
+                <div class="hex-inner">
+                    <img src="img/team/nikita.png" alt="Никита" class="member-photo-bg" onerror="this.src='https://placehold.co/300x300/111/gold?text=Photo'">
+                </div>
+                <div class="hex-overlay"></div>
                 <div class="hex-content">
-                    <img src="img/team/nikita.png" alt="Никита" class="member-photo" onerror="this.src='https://placehold.co/150x150/111/gold?text=Photo'">
                     <div class="member-info">
                         <div class="member-name">Никита</div>
                         <span class="role-badge role-eng">3D-моделист</span>
@@ -780,8 +784,11 @@ if (!btnUp && !btnDown) {
 
         <div class="member-card">
             <div class="hexagon-shape">
+                <div class="hex-inner">
+                    <img src="img/team/filipp.png" alt="Филипп" class="member-photo-bg" onerror="this.src='https://placehold.co/300x300/111/gold?text=Photo'">
+                </div>
+                <div class="hex-overlay"></div>
                 <div class="hex-content">
-                    <img src="img/team/filipp.png" alt="Филипп" class="member-photo" onerror="this.src='https://placehold.co/150x150/111/gold?text=Photo'">
                     <div class="member-info">
                         <div class="member-name">Филипп</div>
                         <span class="role-badge role-eng">Конструктор</span>
@@ -793,8 +800,11 @@ if (!btnUp && !btnDown) {
 
         <div class="member-card">
             <div class="hexagon-shape">
+                <div class="hex-inner">
+                    <img src="img/team/sofa.png" alt="Софа" class="member-photo-bg" onerror="this.src='https://placehold.co/300x300/111/gold?text=Photo'">
+                </div>
+                <div class="hex-overlay"></div>
                 <div class="hex-content">
-                    <img src="img/team/sofa.png" alt="Софа" class="member-photo" onerror="this.src='https://placehold.co/150x150/111/gold?text=Photo'">
                     <div class="member-info">
                         <div class="member-name">Софа</div>
                         <span class="role-badge role-med">Медиа</span>
@@ -806,8 +816,11 @@ if (!btnUp && !btnDown) {
 
         <div class="member-card">
             <div class="hexagon-shape">
+                <div class="hex-inner">
+                    <img src="img/team/stanislav.png" alt="Станислав" class="member-photo-bg" onerror="this.src='https://placehold.co/300x300/111/gold?text=Photo'">
+                </div>
+                <div class="hex-overlay"></div>
                 <div class="hex-content">
-                    <img src="img/team/stanislav.png" alt="Станислав" class="member-photo" onerror="this.src='https://placehold.co/150x150/111/gold?text=Photo'">
                     <div class="member-info">
                         <div class="member-name">Станислав</div>
                         <span class="role-badge role-men">Тренер</span>
@@ -817,11 +830,14 @@ if (!btnUp && !btnDown) {
             </div>
         </div>
 
-        <!-- РЯД 3 (3 соты) -->
+        <!-- РЯД 3 -->
         <div class="member-card">
             <div class="hexagon-shape">
+                <div class="hex-inner">
+                    <img src="img/team/ilya.png" alt="Илья" class="member-photo-bg" onerror="this.src='https://placehold.co/300x300/111/gold?text=Photo'">
+                </div>
+                <div class="hex-overlay"></div>
                 <div class="hex-content">
-                    <img src="img/team/ilya.png" alt="Илья" class="member-photo" onerror="this.src='https://placehold.co/150x150/111/gold?text=Photo'">
                     <div class="member-info">
                         <div class="member-name">Илья</div>
                         <span class="role-badge role-men">Тренер</span>
@@ -833,8 +849,11 @@ if (!btnUp && !btnDown) {
 
         <div class="member-card">
             <div class="hexagon-shape">
+                <div class="hex-inner">
+                    <img src="img/team/olesya.png" alt="Олеся" class="member-photo-bg" onerror="this.src='https://placehold.co/300x300/111/gold?text=Photo'">
+                </div>
+                <div class="hex-overlay"></div>
                 <div class="hex-content">
-                    <img src="img/team/olesya.png" alt="Олеся" class="member-photo" onerror="this.src='https://placehold.co/150x150/111/gold?text=Photo'">
                     <div class="member-info">
                         <div class="member-name">Олеся</div>
                         <span class="role-badge role-men">Ментор</span>
@@ -844,11 +863,13 @@ if (!btnUp && !btnDown) {
             </div>
         </div>
 
-        <!-- Карточка 10 (Николай) - В третьем ряду -->
         <div class="member-card">
             <div class="hexagon-shape">
+                <div class="hex-inner">
+                    <img src="img/team/nikolay.png" alt="Николай" class="member-photo-bg" onerror="this.src='https://placehold.co/300x300/111/gold?text=Photo'">
+                </div>
+                <div class="hex-overlay"></div>
                 <div class="hex-content">
-                    <img src="img/team/nikolay.png" alt="Николай" class="member-photo" onerror="this.src='https://placehold.co/150x150/111/gold?text=Photo'">
                     <div class="member-info">
                         <div class="member-name">Николай</div>
                         <span class="role-badge role-men">Ментор</span>
@@ -862,12 +883,30 @@ if (!btnUp && !btnDown) {
 </section>
 
 <footer>
-    <p>© 2026 Команда ЛТ-043 "Ученые пчелы"</p>
-    <p>Лига Технологий: Безопасный Маршрут</p>
+    <div class="footer-socials">
+        <a href="https://t.me/PcheliYcheli" target="_blank" class="social-link">
+            <span>✈️ Telegram</span>
+        </a>
+        <a href="https://vk.ru/club236574189" target="_blank" class="social-link">
+            <span>VKontakte</span>
+        </a>
+    </div>
+
+    <div class="footer-bottom">
+        <div style="text-align: left;">
+            <p>© 2026 Команда ЛТ-043 "Ученые пчелы"</p>
+            <p style="font-size: 0.8rem; margin:0;">Лига Технологий: Безопасный Маршрут</p>
+        </div>
+        
+        <a href="#" class="open-code-logo">
+            <!-- Заглушка для лого, замените src на реальное лого -->
+            <img src="img/open_code_logo.png" alt="Logo" onerror="this.style.display='none'"> 
+            <span>Открытый Код</span>
+        </a>
+    </div>
 </footer>
 
 <script>
-    // --- ПРОГРЕСС БАР ---
     window.onscroll = function() {
         myFunction();
         scrollFunction();
@@ -881,7 +920,6 @@ if (!btnUp && !btnDown) {
         document.getElementById("myBar").style.width = scrolled + "%";
     }
 
-    // --- КНОПКА НАВЕРХ ---
     function scrollFunction() {
         if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
             document.getElementById("scrollTopBtn").style.display = "block";
@@ -893,7 +931,6 @@ if (!btnUp && !btnDown) {
         window.scrollTo({top: 0, behavior: 'smooth'});
     }
 
-    // --- АНИМАЦИЯ ПОЯВЛЕНИЯ ---
     function reveal() {
         var reveals = document.querySelectorAll(".reveal");
         for (var i = 0; i < reveals.length; i++) {
@@ -907,11 +944,10 @@ if (!btnUp && !btnDown) {
     }
     reveal();
 
-    // --- МОДАЛЬНОЕ ОКНО ---
     const modal = document.getElementById("modal");
     const modalImg = document.getElementById("modal-img");
     const closeBtn = document.getElementById("modal-close");
-    const allImages = document.querySelectorAll(".gallery-grid img, .member-photo");
+    const allImages = document.querySelectorAll(".gallery-grid img, .member-photo-bg");
 
     allImages.forEach(img => {
         img.addEventListener('click', function() {
@@ -924,18 +960,7 @@ if (!btnUp && !btnDown) {
     modal.onclick = function(event) {
         if (event.target === modal) modal.style.display = "none";
     }
-
-    // --- ПЛАВНАЯ ПРОКРУТКА ---
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            document.querySelector(this.getAttribute('href')).scrollIntoView({
-                behavior: 'smooth'
-            });
-        });
-    });
 </script>
 
 </body>
 </html>
-```
