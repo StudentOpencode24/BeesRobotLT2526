@@ -19,6 +19,9 @@
             --hex-border: 6px;        /* Толщина золотой рамки */
             --gap-h: 10px;            /* Горизонтальный зазор между сотами */
             --gap-v: 20px;            /* Вертикальный зазор между рядами */
+            
+            /* Сдвиг на четверть ширины (260 / 4 = 65px) */
+            --shift-quarter: 65px;
         }
 
         body {
@@ -43,7 +46,7 @@
         }
         .honeycomb-left, .honeycomb-right {
             background-color: transparent;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100' viewBox='0 0 56 100'%3E%3Cpath d='M28 66L0 50L0 16L28 0L56 16L56 50L28 66L28 100Z' fill='none' stroke='%23FFD700' stroke-width='1.5' opacity='0.6'/%3E%3C/svg%3E");
+            background-image: url("image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100' viewBox='0 0 56 100'%3E%3Cpath d='M28 66L0 50L0 16L28 0L56 16L56 50L28 66L28 100Z' fill='none' stroke='%23FFD700' stroke-width='1.5' opacity='0.6'/%3E%3C/svg%3E");
             background-repeat: repeat;
             background-size: 56px 100px;
         }
@@ -249,18 +252,17 @@
         .gallery-grid img:hover { transform: scale(1.05); border-color: var(--primary-color); }
 
         /* ========================================= */
-        /* === КОМАНДА (РОВНО 3 СОТЫ В РЯД) === */
+        /* === КОМАНДА (ЗУБЧАТЫЙ ЗИГЗАГ) === */
         /* ========================================= */
         .team-grid {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
             /* 
-               Расчет ширины для 3 сот:
-               3 * 260px (ширина) + 2 * 10px (промежутки) = 800px.
-               Добавляем немного места по краям -> 850px.
+               Ширина контейнера должна быть шире из-за сдвигов влево/вправо.
+               База 850px + запас на сдвиги (~150px) = ~1000px
             */
-            max-width: 850px;
+            max-width: 1000px;
             margin: 0 auto;
             padding: 50px 0 100px 0;
         }
@@ -276,20 +278,67 @@
         }
 
         /* 
-           МАГИЯ УЛЬЯ:
-           1. Каждый ЧЕТНЫЙ элемент сдвигаем ВНИЗ на половину высоты + половину верт. зазора.
-              Это позволяет ему войти в "паз" между двумя верхними сотами.
+           ЛОГИКА СДВИГОВ:
+           
+           1. НЕЧЕТНЫЕ РЯДЫ (1, 3, 5...): Элементы 1,2,3 и 7,8,9 и т.д.
+              Сдвигаем ВПРАВО на четверть соты.
+              Формула для элементов 1,2,3: n <= 3
+              Формула для элементов 7,8,9: n > 6 и n <= 9
+              Используем селекторы диапазонов или nth-child комбинации.
+              
+              Проще использовать nth-child(6n+1), (6n+2), (6n+3) для нечетных рядов? 
+              Нет, ряды идут по 3 элемента.
+              Ряд 1: 1, 2, 3
+              Ряд 2: 4, 5, 6
+              Ряд 3: 7, 8, 9
+              
+              Нечетные ряды (сдвиг ВПРАВО +65px):
+              Элементы: 1,2,3, 7,8,9, 13,14,15...
+              Это элементы, где (n-1)/3 дает четное число (0, 2, 4...).
+              
+              Четные ряды (сдвиг ВЛЕВО -65px):
+              Элементы: 4,5,6, 10,11,12...
+        */
+
+        /* === СДВИГ ВПРАВО ДЛЯ НЕЧЕТНЫХ РЯДОВ === */
+        /* Ряд 1 (1-3), Ряд 3 (7-9), Ряд 5 (13-15) */
+        .member-card:nth-child(6n+1),
+        .member-card:nth-child(6n+2),
+        .member-card:nth-child(6n+3) {
+            margin-left: calc(var(--gap-h)/2 + var(--shift-quarter));
+            margin-right: calc(var(--gap-h)/2 - var(--shift-quarter));
+        }
+
+        /* === СДВИГ ВЛЕВО ДЛЯ ЧЕТНЫХ РЯДОВ === */
+        /* Ряд 2 (4-6), Ряд 4 (10-12) */
+        .member-card:nth-child(6n+4),
+        .member-card:nth-child(6n+5),
+        .member-card:nth-child(6n+6) {
+            margin-left: calc(var(--gap-h)/2 - var(--shift-quarter));
+            margin-right: calc(var(--gap-h)/2 + var(--shift-quarter));
+        }
+
+
+        /* 
+           ВЕРТИКАЛЬНЫЙ СДВИГ (ПАЗЫ):
+           Каждый ЧЕТНЫЙ элемент (2, 4, 6, 8...) сдвигаем ВНИЗ.
         */
         .member-card:nth-child(even) {
             margin-top: calc((var(--hex-height) + var(--gap-v)) / 2);
         }
 
         /* 
-           2. КАЖДЫЙ 4-Й ЭЛЕМЕНТ (начало нового ряда при сетке 3 в ряд) 
-              должен сбросить верхний отступ, чтобы ряд начинался ровно, 
-              а не со сдвигом.
+           СБРОС НАЧАЛА РЯДА:
+           Элементы 4, 7, 10, 13... начинают новые ряды.
+           Им нужно убрать верхний отступ, если он был добавлен правилом выше.
+           
+           Элемент 4 (четный) -> имеет margin-top. Нужно убрать.
+           Элемент 7 (нечетный) -> не имеет margin-top. Ок.
+           Элемент 10 (четный) -> имеет margin-top. Нужно убрать.
+           
+           Формула начала ряда: 3n + 4 (4, 7, 10, 13...)
         */
-        .member-card:nth-child(3n + 4) {
+        .member-card:nth-child(3n+4) {
             margin-top: 0 !important;
         }
 
@@ -303,7 +352,6 @@
         .hexagon-shape {
             width: 100%;
             height: 100%;
-            /* Pointy-top hexagon (острие вверх) */
             clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
             display: flex;
             flex-direction: column;
@@ -311,13 +359,12 @@
             justify-content: center;
             text-align: center;
             position: relative;
-            background: var(--primary-color); /* Цвет обводки */
+            background: var(--primary-color);
         }
 
         /* Внутренняя часть (контент) */
         .hex-content {
             position: absolute;
-            /* Толстая рамка */
             top: var(--hex-border); 
             left: var(--hex-border); 
             right: var(--hex-border); 
@@ -704,7 +751,7 @@ if (!btnUp && !btnDown) {
 
 <section id="team" class="reveal">
     <h2 class="section-title">Наша Команда</h2>
-    <!-- Сетка теперь формирует ровно 3 соты в ряд -->
+    <!-- Сетка теперь формирует зигзаг -->
     <div class="team-grid">
         
         <!-- Карточка 1 -->
