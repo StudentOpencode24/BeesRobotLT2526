@@ -258,10 +258,6 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            /* 
-               Ширина контейнера должна быть шире из-за сдвигов влево/вправо.
-               База 850px + запас на сдвиги (~150px) = ~1000px
-            */
             max-width: 1000px;
             margin: 0 auto;
             padding: 50px 0 100px 0;
@@ -271,37 +267,12 @@
             position: relative;
             width: var(--hex-width);
             height: var(--hex-height);
-            /* Базовые отступы слева/справа и снизу */
             margin: 0 calc(var(--gap-h) / 2) var(--gap-v) calc(var(--gap-h) / 2);
             transition: transform 0.3s ease, z-index 0.3s;
             cursor: default;
         }
 
-        /* 
-           ЛОГИКА СДВИГОВ:
-           
-           1. НЕЧЕТНЫЕ РЯДЫ (1, 3, 5...): Элементы 1,2,3 и 7,8,9 и т.д.
-              Сдвигаем ВПРАВО на четверть соты.
-              Формула для элементов 1,2,3: n <= 3
-              Формула для элементов 7,8,9: n > 6 и n <= 9
-              Используем селекторы диапазонов или nth-child комбинации.
-              
-              Проще использовать nth-child(6n+1), (6n+2), (6n+3) для нечетных рядов? 
-              Нет, ряды идут по 3 элемента.
-              Ряд 1: 1, 2, 3
-              Ряд 2: 4, 5, 6
-              Ряд 3: 7, 8, 9
-              
-              Нечетные ряды (сдвиг ВПРАВО +65px):
-              Элементы: 1,2,3, 7,8,9, 13,14,15...
-              Это элементы, где (n-1)/3 дает четное число (0, 2, 4...).
-              
-              Четные ряды (сдвиг ВЛЕВО -65px):
-              Элементы: 4,5,6, 10,11,12...
-        */
-
         /* === СДВИГ ВПРАВО ДЛЯ НЕЧЕТНЫХ РЯДОВ === */
-        /* Ряд 1 (1-3), Ряд 3 (7-9), Ряд 5 (13-15) */
         .member-card:nth-child(6n+1),
         .member-card:nth-child(6n+2),
         .member-card:nth-child(6n+3) {
@@ -310,7 +281,6 @@
         }
 
         /* === СДВИГ ВЛЕВО ДЛЯ ЧЕТНЫХ РЯДОВ === */
-        /* Ряд 2 (4-6), Ряд 4 (10-12) */
         .member-card:nth-child(6n+4),
         .member-card:nth-child(6n+5),
         .member-card:nth-child(6n+6) {
@@ -320,8 +290,8 @@
 
 
         /* 
-           ВЕРТИКАЛЬНЫЙ СДВИГ (ПАЗЫ):
-           Каждый ЧЕТНЫЙ элемент (2, 4, 6, 8...) сдвигаем ВНИЗ.
+           ВЕРТИКАЛЬНЫЙ СДВИГ (БАЗОВЫЙ):
+           Каждый ЧЕТНЫЙ элемент сдвигаем ВНИЗ.
         */
         .member-card:nth-child(even) {
             margin-top: calc((var(--hex-height) + var(--gap-v)) / 2);
@@ -329,17 +299,29 @@
 
         /* 
            СБРОС НАЧАЛА РЯДА:
-           Элементы 4, 7, 10, 13... начинают новые ряды.
-           Им нужно убрать верхний отступ, если он был добавлен правилом выше.
-           
-           Элемент 4 (четный) -> имеет margin-top. Нужно убрать.
-           Элемент 7 (нечетный) -> не имеет margin-top. Ок.
-           Элемент 10 (четный) -> имеет margin-top. Нужно убрать.
-           
-           Формула начала ряда: 3n + 4 (4, 7, 10, 13...)
+           Элементы 4, 7, 10... начинают новые ряды.
         */
         .member-card:nth-child(3n+4) {
             margin-top: 0 !important;
+        }
+
+        /* ========================================= */
+        /* === ТОЧЕЧНАЯ КОРРЕКЦИЯ (2, 6, 8 ВВЕРХ) === */
+        /* ========================================= */
+        
+        /* Элемент 2 (Артём): Был опущен, теперь поднимаем выше базового ряда */
+        .member-card:nth-child(2) {
+            margin-top: -40px !important; 
+        }
+
+        /* Элемент 6 (Софа): Был опущен, теперь поднимаем выше базового ряда */
+        .member-card:nth-child(6) {
+            margin-top: -40px !important;
+        }
+
+        /* Элемент 8 (Илья): Был опущен, теперь поднимаем выше базового ряда */
+        .member-card:nth-child(8) {
+            margin-top: -40px !important;
         }
 
         /* При наведении увеличиваем и поднимаем Z-index */
@@ -519,7 +501,6 @@
             .content-split { grid-template-columns: 1fr; }
             h1 { font-size: 2.5rem; }
             
-            /* На мобильных убираем улей, делаем простую сетку */
             .team-grid {
                 display: grid;
                 grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -533,7 +514,7 @@
                 width: 100%;
                 height: auto;
                 min-height: 120px;
-                margin: 0 !important; /* Сброс всех сложных отступов */
+                margin: 0 !important;
                 clip-path: none;
                 background: #1a1a1a;
                 border: 1px solid #333;
@@ -751,7 +732,6 @@ if (!btnUp && !btnDown) {
 
 <section id="team" class="reveal">
     <h2 class="section-title">Наша Команда</h2>
-    <!-- Сетка теперь формирует зигзаг -->
     <div class="team-grid">
         
         <!-- Карточка 1 -->
@@ -768,7 +748,7 @@ if (!btnUp && !btnDown) {
             </div>
         </div>
 
-        <!-- Карточка 2 -->
+        <!-- Карточка 2 (АРТЁМ - ПОДНЯТ ВВЕРХ) -->
         <div class="member-card">
             <div class="hexagon-shape">
                 <div class="hex-content">
@@ -824,7 +804,7 @@ if (!btnUp && !btnDown) {
             </div>
         </div>
 
-        <!-- Карточка 6 -->
+        <!-- Карточка 6 (СОФА - ПОДНЯТА ВВЕРХ) -->
         <div class="member-card">
             <div class="hexagon-shape">
                 <div class="hex-content">
@@ -852,7 +832,7 @@ if (!btnUp && !btnDown) {
             </div>
         </div>
 
-        <!-- Карточка 8 -->
+        <!-- Карточка 8 (ИЛЬЯ - ПОДНЯТ ВВЕРХ) -->
         <div class="member-card">
             <div class="hexagon-shape">
                 <div class="hex-content">
