@@ -27,11 +27,10 @@
             margin: 0;
             line-height: 1.5;
             overflow-x: hidden;
-            background-image: radial-gradient(rgba(255, 215, 0, 0.03) 1px, transparent 1px);
-            background-size: 40px 40px;
+            /* Убрал фоновую точку, чтобы не мешала ярким сотам */
         }
 
-        /* === СТАТИЧНЫЕ СОТЫ ПО КРАЯМ (ФОН) === */
+        /* === СТАТИЧНЫЕ СОТЫ ПО КРАЯМ (ФОН) - СДЕЛАНЫ ЯРЧЕ === */
         .honeycomb-decor {
             position: fixed;
             top: 0;
@@ -39,13 +38,14 @@
             height: 100vh;
             z-index: -1;
             pointer-events: none;
-            opacity: 0;
+            opacity: 0; /* Скрыто на мобильных по умолчанию */
             display: none;
             transition: opacity 1s ease;
         }
         .honeycomb-left, .honeycomb-right {
             background-color: transparent;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100' viewBox='0 0 56 100'%3E%3Cpath d='M28 66L0 50L0 16L28 0L56 16L56 50L28 66L28 100Z' fill='none' stroke='%23FFD700' stroke-width='1' opacity='0.3'/%3E%3C/svg%3E");
+            /* Увеличил opacity в SVG с 0.3 до 0.7 для яркости */
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100' viewBox='0 0 56 100'%3E%3Cpath d='M28 66L0 50L0 16L28 0L56 16L56 50L28 66L28 100Z' fill='none' stroke='%23FFD700' stroke-width='1.5' opacity='0.7'/%3E%3C/svg%3E");
             background-repeat: repeat;
             background-size: 56px 100px;
         }
@@ -62,7 +62,7 @@
         @media (min-width: 1200px) {
             .honeycomb-decor {
                 display: block;
-                opacity: 0.5;
+                opacity: 0.8; /* Сделал базовую прозрачность выше (было 0.5) */
             }
         }
 
@@ -251,28 +251,46 @@
         .gallery-grid img:hover { transform: scale(1.05); border-color: var(--primary-color); }
 
         /* ========================================= */
-        /* === КОМАНДА (АДАПТИВНЫЕ СОТЫ) === */
+        /* === КОМАНДА (РЕАЛЬНЫЕ СОТЫ) === */
         /* ========================================= */
         .team-grid {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 15px;
-            padding: 20px 0;
+            /* Отрицательные отступы компенсируют clip-path, чтобы соты смыкались */
+            margin: 0 -30px -40px -30px; 
+            padding: 50px 30px 80px 30px;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .member-card {
             position: relative;
-            width: 280px;
-            /* Высота авто, чтобы текст влезал полностью */
-            height: 360px; 
-            margin: 5px;
+            width: 200px; /* Фиксированная ширина для идеальной сетки */
+            height: 230px; /* Пропорциональная высота */
+            margin: 0 15px 30px 15px; /* Отступы для создания зазоров между сотами */
             transition: transform 0.3s ease, z-index 0.3s;
             cursor: default;
+            /* Важно: каждый второй элемент сдвигаем вниз для эффекта пчелиных сот */
+        }
+
+        /* Магия шестиугольной сетки */
+        .team-grid .member-card:nth-child(odd) {
+            margin-top: 0;
+        }
+        .team-grid .member-card:nth-child(even) {
+            margin-top: 115px; /* Половина высоты + половина вертикального отступа */
+        }
+        
+        /* Разрыв строки для адаптивности сетки */
+        /* На больших экранах 4 в ряд, потом перенос со сдвигом */
+        @media (min-width: 992px) {
+             /* Здесь можно настроить сложную сетку, но flex с margin-top делает это автоматически */
         }
 
         .member-card:hover {
-            transform: scale(1.05);
+            transform: scale(1.1);
             z-index: 10;
         }
 
@@ -280,6 +298,7 @@
         .hexagon-shape {
             width: 100%;
             height: 100%;
+            /* Форма правильного шестиугольника (pointy top) */
             clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
             display: flex;
             flex-direction: column;
@@ -287,42 +306,36 @@
             justify-content: center;
             text-align: center;
             position: relative;
-            overflow: hidden; /* Важно: скрывает лишнее, но мы увеличили высоту */
+            background: var(--primary-color); /* Цвет обводки */
         }
 
-        /* СЛОЙ 1: Золотая обводка */
-        .hex-border {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--primary-color);
-            z-index: 1;
-        }
-
-        /* СЛОЙ 2: Темный фон (чуть меньше для рамки) */
+        /* Внутренняя часть (контент) */
         .hex-content {
             position: absolute;
+            /* Создаем рамку за счет отступа внутрь */
             top: 3px; left: 3px; right: 3px; bottom: 3px;
             background: #1a1a1a;
+            /* Повторяем форму, но чуть меньше */
             clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
             z-index: 2;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 30px 15px; /* Увеличены отступы сверху/снизу */
+            padding: 15px 10px;
             box-sizing: border-box;
         }
 
         .member-photo {
-            width: 90px;
-            height: 90px;
+            width: 70px;
+            height: 70px;
             border-radius: 50%;
             object-fit: cover;
             border: 2px solid var(--primary-color);
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             z-index: 3;
             background: #000;
-            flex-shrink: 0; /* Чтобы фото не сплющивалось */
+            flex-shrink: 0;
         }
 
         .member-info {
@@ -331,32 +344,39 @@
         }
 
         .member-name {
-            font-size: 1.2rem;
+            font-size: 1rem;
             font-weight: 800;
             color: #fff;
-            margin: 0 0 5px 0;
+            margin: 0 0 3px 0;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .role-badge {
             display: inline-block;
-            padding: 3px 10px;
-            border-radius: 12px;
-            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.6rem;
             font-weight: bold;
             text-transform: uppercase;
-            margin-bottom: 8px;
+            margin-bottom: 5px;
             background: rgba(0,0,0,0.6);
             border: 1px solid currentColor;
         }
 
         .member-desc {
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             color: #ccc;
-            line-height: 1.3;
+            line-height: 1.2;
             margin: 0;
             padding: 0 5px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
 
         /* Цвета ролей */
@@ -436,55 +456,57 @@
         }
 
         /* ========================================= */
-        /* === МОБИЛЬНАЯ ВЕРСИЯ (ИСПРАВЛЕНИЯ) === */
+        /* === МОБИЛЬНАЯ ВЕРСИЯ === */
         /* ========================================= */
-        @media (max-width: 768px) {
+        @media (max-width: 900px) {
             nav { flex-direction: column; padding: 10px; top: 0; }
             nav ul { gap: 10px; margin-top: 10px; flex-wrap: wrap; justify-content: center; }
             section { padding: 40px 15px; }
             .content-split { grid-template-columns: 1fr; }
             h1 { font-size: 2.5rem; }
             
-            /* Исправление карточек команды для мобильных */
+            /* Возвращаем карточки в обычный список на планшетах/мобильных */
+            .team-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: 20px;
+                margin: 0;
+                padding: 20px 0;
+            }
+
             .member-card {
-                width: 100%; /* На всю ширину */
-                max-width: 350px;
-                height: auto; /* Автоматическая высота! Текст не обрежется */
-                min-height: 200px;
-                margin: 15px 0;
-                clip-path: none; /* Убираем шестиугольник */
+                width: 100%;
+                height: auto;
+                min-height: 120px;
+                margin: 0 !important; /* Сброс сдвига сот */
+                clip-path: none;
                 background: #1a1a1a;
                 border: 1px solid #333;
-                border-radius: 15px; /* Делаем скругленные углы */
+                border-radius: 15px;
             }
             
-            /* Убираем сложные слои сот */
-            .hex-border { display: none; }
-            
             .hexagon-shape {
-                clip-path: none; /* Убираем вырезание */
+                clip-path: none;
                 background: transparent;
                 height: auto;
             }
             
             .hex-content {
-                position: static; /* Статичное позиционирование */
+                position: static;
                 clip-path: none;
                 background: transparent;
                 height: auto;
-                padding: 20px;
-                display: flex;
-                flex-direction: row; /* Фото слева, текст справа на мобильных - удобнее */
+                padding: 15px;
+                flex-direction: row;
                 align-items: center;
                 text-align: left;
                 gap: 15px;
             }
 
             .member-photo {
-                width: 80px;
-                height: 80px;
+                width: 70px;
+                height: 70px;
                 margin-bottom: 0;
-                flex-shrink: 0;
             }
             
             .member-info {
@@ -493,6 +515,7 @@
             
             .member-desc {
                 padding: 0;
+                -webkit-line-clamp: unset;
             }
         }
     </style>
@@ -673,12 +696,12 @@ if (!btnUp && !btnDown) {
 
 <section id="team" class="reveal">
     <h2 class="section-title">Наша Команда</h2>
+    <!-- Сетка теперь формирует настоящие соты -->
     <div class="team-grid">
         
         <!-- Карточка 1 -->
         <div class="member-card">
             <div class="hexagon-shape">
-                <div class="hex-border"></div>
                 <div class="hex-content">
                     <img src="img/team/katya.png" alt="Катя" class="member-photo" onerror="this.src='https://placehold.co/150x150/111/gold?text=Photo'">
                     <div class="member-info">
@@ -693,7 +716,6 @@ if (!btnUp && !btnDown) {
         <!-- Карточка 2 -->
         <div class="member-card">
             <div class="hexagon-shape">
-                <div class="hex-border"></div>
                 <div class="hex-content">
                     <img src="img/team/artem.png" alt="Артём" class="member-photo" onerror="this.src='https://placehold.co/150x150/111/gold?text=Photo'">
                     <div class="member-info">
@@ -708,7 +730,6 @@ if (!btnUp && !btnDown) {
         <!-- Карточка 3 -->
         <div class="member-card">
             <div class="hexagon-shape">
-                <div class="hex-border"></div>
                 <div class="hex-content">
                     <img src="img/team/maxim.png" alt="Максим" class="member-photo" onerror="this.src='https://placehold.co/150x150/111/gold?text=Photo'">
                     <div class="member-info">
@@ -723,7 +744,6 @@ if (!btnUp && !btnDown) {
         <!-- Карточка 4 -->
         <div class="member-card">
             <div class="hexagon-shape">
-                <div class="hex-border"></div>
                 <div class="hex-content">
                     <img src="img/team/nikita.png" alt="Никита" class="member-photo" onerror="this.src='https://placehold.co/150x150/111/gold?text=Photo'">
                     <div class="member-info">
@@ -738,7 +758,6 @@ if (!btnUp && !btnDown) {
         <!-- Карточка 5 -->
         <div class="member-card">
             <div class="hexagon-shape">
-                <div class="hex-border"></div>
                 <div class="hex-content">
                     <img src="img/team/filipp.png" alt="Филипп" class="member-photo" onerror="this.src='https://placehold.co/150x150/111/gold?text=Photo'">
                     <div class="member-info">
@@ -753,7 +772,6 @@ if (!btnUp && !btnDown) {
         <!-- Карточка 6 -->
         <div class="member-card">
             <div class="hexagon-shape">
-                <div class="hex-border"></div>
                 <div class="hex-content">
                     <img src="img/team/sofa.png" alt="Софа" class="member-photo" onerror="this.src='https://placehold.co/150x150/111/gold?text=Photo'">
                     <div class="member-info">
@@ -768,7 +786,6 @@ if (!btnUp && !btnDown) {
         <!-- Карточка 7 -->
         <div class="member-card">
             <div class="hexagon-shape">
-                <div class="hex-border"></div>
                 <div class="hex-content">
                     <img src="img/team/stanislav.png" alt="Станислав" class="member-photo" onerror="this.src='https://placehold.co/150x150/111/gold?text=Photo'">
                     <div class="member-info">
@@ -783,7 +800,6 @@ if (!btnUp && !btnDown) {
         <!-- Карточка 8 -->
         <div class="member-card">
             <div class="hexagon-shape">
-                <div class="hex-border"></div>
                 <div class="hex-content">
                     <img src="img/team/ilya.png" alt="Илья" class="member-photo" onerror="this.src='https://placehold.co/150x150/111/gold?text=Photo'">
                     <div class="member-info">
@@ -798,7 +814,6 @@ if (!btnUp && !btnDown) {
         <!-- Карточка 9 -->
         <div class="member-card">
             <div class="hexagon-shape">
-                <div class="hex-border"></div>
                 <div class="hex-content">
                     <img src="img/team/olesya.png" alt="Олеся" class="member-photo" onerror="this.src='https://placehold.co/150x150/111/gold?text=Photo'">
                     <div class="member-info">
@@ -813,7 +828,6 @@ if (!btnUp && !btnDown) {
         <!-- Карточка 10 -->
         <div class="member-card">
             <div class="hexagon-shape">
-                <div class="hex-border"></div>
                 <div class="hex-content">
                     <img src="img/team/nikolay.png" alt="Николай" class="member-photo" onerror="this.src='https://placehold.co/150x150/111/gold?text=Photo'">
                     <div class="member-info">
