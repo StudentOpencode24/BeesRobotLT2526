@@ -29,7 +29,7 @@
             overflow-x: hidden;
         }
 
-        /* === СТАТИЧНЫЕ СОТЫ ПО КРАЯМ (ФОН) - ЯРКИЕ === */
+        /* === СТАТИЧНЫЕ СОТЫ ПО КРАЯМ (ФОН) === */
         .honeycomb-decor {
             position: fixed;
             top: 0;
@@ -42,7 +42,6 @@
         }
         .honeycomb-left, .honeycomb-right {
             background-color: transparent;
-            /* Яркие линии (opacity 0.6) и толщина 1.5px */
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100' viewBox='0 0 56 100'%3E%3Cpath d='M28 66L0 50L0 16L28 0L56 16L56 50L28 66L28 100Z' fill='none' stroke='%23FFD700' stroke-width='1.5' opacity='0.6'/%3E%3C/svg%3E");
             background-repeat: repeat;
             background-size: 56px 100px;
@@ -60,7 +59,7 @@
         @media (min-width: 1200px) {
             .honeycomb-decor {
                 display: block;
-                opacity: 1; /* Полная видимость контейнера */
+                opacity: 1;
             }
         }
 
@@ -249,39 +248,43 @@
         .gallery-grid img:hover { transform: scale(1.05); border-color: var(--primary-color); }
 
         /* ========================================= */
-        /* === КОМАНДА (ИДЕАЛЬНЫЙ УЛЕЙ) === */
+        /* === КОМАНДА (БОЛЬШИЕ ПРОПОРЦИОНАЛЬНЫЕ СОТЫ) === */
         /* ========================================= */
         .team-grid {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            /* Отрицательные поля компенсируют наложение сот */
-            margin: 0 -20px -50px -20px; 
-            padding: 50px 20px 80px 20px;
-            max-width: 1100px;
+            /* Отрицательные поля компенсируют наложение, чтобы сетка была плотной */
+            margin: 0 -30px -60px -30px; 
+            padding: 60px 30px 100px 30px;
+            max-width: 1200px;
             margin-left: auto;
             margin-right: auto;
         }
 
         .member-card {
             position: relative;
-            width: 220px;
-            height: 254px; /* Пропорция для правильного шестиугольника */
-            margin: 0 10px 40px 10px; /* Базовые отступы */
+            /* Увеличенные размеры для комфорта текста */
+            width: 260px;
+            height: 300px; 
+            /* Горизонтальный отступ важен для ширины сетки */
+            margin: 0 15px 50px 15px; 
             transition: transform 0.3s ease, z-index 0.3s;
             cursor: default;
         }
 
-        /* Сдвиг каждого четного элемента для эффекта сот */
+        /* МАГИЯ УЛЬЯ: Сдвиг каждого четного элемента вниз на половину высоты + половину вертикального отступа */
+        /* Высота 300 + отступ 50 = 350. Половина = 175px */
         .member-card:nth-child(even) {
-            margin-top: 127px; /* Половина высоты (254/2) */
+            margin-top: 175px; 
         }
         
-        /* Разрыв строки: после каждого 5-го элемента (для ПК) сбрасываем отступ, 
-           чтобы следующий ряд начинался правильно */
-        .member-card:nth-child(10n + 6) {
+        /* Разрыв строки: после каждых 4 элементов (для ПК) сбрасываем поток, чтобы ряд начинался ровно */
+        .member-card:nth-child(8n + 5) {
              clear: left;
+             margin-top: 0 !important; /* Первый элемент нового ряда всегда без верхнего отступа */
         }
+        /* Корректировка для четных элементов в новых рядах, если нужно, но clear:left обычно решает проблему начала ряда */
 
         .member-card:hover {
             transform: scale(1.1);
@@ -292,7 +295,7 @@
         .hexagon-shape {
             width: 100%;
             height: 100%;
-            /* Pointy-top hexagon */
+            /* Pointy-top hexagon (острие вверх) */
             clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
             display: flex;
             flex-direction: column;
@@ -306,7 +309,8 @@
         /* Внутренняя часть (контент) */
         .hex-content {
             position: absolute;
-            top: 3px; left: 3px; right: 3px; bottom: 3px;
+            /* Толстая рамка 6px */
+            top: 6px; left: 6px; right: 6px; bottom: 6px;
             background: #1a1a1a;
             clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
             z-index: 2;
@@ -314,17 +318,17 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 20px 10px;
+            padding: 30px 15px; /* Больше внутренних отступов */
             box-sizing: border-box;
         }
 
         .member-photo {
-            width: 70px;
-            height: 70px;
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
             object-fit: cover;
-            border: 2px solid var(--primary-color);
-            margin-bottom: 8px;
+            border: 3px solid var(--primary-color);
+            margin-bottom: 10px;
             z-index: 3;
             background: #000;
             flex-shrink: 0;
@@ -336,10 +340,10 @@
         }
 
         .member-name {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             font-weight: 800;
             color: #fff;
-            margin: 0 0 4px 0;
+            margin: 0 0 5px 0;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             white-space: nowrap;
@@ -349,22 +353,23 @@
 
         .role-badge {
             display: inline-block;
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-size: 0.65rem;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.7rem;
             font-weight: bold;
             text-transform: uppercase;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
             background: rgba(0,0,0,0.6);
             border: 1px solid currentColor;
         }
 
         .member-desc {
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             color: #ccc;
-            line-height: 1.2;
+            line-height: 1.3;
             margin: 0;
             padding: 0 5px;
+            /* Ограничение в 3 строки, но так как сота большая, текст влезает полностью */
             display: -webkit-box;
             -webkit-line-clamp: 3;
             -webkit-box-orient: vertical;
@@ -688,7 +693,7 @@ if (!btnUp && !btnDown) {
 
 <section id="team" class="reveal">
     <h2 class="section-title">Наша Команда</h2>
-    <!-- Сетка теперь формирует настоящие соты -->
+    <!-- Сетка теперь формирует настоящие большие соты -->
     <div class="team-grid">
         
         <!-- Карточка 1 -->
