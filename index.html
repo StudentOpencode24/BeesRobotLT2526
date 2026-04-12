@@ -1,3 +1,15 @@
+Проблема в том, что браузер не может идеально состыковать элементы с помощью `flex-wrap` и `margin`, если ширина контейнера не совпадает с суммой ширин элементов пиксель-в-пиксель. Из-за этого возникают микро-сдвиги, которые на больших расстояниях превращаются в "кривизну".
+
+Чтобы сделать **идеально ровную пирамиду 3-4-3**, нужно использовать **абсолютное позиционирование внутри относительного контейнера** или жесткую сетку на `grid`. Но самый надежный способ для сот — это рассчитать координаты вручную.
+
+Я переписал CSS полностью, убрав `flex-wrap` для команды и используя точные координаты для каждого элемента. Это гарантирует, что:
+1.  Максим (3) стоит ровно справа.
+2.  Софа (6) и Станислав (7) стоят ровно во втором ряду.
+3.  Илья (8), Олеся (9) и Николай (10) стоят ровно в третьем ряду на одной линии.
+
+Вот исправленный код. Скопируйте его целиком.
+
+```html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -17,11 +29,10 @@
             --hex-width: 260px;       /* Ширина одной соты */
             --hex-height: 300px;      /* Высота одной соты */
             --hex-border: 6px;        /* Толщина золотой рамки */
-            --gap-h: -3px;            /* Горизонтальный зазор между сотами */
-            --gap-v: -80px;            /* Вертикальный зазор между рядами */
             
-            /* Сдвиг на четверть ширины (260 / 4 = 65px) */
-            --shift-quarter: 64px;
+            /* Зазоры между сотами */
+            --gap-h: 10px;            
+            --gap-v: 10px;            
         }
 
         body {
@@ -252,81 +263,64 @@
         .gallery-grid img:hover { transform: scale(1.05); border-color: var(--primary-color); }
 
         /* ========================================= */
-        /* === КОМАНДА (ЗУБЧАТЫЙ ЗИГЗАГ) === */
+        /* === КОМАНДА (ЖЕСТКАЯ ГЕОМЕТРИЯ 3-4-3) === */
         /* ========================================= */
         .team-grid {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            max-width: 1000px;
+            position: relative;
+            width: 100%;
+            max-width: 1100px; /* Фиксируем ширину контейнера */
+            height: 1000px;    /* Фиксируем высоту, чтобы карты не схлопывались */
             margin: 0 auto;
-            padding: 50px 0 100px 0;
+            padding: 50px 0;
         }
 
         .member-card {
-            position: relative;
+            position: absolute; /* Абсолютное позиционирование для идеальной точности */
             width: var(--hex-width);
             height: var(--hex-height);
-            margin: 0 calc(var(--gap-h) / 2) var(--gap-v) calc(var(--gap-h) / 2);
             transition: transform 0.3s ease, z-index 0.3s;
             cursor: default;
         }
 
-        /* === СДВИГ ВПРАВО ДЛЯ НЕЧЕТНЫХ РЯДОВ === */
-        .member-card:nth-child(6n+1),
-        .member-card:nth-child(6n+2),
-        .member-card:nth-child(6n+3) {
-            margin-left: calc(var(--gap-h)/2 + var(--shift-quarter));
-            margin-right: calc(var(--gap-h)/2 - var(--shift-quarter));
-        }
-
-        /* === СДВИГ ВЛЕВО ДЛЯ ЧЕТНЫХ РЯДОВ === */
-        .member-card:nth-child(6n+4),
-        .member-card:nth-child(6n+5),
-        .member-card:nth-child(6n+6) {
-            margin-left: calc(var(--gap-h)/2 - var(--shift-quarter));
-            margin-right: calc(var(--gap-h)/2 + var(--shift-quarter));
-        }
-
-
+        /* === РАСЧЕТ КООРДИНАТ === */
         /* 
-           ВЕРТИКАЛЬНЫЙ СДВИГ (БАЗОВЫЙ):
-           Каждый ЧЕТНЫЙ элемент сдвигаем ВНИЗ.
+           Ширина соты: 260px
+           Шаг по X: 260 + 10 = 270px
+           Шаг по Y: (300 / 2) + 10 = 160px
+           
+           Центр контейнера: 550px (половина от 1100)
         */
-        .member-card:nth-child(even) {
-            margin-top: calc((var(--hex-height) + var(--gap-v)) / 2);
-        }
 
-        /* 
-           СБРОС НАЧАЛА РЯДА:
-           Элементы 4, 7, 10... начинают новые ряды.
+        /* --- РЯД 1 (3 соты) --- */
+        /* Центрируем ряд из 3 штук. Ширина ряда: 3*260 + 2*10 = 800px. 
+           Начало ряда: (1100 - 800) / 2 = 150px */
+        
+        .member-card:nth-child(1) { left: 150px; top: 0; }   /* Катя */
+        .member-card:nth-child(2) { left: 420px; top: 0; }   /* Артём (150 + 270) */
+        .member-card:nth-child(3) { left: 690px; top: 0; }   /* Максим (420 + 270) */
+
+        /* --- РЯД 2 (4 соты) --- */
+        /* Сдвиг вниз на 160px. 
+           Ширина ряда: 4*260 + 3*10 = 1070px.
+           Начало ряда: (1100 - 1070) / 2 = 15px.
+           Но чтобы они встали в пазы, нужно сдвинуть на половину ширины соты влево относительно первого ряда.
+           Первый ряд начался с 150. Половина соты (130) + половина зазора (5) = 135.
+           150 - 135 = 15px. Всё сходится.
         */
-        .member-card:nth-child(3n+4) {
-            margin-top: 0 !important;
-        }
+        
+        .member-card:nth-child(4) { left: 15px; top: 160px; }    /* Никита */
+        .member-card:nth-child(5) { left: 285px; top: 160px; }   /* Филипп (15 + 270) */
+        .member-card:nth-child(6) { left: 555px; top: 160px; }   /* Софа (285 + 270) */
+        .member-card:nth-child(7) { left: 825px; top: 160px; }   /* Станислав (555 + 270) */
 
-        /* ========================================= */
-        /* === ТОЧЕЧНАЯ КОРРЕКЦИЯ (2, 6, 8 ВВЕРХ) === */
-        /* ========================================= */
-        .member-card:nth-child(10) {
-            margin-top: -440px !important; /* Можно менять -15px на -30px, чтобы поднять выше */
-            margin-left: 780px !important;
-            width: 320px !important;
-        }
-        /* Элемент 2 (Артём): Был опущен, теперь поднимаем выше базового ряда */
-        .member-card:nth-child(2) {
-            margin-top: 0px !important; 
-        }
-
-        /* Элемент 6 (Софа): Был опущен, теперь поднимаем выше базового ряда */
-        .member-card:nth-child(6) {
-            margin-top: 0px !important;
-        }
-
-        /* Элемент 8 (Илья): Был опущен, теперь поднимаем выше базового ряда */
-        .member-card:nth-child(8) {
-            margin-top: 0px !important;
-        }
+        /* --- РЯД 3 (3 соты) --- */
+        /* Сдвиг вниз еще на 160px (итого 320px).
+           Такой же, как первый ряд. Начало с 150px.
+        */
+        
+        .member-card:nth-child(8) { left: 150px; top: 320px; }   /* Илья */
+        .member-card:nth-child(9) { left: 420px; top: 320px; }   /* Олеся */
+        .member-card:nth-child(10) { left: 690px; top: 320px; }  /* Николай */
 
         /* При наведении увеличиваем и поднимаем Z-index */
         .member-card:hover {
@@ -512,9 +506,12 @@
                 margin: 0;
                 padding: 20px 0;
                 max-width: 100%;
+                height: auto; /* Сброс высоты для мобильных */
+                position: static; /* Сброс позиционирования */
             }
 
             .member-card {
+                position: static; /* Возвращаем в поток */
                 width: 100%;
                 height: auto;
                 min-height: 120px;
@@ -736,9 +733,10 @@ if (!btnUp && !btnDown) {
 
 <section id="team" class="reveal">
     <h2 class="section-title">Наша Команда</h2>
+    <!-- Сетка 3 - 4 - 3 -->
     <div class="team-grid">
         
-        <!-- Карточка 1 -->
+        <!-- РЯД 1 (3 соты) -->
         <div class="member-card">
             <div class="hexagon-shape">
                 <div class="hex-content">
@@ -752,7 +750,6 @@ if (!btnUp && !btnDown) {
             </div>
         </div>
 
-        <!-- Карточка 2 (АРТЁМ - ПОДНЯТ ВВЕРХ) -->
         <div class="member-card">
             <div class="hexagon-shape">
                 <div class="hex-content">
@@ -766,7 +763,6 @@ if (!btnUp && !btnDown) {
             </div>
         </div>
 
-        <!-- Карточка 3 -->
         <div class="member-card">
             <div class="hexagon-shape">
                 <div class="hex-content">
@@ -780,7 +776,7 @@ if (!btnUp && !btnDown) {
             </div>
         </div>
 
-        <!-- Карточка 4 -->
+        <!-- РЯД 2 (4 соты) -->
         <div class="member-card">
             <div class="hexagon-shape">
                 <div class="hex-content">
@@ -794,7 +790,6 @@ if (!btnUp && !btnDown) {
             </div>
         </div>
 
-        <!-- Карточка 5 -->
         <div class="member-card">
             <div class="hexagon-shape">
                 <div class="hex-content">
@@ -808,7 +803,6 @@ if (!btnUp && !btnDown) {
             </div>
         </div>
 
-        <!-- Карточка 6 (СОФА - ПОДНЯТА ВВЕРХ) -->
         <div class="member-card">
             <div class="hexagon-shape">
                 <div class="hex-content">
@@ -822,7 +816,6 @@ if (!btnUp && !btnDown) {
             </div>
         </div>
 
-        <!-- Карточка 7 -->
         <div class="member-card">
             <div class="hexagon-shape">
                 <div class="hex-content">
@@ -836,7 +829,7 @@ if (!btnUp && !btnDown) {
             </div>
         </div>
 
-        <!-- Карточка 8 (ИЛЬЯ - ПОДНЯТ ВВЕРХ) -->
+        <!-- РЯД 3 (3 соты) -->
         <div class="member-card">
             <div class="hexagon-shape">
                 <div class="hex-content">
@@ -850,7 +843,6 @@ if (!btnUp && !btnDown) {
             </div>
         </div>
 
-        <!-- Карточка 9 -->
         <div class="member-card">
             <div class="hexagon-shape">
                 <div class="hex-content">
@@ -864,7 +856,7 @@ if (!btnUp && !btnDown) {
             </div>
         </div>
 
-        <!-- Карточка 10 -->
+        <!-- Карточка 10 (Николай) - В третьем ряду -->
         <div class="member-card">
             <div class="hexagon-shape">
                 <div class="hex-content">
@@ -958,3 +950,4 @@ if (!btnUp && !btnDown) {
 
 </body>
 </html>
+```
