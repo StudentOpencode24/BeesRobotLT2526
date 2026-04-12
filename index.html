@@ -309,9 +309,22 @@
         /* === ТОЧЕЧНАЯ КОРРЕКЦИЯ (2, 6, 8 ВВЕРХ) === */
         /* ========================================= */
         .member-card:nth-child(10) {
-            margin-top: -440px !important; /* Можно менять -15px на -30px, чтобы поднять выше */
-            margin-left: 780px !important;
-            width: 320px !important;
+            /* ЖЕСТКАЯ ФИКСАЦИЯ РАЗМЕРОВ */
+            width: 320px !important;   /* Ширина */
+            height: 360px !important;  /* Высота */
+            
+            /* ПОЗИЦИОНИРОВАНИЕ */
+            margin-top: -440px !important; 
+            margin-left: 760px !important; 
+            
+            /* ВАЖНО: Сбрасываем box-sizing, чтобы padding/border не влияли на ширину/высоту */
+            box-sizing: content-box !important;
+            
+            /* Поверх других */
+            z-index: 50;
+            
+            /* Убираем возможные трансформации от hover, если они мешают размеру */
+            transform: none !important; 
         }
         /* Элемент 2 (Артём): Был опущен, теперь поднимаем выше базового ряда */
         .member-card:nth-child(2) {
