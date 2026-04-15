@@ -12,6 +12,7 @@
             --bg-color: #0B0B0B;
             --card-bg: #161616;
             --text-color: #E0E0E0;
+            --code-bg: #1e1e1e;
             
             /* --- НАСТРОЙКИ РАЗМЕРОВ СОТ --- */
             --hex-width: 260px;       
@@ -33,11 +34,11 @@
             background-color: var(--bg-color);
             color: var(--text-color);
             margin: 0;
-            line-height: 1.5;
+            line-height: 1.6;
             overflow-x: hidden;
         }
 
-        /* === СТАТИЧНЫЕ СОТЫ ПО КРАЯМ (ФОН) - ИСПРАВЛЕНО === */
+        /* === СТАТИЧНЫЕ СОТЫ ПО КРАЯМ (ФОН) === */
         .honeycomb-decor {
             position: fixed;
             top: 0;
@@ -50,7 +51,6 @@
         }
         .honeycomb-left, .honeycomb-right {
             background-color: transparent;
-            /* Используем base64 или правильно экранированный SVG для надежности */
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100' viewBox='0 0 56 100'%3E%3Cpath d='M28 66L0 50L0 16L28 0L56 16L56 50L28 66L28 100Z' fill='none' stroke='%23FFD700' stroke-width='1.5' opacity='0.5'/%3E%3C/svg%3E");
             background-repeat: repeat;
             background-size: 56px 100px;
@@ -229,6 +229,43 @@
             margin-bottom: 40px;
         }
 
+        /* --- ТАБЛИЦЫ --- */
+        .tech-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: 0.9rem;
+        }
+        .tech-table th, .tech-table td {
+            text-align: left;
+            padding: 10px;
+            border-bottom: 1px solid #333;
+        }
+        .tech-table th {
+            color: var(--primary-color);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+        }
+        .tech-table tr:hover {
+            background-color: rgba(255, 215, 0, 0.05);
+        }
+
+        /* --- КОД --- */
+        pre {
+            background: var(--code-bg);
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            border: 1px solid #333;
+            font-family: 'Consolas', monospace;
+            font-size: 0.85rem;
+            color: #d4d4d4;
+        }
+        code { color: #9cdcfe; }
+        .comment { color: #6a9955; }
+        .keyword { color: #569cd6; }
+        .string { color: #ce9178; }
+
         /* --- ВИДЕО И ГАЛЕРЕЯ --- */
         .video-container {
             width: 100%;
@@ -257,7 +294,7 @@
         .gallery-grid img:hover { transform: scale(1.05); border-color: var(--primary-color); }
 
         /* ========================================= */
-        /* === КОМАНДА (ФИНАЛЬНОЕ ИСПРАВЛЕНИЕ ТЕКСТА) === */
+        /* === КОМАНДА (СОТЫ) === */
         /* ========================================= */
         .team-grid {
             position: relative;
@@ -276,7 +313,7 @@
             cursor: default;
         }
 
-        /* === РАСЧЕТ КООРДИНАТ === */
+        /* Расстановка сот */
         .member-card:nth-child(1) { left: 150px; top: 0; }   
         .member-card:nth-child(2) { left: 420px; top: 0; }   
         .member-card:nth-child(3) { left: 690px; top: 0; }   
@@ -291,11 +328,10 @@
         .member-card:nth-child(10) { left: 690px; top: 440px; }  
 
         .member-card:hover {
-            transform: scale(2);
+            transform: scale(1.1); /* Уменьшил скейл чтобы не ломать верстку на малых экранах */
             z-index: 100;
         }
 
-        /* Контейнер формы соты с ОБВОДКОЙ */
         .hexagon-shape {
             width: 100%;
             height: 100%;
@@ -306,7 +342,6 @@
             position: relative;
         }
 
-        /* Внутренний контейнер для фото */
         .hex-inner {
             width: 100%;
             height: 100%;
@@ -316,7 +351,6 @@
             overflow: hidden;
         }
 
-        /* ФОТО НА ВЕСЬ ФОН */
         .member-photo-bg {
             width: 100%;
             height: 100%;
@@ -324,7 +358,6 @@
             display: block;
         }
 
-        /* ЗАТЕМНЕНИЕ: Черный низ для контраста */
         .hex-overlay {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -336,7 +369,6 @@
                 rgba(0,0,0,1) 100%);
         }
         
-        /* Эффект размытия только внизу */
         .hex-overlay::after {
             content: '';
             position: absolute;
@@ -346,10 +378,9 @@
             -webkit-mask-image: linear-gradient(to bottom, transparent, black);
         }
 
-        /* Контейнер текста: МАКСИМАЛЬНО ВЫСОКО */
         .hex-content {
             position: absolute;
-            bottom: 55px; /* Подняли очень высоко, чтобы избежать срезания углами */
+            bottom: 55px;
             left: 0; 
             right: 0;
             z-index: 3;
@@ -357,13 +388,11 @@
             flex-direction: column;
             align-items: center;
             justify-content: flex-end;
-            padding: 0 40px; /* Большие боковые отступы */
+            padding: 0 40px;
             text-align: center;
         }
 
-        .member-info {
-            width: 100%;
-        }
+        .member-info { width: 100%; }
 
         .member-name {
             font-size: 1.1rem;
@@ -374,7 +403,7 @@
             letter-spacing: 0.5px;
             text-shadow: 0 2px 4px rgba(0,0,0,1);
             line-height: 1.1;
-            white-space: nowrap; /* Запрещаем перенос имени */
+            white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
@@ -383,7 +412,7 @@
             display: inline-block;
             padding: 1px 6px;
             border-radius: 8px;
-            font-size: 0.55rem; /* Очень мелкий бейдж */
+            font-size: 0.55rem;
             font-weight: bold;
             text-transform: uppercase;
             margin-bottom: 2px;
@@ -395,12 +424,11 @@
         }
 
         .member-desc {
-            font-size: 0.65rem; /* Минимальный размер шрифта */
+            font-size: 0.65rem;
             color: #f0f0f0;
             line-height: 1.1;
             margin: 0;
             text-shadow: 0 1px 2px rgba(0,0,0,1);
-            overflow: visible; /* Показываем весь текст */
         }
 
         /* Цвета ролей */
@@ -467,9 +495,7 @@
             text-decoration: none;
             font-size: 0.9rem;
         }
-        .open-code-logo img {
-            height: 30px;
-        }
+        .open-code-logo img { height: 30px; }
 
         /* --- АНИМАЦИЯ REVEAL --- */
         .reveal {
@@ -519,9 +545,7 @@
             color: #fff; font-size: 40px; cursor: pointer;
         }
 
-        /* ========================================= */
-        /* === МОБИЛЬНАЯ ВЕРСИЯ === */
-        /* ========================================= */
+        /* --- МОБИЛЬНАЯ ВЕРСИЯ --- */
         @media (max-width: 900px) {
             nav { flex-direction: column; padding: 10px; top: 0; }
             nav ul { gap: 10px; margin-top: 10px; flex-wrap: wrap; justify-content: center; }
@@ -603,8 +627,10 @@
         Учёные Пчёлы ЛТ-043
     </a>
     <ul>
+        <li><a href="#electronics">Электроника</a></li>
         <li><a href="#chassis">Шасси</a></li>
         <li><a href="#lift">Подъемник</a></li>
+        <li><a href="#rollers">Пандус</a></li>
         <li><a href="#grabber">Захват</a></li>
         <li><a href="#software">ПО</a></li>
         <li><a href="#team">Команда</a></li>
@@ -613,7 +639,7 @@
 
 <header id="home">
     <h1>Ученые пчелы</h1>
-    <div class="subtitle">Сезон "Безопасный маршрут" | 2026</div>
+    <div class="subtitle">Сезон "Безопасный маршрут" | 2025–2026</div>
     
     <div class="specs-summary">
         <div class="spec-badge">⚙️ 7 Моторов</div>
@@ -623,8 +649,74 @@
     </div>
 </header>
 
+<!-- Раздел Электроники -->
+<section id="electronics" class="reveal">
+    <h2 class="section-title">1. Электронная архитектура</h2>
+    <div class="content-split">
+        <div class="tech-card">
+            <p>Управление роботом построено на базе экосистемы REV Robotics с использованием Android-контроллера.</p>
+            <table class="tech-table">
+                <thead>
+                    <tr>
+                        <th>Компонент</th>
+                        <th>Кол-во</th>
+                        <th>Назначение</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Rev Robot Controller hub</td>
+                        <td>1</td>
+                        <td>Основной модуль управления ("Мозг")</td>
+                    </tr>
+                    <tr>
+                        <td>Rev Expansion hub</td>
+                        <td>1</td>
+                        <td>Модуль расширения портов</td>
+                    </tr>
+                    <tr>
+                        <td>Logitech F310</td>
+                        <td>2</td>
+                        <td>Геймпады оператора</td>
+                    </tr>
+                    <tr>
+                        <td>AndyMark NeveRest 19.1:1</td>
+                        <td>4</td>
+                        <td>Ходовая часть (Механум)</td>
+                    </tr>
+                    <tr>
+                        <td>goBilda yellow jacket 26.9:1</td>
+                        <td>1</td>
+                        <td>Привод слайдера захвата</td>
+                    </tr>
+                    <tr>
+                        <td>TETRIX MAX 39530</td>
+                        <td>1</td>
+                        <td>Подъёмник на рампу (Лифт)</td>
+                    </tr>
+                    <tr>
+                        <td>Сервопривод 25кг</td>
+                        <td>2</td>
+                        <td>Захват плиток</td>
+                    </tr>
+                    <tr>
+                        <td>Сервопривод 30кг</td>
+                        <td>2</td>
+                        <td>Опускание колёс для пандуса</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- ДОБАВЛЕНО ФОТО ЭЛЕКТРОНИКИ -->
+        <div class="gallery-grid">
+            <img src="img/electronics_layout.png" alt="Electronics Layout" onerror="this.src='https://placehold.co/400x300/222/gold?text=Electronics+Layout'">
+        </div>
+    </div>
+</section>
+
+<!-- Раздел Шасси -->
 <section id="chassis" class="reveal">
-    <h2 class="section-title">1. Шасси и База</h2>
+    <h2 class="section-title">2. Шасси и База</h2>
     <div class="content-split">
         <div>
             <div class="video-container">
@@ -632,33 +724,34 @@
                     <source src="WheelBase.mp4" type="video/mp4">
                 </video>
             </div>
-            <p>База создана для проходимости. Гибрид профилей <strong>GoBilda</strong> и <strong>Tetrix</strong>.</p>
+            <p>Конструктив выполнен из алюминиевых профилей <strong>GoBilda 1120/1121 Series</strong> и уголков <strong>Tetrix</strong>. Внешний корпус — легкая фанера.</p>
             <div class="tech-card">
-                <h3>Особенности:</h3>
+                <h3>Ключевые особенности:</h3>
                 <ul>
-                    <li>Печатные механумы Ø14 см.</li>
-                    <li>Моторы GoBilda с энкодерами.</li>
-                    <li>2 одометра для точной навигации.</li>
+                    <li><strong>Колеса:</strong> Самостоятельно напечатанные механумы Ø14 см (ABS + резина).</li>
+                    <li><strong>Одометрия:</strong> 2 датчика goBilda 4-Bar Odometry Pod (Ø32мм) для точного позиционирования.</li>
+                    <li><strong>Навигация:</strong> Библиотека Road Runner строит траектории на основе сплайнов, а PID-регуляторы корректируют движение в реальном времени.</li>
                 </ul>
             </div>
         </div>
         <div class="gallery-grid">
-            <img src="img/chassis_side.png" alt="Side">
-            <img src="img/chassis_bottom.png" alt="Bottom">
-            <img src="img/control_hub.png" alt="Hub">
-            <img src="img/wheels.png" alt="Wheels">
+            <img src="img/chassis_side.png" alt="Side View">
+            <img src="img/chassis_bottom.png" alt="Bottom View">
+            <img src="img/control_hub.png" alt="Electronics">
+            <img src="img/wheels.png" alt="Custom Wheels">
         </div>
     </div>
 </section>
 
+<!-- Раздел Подъемник -->
 <section id="lift" class="reveal">
-    <h2 class="section-title">2. Подъемник (Башня)</h2>
+    <h2 class="section-title">3. Подъемник (Рампа)</h2>
     <div class="content-split">
         <div class="gallery-grid">
-            <img src="img/lift_mech.png" alt="Mech">
-            <img src="img/chain_drive.png" alt="Chain">
-            <img src="img/lift_action.png" alt="Action">
-            <img src="img/hook_3d.png" alt="Hook">
+            <img src="img/lift_mech.png" alt="Lift Mechanism">
+            <img src="img/chain_drive.png" alt="Chain Drive">
+            <img src="img/lift_action.png" alt="Lift Action">
+            <img src="img/hook_3d.png" alt="Hook Design">
         </div>
         <div>
             <div class="video-container">
@@ -667,15 +760,53 @@
                 </video>
             </div>
             <div class="tech-card">
-                <h3>Техника:</h3>
-                <p>Центральная башня с цепным приводом. Крюк с уплотнителем цепляется за пандус.</p>
+                <h3>Конструкция:</h3>
+                <p>Вертикальный профиль Tetrix с цепным приводом. Мотор TETRIX MAX через понижающую передачу и шестерню (Ø3.8 см) вращает цепь. Крюк с оконным уплотнителем движется по линейной направляющей, исключая перекосы.</p>
+                
+                <h3 style="margin-top:20px;">Работа над ошибками:</h3>
+                <p style="font-size:0.9rem; color:#aaa;">В первой версии управление осуществлялось кнопками без ограничителей, что привело к сгоранию мотора на соревнованиях "РобоСиб".</p>
+                <p style="font-size:0.9rem;"><strong>Решение:</strong> Реализована функция <code>stopAndHold()</code>, которая подает небольшое напряжение для удержания веса робота, когда кнопка не нажата.</p>
+                
+                <pre>
+<span class="keyword">public void</span> stopAndHold(<span class="keyword">double</span> holdPower) {
+    liftMotor.setPower(holdPower); <span class="comment">// Удержание позиции</span>
+}
+
+<span class="keyword">public void</span> lift() {
+    liftMotor.setPower(0.8);
+}</pre>
             </div>
         </div>
     </div>
 </section>
 
+<!-- Раздел Вспомогательные ролики -->
+<section id="rollers" class="reveal">
+    <h2 class="section-title">4. Система заезда на пандус</h2>
+    <div class="content-split">
+        <div>
+            <div class="tech-card">
+                <h3>Принцип действия:</h3>
+                <p>Для гарантированного заезда на пандус (24 градуса) используется система опускающихся вспомогательных колес.</p>
+                <ul>
+                    <li><strong>Механика:</strong> Сервоприводы (30 кг) через систему рычагов опускают ось с двумя колесами Ø75 мм.</li>
+                    <li><strong>Физика:</strong> Задние колеса робота приподнимаются, вес перераспределяется на переднюю ось.</li>
+                    <li><strong>Сцепление:</strong> Колеса оклеены оконным уплотнителем для максимального трения со скользкой поверхностью пандуса.</li>
+                </ul>
+            </div>
+        </div>
+        <div class="gallery-grid">
+            <img src="img/rollers_down.png" alt="Rollers Down" onerror="this.src='https://placehold.co/400x300/222/gold?text=Rollers+Down'">
+            <img src="img/rollers_up.png" alt="Rollers Up" onerror="this.src='https://placehold.co/400x300/222/gold?text=Rollers+Up'">
+            <img src="img/rollers_detail_1.png" alt="Roller Detail 1" onerror="this.src='https://placehold.co/400x300/222/gold?text=Detail+Photo+1'">
+            <img src="img/rollers_detail_2.png" alt="Roller Detail 2" onerror="this.src='https://placehold.co/400x300/222/gold?text=Detail+Photo+2'">
+        </div>
+    </div>
+</section>
+
+<!-- Раздел Захват -->
 <section id="grabber" class="reveal">
-    <h2 class="section-title">3. Захват и Зрение</h2>
+    <h2 class="section-title">5. Захват и Зрение</h2>
     <div class="content-split">
         <div>
             <div class="video-container">
@@ -684,38 +815,74 @@
                 </video>
             </div>
             <div class="tech-card">
-                <h3>AprilTags & Слайдер:</h3>
-                <p>Камера распознает метки, алгоритм корректирует угол робота перед сбросом элемента.</p>
+                <h3>Механизм:</h3>
+                <p>Двухсекционный слайдер на алюминиевых направляющих. Привод — мотор goBilda Yellow Jacket (26.9:1) с системой "катушка-нить".</p>
+                <p><strong>Захват:</strong> Два сервопривода на 25 кг обеспечивают жесткое удержание плиток без перекосов.</p>
             </div>
-        </div>
-        <div class="gallery-grid">
-            <img src="img/grabber_close.png" alt="Grabber">
-            <img src="img/slider_mech.png" alt="Slider">
-            <img src="img/camera_mount.png" alt="camera">
-            <img src="img/apriltag_view.png" alt="AprilTag">
-        </div>
-    </div>
-</section>
-
-<section id="software" class="reveal">
-    <h2 class="section-title">4. Программное обеспечение</h2>
-    <div class="content-split">
-        <div class="tech-card">
-            <h3>Архитектура</h3>
-            <ul>
-                <li><strong>RoadRunner:</strong> Траектории и автономка.</li>
-                <li><strong>Dashboard:</strong> Отладка переменных.</li>
-            </ul>
         </div>
         <div>
-            <div class="code-block">
-// Автономный заезд
-if (gamepad1.y) robot.upTheRamp();
+            <div class="tech-card">
+                <h3>AprilTag Навигация:</h3>
+                <p>Камера Logitech C615 распознает метки. Функция <code>getAprilTagCorrection</code> вычисляет смещение (X, Y) и корректирует траекторию робота перед выгрузкой элемента.</p>
+                <pre>
+<span class="comment">// Пример коррекции по метке</span>
+Vector2d correction = aprilTag.getOffset();
+robot.drive.strafeTo(correction);
+                </pre>
+            </div>
+            <div class="gallery-grid" style="margin-top: 20px;">
+                <img src="img/grabber_close.png" alt="Grabber Close" onerror="this.src='https://placehold.co/400x300/222/gold?text=Grabber+Close'">
+                <img src="img/apriltag_view.png" alt="AprilTag Vision" onerror="this.src='https://placehold.co/400x300/222/gold?text=AprilTag+View'">
+                <img src="img/grabber_extra_1.png" alt="Grabber Extra 1" onerror="this.src='https://placehold.co/400x300/222/gold?text=Grabber+Photo+1'">
+                <img src="img/grabber_extra_2.png" alt="Grabber Extra 2" onerror="this.src='https://placehold.co/400x300/222/gold?text=Grabber+Photo+2'">
             </div>
         </div>
     </div>
 </section>
 
+<!-- Раздел ПО -->
+<section id="software" class="reveal">
+    <h2 class="section-title">6. Программное обеспечение</h2>
+    <div class="content-split">
+        <div class="tech-card">
+            <h3>Архитектура (Java / Android Studio)</h3>
+            <p>Код написан с использованием компонентного подхода. Каждый механизм (шасси, лифт, захват) вынесен в отдельный класс для удобства чтения и отладки.</p>
+            <ul>
+                <li><strong>RoadRunner:</strong> Построение сложных траекторий (сплайны) с учетом ускорений.</li>
+                <li><strong>PID-регуляторы:</strong> Для точного удержания углов и позиций.</li>
+                <li><strong>FTC Dashboard:</strong> Для мониторинга переменных в реальном времени.</li>
+            </ul>
+            <p style="margin-top:15px; font-size:0.9rem;">Полный код доступен в нашем <a href="https://github.com/StudentOpencode24/LTBees" style="color:var(--primary-color)">GitHub репозитории</a>.</p>
+        </div>
+        <div>
+            <!-- ДОБАВЛЕНЫ 2 ФОТО В РАЗДЕЛ ПО -->
+            <div class="gallery-grid" style="margin-bottom: 20px;">
+                <img src="img/code_structure.png" alt="Code Structure" onerror="this.src='https://placehold.co/400x300/222/gold?text=Code+Structure'">
+                <img src="img/dashboard_graph.png" alt="Dashboard Graph" onerror="this.src='https://placehold.co/400x300/222/gold?text=Dashboard+Graph'">
+            </div>
+            <div class="tech-card">
+                <h3>Автономный режим (Пример)</h3>
+                <pre>
+<span class="comment">// Инициализация траектории</span>
+Actions.runBlocking(
+    robot.drive.actionBuilder(beginPose)
+        .strafeToConstantHeading(pos.get(1).position)
+        .waitSeconds(0.5)
+        .strafeToConstantHeading(<span class="keyword">new</span> Vector2d(-58.8, 28))
+        .build()
+);
+
+<span class="comment">// Действие с лифтом</span>
+robot.lift.lift();
+sleep(liftTime);
+robot.lift.stopAndHold(holdPower);
+                </pre>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Команда -->
 <section id="team" class="reveal">
     <h2 class="section-title">Наша Команда</h2>
     <div class="team-grid">
